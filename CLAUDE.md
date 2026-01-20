@@ -280,3 +280,4 @@ open -a Simulator
 - Test AI features with real input
 - Update PROGRESS.md after completing features
 - Follow the Daily Contract principle: small, focused commits
+- Git commit AND push after changes pass all tests
