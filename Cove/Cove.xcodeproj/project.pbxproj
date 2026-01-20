@@ -21,6 +21,10 @@
 		A1000012 /* ContractView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000012 /* ContractView.swift */; };
 		A1000013 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000013 /* ProfileView.swift */; };
 		A1000014 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000014 /* Constants.swift */; };
+		A1000015 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000015 /* SpeechService.swift */; };
+		A1000016 /* ClaudeAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000016 /* ClaudeAIService.swift */; };
+		A1000017 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000017 /* KeychainHelper.swift */; };
+		A1000018 /* StagingAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000018 /* StagingAreaView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +43,11 @@
 		A2000012 /* ContractView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractView.swift; sourceTree = "<group>"; };
 		A2000013 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A2000014 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		A2000015 /* SpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
+		A2000016 /* ClaudeAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeAIService.swift; sourceTree = "<group>"; };
+		A2000017 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
+		A2000018 /* StagingAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StagingAreaView.swift; sourceTree = "<group>"; };
+		A2000019 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +80,7 @@
 				A400000A /* Services */,
 				A400000B /* Utilities */,
 				A2000003 /* Assets.xcassets */,
+				A2000019 /* Info.plist */,
 			);
 			path = Cove;
 			sourceTree = "<group>";
@@ -117,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				A2000011 /* CaptureView.swift */,
+				A2000018 /* StagingAreaView.swift */,
 			);
 			path = Capture;
 			sourceTree = "<group>";
@@ -147,6 +158,8 @@
 		A400000A /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A2000015 /* SpeechService.swift */,
+				A2000016 /* ClaudeAIService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -156,6 +169,7 @@
 			children = (
 				A400000C /* Extensions */,
 				A2000014 /* Constants.swift */,
+				A2000017 /* KeychainHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -251,6 +265,10 @@
 				A1000012 /* ContractView.swift in Sources */,
 				A1000013 /* ProfileView.swift in Sources */,
 				A1000014 /* Constants.swift in Sources */,
+				A1000015 /* SpeechService.swift in Sources */,
+				A1000016 /* ClaudeAIService.swift in Sources */,
+				A1000017 /* KeychainHelper.swift in Sources */,
+				A1000018 /* StagingAreaView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,8 +404,11 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Cove/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Cove;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Cove needs microphone access to transcribe your voice for task capture.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Cove uses speech recognition to capture your thoughts hands-free. Your voice is processed on-device for privacy.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -416,8 +437,11 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Cove/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Cove;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Cove needs microphone access to transcribe your voice for task capture.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Cove uses speech recognition to capture your thoughts hands-free. Your voice is processed on-device for privacy.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

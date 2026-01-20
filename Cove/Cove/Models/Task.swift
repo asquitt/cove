@@ -53,7 +53,7 @@ final class CoveTask {
     func complete() {
         status = .completed
         completedAt = Date()
-        if let scheduled = scheduledFor, let estimated = estimatedMinutes {
+        if let scheduled = scheduledFor, estimatedMinutes != nil {
             actualMinutes = Int(Date().timeIntervalSince(scheduled) / 60)
         }
     }
