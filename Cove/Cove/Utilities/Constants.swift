@@ -15,6 +15,8 @@ enum Constants {
     static let meltdownSurvivalXP = 25
     static let streakBonusXP = 5
     static let xpPerLevel = 100
+    static let xpPerSkillLevel = 50
+    static let goblinTaskXP = 5
 
     // MARK: - API
     static let claudeAPIBaseURL = "https://api.anthropic.com/v1/messages"

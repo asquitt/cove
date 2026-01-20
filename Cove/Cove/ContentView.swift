@@ -29,11 +29,17 @@ struct ContentView: View {
                 }
                 .tag(3)
 
+            ProgressView()
+                .tabItem {
+                    Label("Progress", systemImage: "chart.bar.fill")
+                }
+                .tag(4)
+
             ProfileView()
                 .tabItem {
                     Label("Profile", systemImage: "person.fill")
                 }
-                .tag(4)
+                .tag(5)
         }
         .tint(.deepOcean)
     }
@@ -41,5 +47,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: [CoveTask.self, DailyContract.self, UserProfile.self, CapturedInput.self], inMemory: true)
+        .modelContainer(for: [CoveTask.self, DailyContract.self, UserProfile.self, CapturedInput.self, SkillCategory.self, DailyActivity.self, Achievement.self], inMemory: true)
 }

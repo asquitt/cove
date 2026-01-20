@@ -8,7 +8,10 @@ struct CoveApp: App {
             CoveTask.self,
             DailyContract.self,
             UserProfile.self,
-            CapturedInput.self
+            CapturedInput.self,
+            SkillCategory.self,
+            DailyActivity.self,
+            Achievement.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

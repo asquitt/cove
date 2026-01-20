@@ -198,10 +198,15 @@ struct TaskCardView: View {
 // MARK: - Completion Celebration View
 struct CompletionCelebrationView: View {
     let task: CoveTask
+    var streakBonus: Int = 0
     let onDismiss: () -> Void
 
     @State private var scale: CGFloat = 0.5
     @State private var opacity: Double = 0
+
+    private var totalXP: Int {
+        task.xpValue + streakBonus
+    }
 
     var body: some View {
         VStack(spacing: Spacing.lg) {
@@ -228,12 +233,25 @@ struct CompletionCelebrationView: View {
                 .multilineTextAlignment(.center)
 
             // XP earned
-            HStack(spacing: Spacing.xs) {
-                Image(systemName: "star.fill")
-                    .foregroundColor(.warmSand)
-                Text("+\(task.xpValue) XP")
-                    .font(.bodyLargeBold)
-                    .foregroundColor(.warmSand)
+            VStack(spacing: Spacing.xs) {
+                HStack(spacing: Spacing.xs) {
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.warmSand)
+                    Text("+\(task.xpValue) XP")
+                        .font(.bodyLargeBold)
+                        .foregroundColor(.warmSand)
+                }
+
+                if streakBonus > 0 {
+                    HStack(spacing: Spacing.xs) {
+                        Image(systemName: "flame.fill")
+                            .foregroundColor(.warmSand)
+                            .font(.caption)
+                        Text("+\(streakBonus) streak bonus")
+                            .font(.caption)
+                            .foregroundColor(.warmSand)
+                    }
+                }
             }
             .padding(.top, Spacing.sm)
         }

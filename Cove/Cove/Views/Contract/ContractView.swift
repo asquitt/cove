@@ -4,17 +4,30 @@ import SwiftData
 struct ContractView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel = ContractViewModel()
+    @State private var gamificationService = GamificationService()
     @State private var showCompletionCelebration = false
     @State private var lastCompletedTask: CoveTask?
     @State private var errorMessage: String?
     @State private var showError = false
     @State private var showMeltdown = false
+    @State private var showLevelUp = false
+    @State private var levelUpResult: LevelUpResult?
+    @State private var showAchievement = false
+    @State private var unlockedAchievement: Achievement?
+    @State private var streakBonus: Int = 0
 
     @Query(sort: \DailyContract.date, order: .reverse)
     private var contracts: [DailyContract]
 
     @Query(sort: \CoveTask.createdAt, order: .reverse)
     private var allTasks: [CoveTask]
+
+    @Query(sort: \UserProfile.createdAt)
+    private var profiles: [UserProfile]
+
+    private var userProfile: UserProfile? {
+        profiles.first
+    }
 
     private var unassignedTasks: [CoveTask] {
         allTasks.filter { $0.contract == nil && $0.status == .pending }
@@ -52,8 +65,30 @@ struct ContractView: View {
                             showCompletionCelebration = false
                         }
 
-                    CompletionCelebrationView(task: task) {
+                    CompletionCelebrationView(task: task, streakBonus: streakBonus) {
                         showCompletionCelebration = false
+                        checkForPendingCelebrations()
+                    }
+                }
+
+                // Level up celebration overlay
+                if showLevelUp, let result = levelUpResult {
+                    LevelUpCelebrationView(
+                        oldLevel: result.oldLevel,
+                        newLevel: result.newLevel
+                    ) {
+                        showLevelUp = false
+                        levelUpResult = nil
+                        checkForPendingAchievements()
+                    }
+                }
+
+                // Achievement unlock overlay
+                if showAchievement, let achievement = unlockedAchievement {
+                    AchievementUnlockView(achievement: achievement) {
+                        showAchievement = false
+                        unlockedAchievement = nil
+                        checkForPendingAchievements()
                     }
                 }
             }
@@ -433,12 +468,51 @@ struct ContractView: View {
     private func completeTask(_ task: CoveTask, in contract: DailyContract) {
         contract.completeTask(task)
         lastCompletedTask = task
+
+        // Process gamification
+        if let profile = userProfile {
+            // Check for streak bonus before processing
+            streakBonus = gamificationService.hasStreakBonus(profile: profile) ? gamificationService.streakBonusAmount() : 0
+
+            // Process completion and check for level up
+            if let result = gamificationService.processTaskCompletion(task: task, profile: profile) {
+                levelUpResult = result
+            }
+
+            // Check if contract is complete
+            if contract.isComplete {
+                gamificationService.processContractCompletion(profile: profile)
+            }
+        }
+
         showCompletionCelebration = true
     }
 
     private func startTask(_ task: CoveTask) {
         task.status = .inProgress
         task.scheduledFor = Date()
+    }
+
+    private func checkForPendingCelebrations() {
+        // Check for level up first
+        if let result = gamificationService.pendingLevelUp {
+            levelUpResult = result
+            gamificationService.clearPendingLevelUp()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                showLevelUp = true
+            }
+        } else {
+            checkForPendingAchievements()
+        }
+    }
+
+    private func checkForPendingAchievements() {
+        if let achievement = gamificationService.popNextAchievement() {
+            unlockedAchievement = achievement
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                showAchievement = true
+            }
+        }
     }
 }
 

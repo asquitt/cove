@@ -235,8 +235,8 @@ struct MeltdownView: View {
             completedGoblinTasks.insert(task)
         }
 
-        // Award XP
-        userProfile?.recordTaskCompletion(xp: 5)
+        // Award XP via gamification system
+        userProfile?.recordGoblinTaskCompletion()
 
         // Success haptic
         let generator = UINotificationFeedbackGenerator()
@@ -245,6 +245,11 @@ struct MeltdownView: View {
 
     private func exitMeltdown() {
         todaysContract?.deactivateMeltdown()
+
+        // Award survival XP if goblin tasks were completed
+        if !completedGoblinTasks.isEmpty {
+            userProfile?.recordMeltdownSurvival()
+        }
 
         withAnimation {
             isPresented = false
