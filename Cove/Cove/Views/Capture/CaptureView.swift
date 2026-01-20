@@ -11,12 +11,12 @@ struct CaptureView: View {
     @State private var showError = false
     @FocusState private var isTextFieldFocused: Bool
 
-    @Query(
-        filter: #Predicate<CapturedInput> { $0.status == .processed },
-        sort: \CapturedInput.createdAt,
-        order: .reverse
-    )
-    private var pendingReviews: [CapturedInput]
+    @Query(sort: \CapturedInput.createdAt, order: .reverse)
+    private var allInputs: [CapturedInput]
+
+    private var pendingReviews: [CapturedInput] {
+        allInputs.filter { $0.status == .processed }
+    }
 
     var body: some View {
         NavigationStack {

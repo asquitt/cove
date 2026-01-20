@@ -19,7 +19,7 @@ struct HomeView: View {
 
                     // Stability Bar
                     if let contract = todaysContract {
-                        StabilityBarView(progress: contract.progress)
+                        StabilityBarView(score: contract.stabilityScore, progress: contract.progress)
                             .padding(.horizontal, Spacing.lg)
                     }
 
@@ -140,45 +140,6 @@ struct HomeView: View {
 }
 
 // MARK: - Supporting Views
-
-struct StabilityBarView: View {
-    let progress: Double
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: Spacing.xs) {
-            HStack {
-                Text("Stability")
-                    .font(.caption)
-                    .foregroundColor(.mutedText)
-                Spacer()
-                Text("\(Int(progress * 100))%")
-                    .font(.captionBold)
-                    .foregroundColor(.deepText)
-            }
-
-            GeometryReader { geometry in
-                ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: CornerRadius.full)
-                        .fill(Color.mistGray)
-
-                    RoundedRectangle(cornerRadius: CornerRadius.full)
-                        .fill(progressColor)
-                        .frame(width: max(0, geometry.size.width * progress))
-                        .animation(.spring(response: 0.4), value: progress)
-                }
-            }
-            .frame(height: 8)
-        }
-    }
-
-    private var progressColor: Color {
-        switch progress {
-        case 0..<0.3: return .coralAlert
-        case 0.3..<0.7: return .warmSand
-        default: return .zenGreen
-        }
-    }
-}
 
 struct TaskRowView: View {
     let task: CoveTask

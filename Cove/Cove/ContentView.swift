@@ -11,15 +11,15 @@ struct ContentView: View {
                 }
                 .tag(0)
 
-            CaptureView()
-                .tabItem {
-                    Label("Capture", systemImage: "mic.fill")
-                }
-                .tag(1)
-
             ContractView()
                 .tabItem {
                     Label("Contract", systemImage: "doc.text.fill")
+                }
+                .tag(1)
+
+            CaptureView()
+                .tabItem {
+                    Label("Capture", systemImage: "plus.circle.fill")
                 }
                 .tag(2)
 
@@ -35,10 +35,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: [
-            CoveTask.self,
-            DailyContract.self,
-            UserProfile.self,
-            CapturedInput.self
-        ], inMemory: true)
+        .modelContainer(for: [CoveTask.self, DailyContract.self, UserProfile.self, CapturedInput.self], inMemory: true)
 }

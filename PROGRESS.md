@@ -1,8 +1,8 @@
 # Cove iOS App - Progress Tracker
 
 > Last Updated: 2026-01-20
-> Current Phase: **Phase 2 - Capture & AI**
-> Overall Progress: **35%**
+> Current Phase: **Phase 3 - Contract System** ✅
+> Overall Progress: **50%**
 
 ---
 
@@ -13,7 +13,7 @@
 | Phase 0: Setup | ✅ Complete | 100% |
 | Phase 1: Foundation | ✅ Complete | 100% |
 | Phase 2: Capture & AI | ✅ Complete | 100% |
-| Phase 3: Contract System | ⏳ Not Started | 0% |
+| Phase 3: Contract System | ✅ Complete | 100% |
 | Phase 4: Meltdown Protocol | ⏳ Not Started | 0% |
 | Phase 5: Calendar Integration | ⏳ Not Started | 0% |
 | Phase 6: XP & Gamification | ⏳ Not Started | 0% |
@@ -102,29 +102,57 @@
 
 ---
 
-## Phase 3: Contract System (Next)
+## Phase 3: Contract System ✅
 
 ### Goals
 - Daily Contract with 3+2 limit
 - Reality check (time estimation)
 - Satisfying completion flow
 
-### Tasks
-- [ ] Daily Contract view
-- [ ] Anchor Tasks section (max 3)
-- [ ] Side Quests section (max 2)
-- [ ] Constraint enforcement
-- [ ] Pessimism multiplier
-- [ ] Over-scheduling warnings
-- [ ] Completion animations
-- [ ] Stability Bar progress
-
-### Blockers
-_None yet_
+### Completed ✅
+- [x] ContractViewModel.swift - Contract state management
+  - Load/create daily contracts
+  - Task add/remove/complete operations
+  - Unassigned task filtering
+  - Error handling
+- [x] TaskCardView.swift - Task display components
+  - Swipe-to-complete gesture
+  - Task status indicators (pending/inProgress/completed)
+  - Remove task button
+  - Haptic feedback on status changes
+- [x] CompletionCelebrationView - Celebration overlay
+  - Animated checkmark
+  - XP display (+10 XP)
+  - Auto-dismiss after 1.5s
+  - Success haptic
+- [x] StabilityBarView - Progress visualization
+  - Color-coded (red/yellow/green)
+  - Animated progress
+  - Score percentage display
+- [x] ProgressRingView - Circular progress
+  - Task completion percentage
+  - Color-coded based on progress
+- [x] ContractView.swift - Full contract UI
+  - Reality Check card (estimated/buffered time)
+  - Pessimism multiplier (1.5x buffer)
+  - Anchor Tasks section (max 3)
+  - Side Quests section (max 2)
+  - Unassigned tasks section
+  - Over-scheduling warnings (>6h)
+  - Contract Complete celebration card
+  - Empty state with create button
+- [x] ContentView.swift - Tab navigation
+  - Home, Contract, Capture, Profile tabs
+  - Deep Ocean tint color
+- [x] Constraint enforcement
+  - 3 anchor tasks maximum
+  - 2 side quests maximum
+  - Counter badges with warnings
+- [x] Swift type-check passes
 
 ---
 
-## Phase 4: Meltdown Protocol
+## Phase 4: Meltdown Protocol (Next)
 
 ### Goals
 - Emergency reset button
@@ -263,12 +291,34 @@ _Requires Apple Developer account for TestFlight_
   - Updated project.pbxproj with new files
   - Added Info.plist for permissions
 - Code type-checks successfully with iOS SDK
+- GitHub repo created: https://github.com/asquitt/cove
+
+### Session 2 (continued) - 2026-01-20
+**Duration:** ~20 min
+**Completed:**
+- Built Phase 3 Contract System:
+  - ContractViewModel.swift - Contract state management
+  - TaskCardView.swift - Swipe-to-complete task cards
+  - CompletionCelebrationView - Animated completion overlay
+  - StabilityBarView - Color-coded progress bar
+  - ProgressRingView - Circular progress indicator
+  - ContentView.swift - Tab navigation with 4 tabs
+  - Updated ContractView.swift - Full contract UI with:
+    - Reality Check card with pessimism buffer
+    - Anchor Tasks section (max 3)
+    - Side Quests section (max 2)
+    - Unassigned tasks section
+    - Over-scheduling warnings
+    - Contract complete celebration
+  - Fixed SwiftData predicate syntax (enum comparison issues)
+  - Updated HomeView to use shared StabilityBarView
+- Code type-checks successfully with iOS SDK
+- Pushed to GitHub
 
 **Next Session:**
 - Open project in Xcode to resolve simulator runtime
-- Build and test capture flow end-to-end
-- Add API key entry in Settings
-- Start Phase 3: Contract System
+- Build and test full flow end-to-end
+- Start Phase 4: Meltdown Protocol
 
 ---
 
@@ -291,6 +341,9 @@ _Requires Apple Developer account for TestFlight_
 - Using actor for ClaudeAIService for thread safety
 - Keychain for API key storage (security)
 - On-device speech recognition (privacy)
+- SwiftData predicates don't support enum comparisons directly - use computed properties with filter instead
+- Pessimism multiplier set to 1.5x (configurable in Constants)
+- Over-scheduling warning triggers at >360 minutes (6 hours)
 
 ---
 
@@ -300,24 +353,25 @@ _Requires Apple Developer account for TestFlight_
 |------|---------|---------------------|--------|
 | 2026-01-20 | Phase 2 Services | swiftc -typecheck with iOS SDK | ✅ Pass |
 | 2026-01-20 | Models/Utilities | swiftc -typecheck with iOS SDK | ✅ Pass |
+| 2026-01-20 | Phase 3 Contract System | swiftc -typecheck with iOS SDK | ✅ Pass |
 
 ---
 
-## Files Created in Phase 2
+## Files Created in Phase 3
 
 ```
-Cove/Cove/Services/
-├── SpeechService.swift      # iOS Speech framework
-└── ClaudeAIService.swift    # Claude API integration
+Cove/Cove/ViewModels/
+└── ContractViewModel.swift    # Contract state management
 
-Cove/Cove/Utilities/
-└── KeychainHelper.swift     # Secure storage
+Cove/Cove/Views/Contract/
+├── ContractView.swift         # Updated with full UI
+└── TaskCardView.swift         # Task cards + celebrations
 
-Cove/Cove/Views/Capture/
-├── CaptureView.swift        # Updated with services
-└── StagingAreaView.swift    # Review UI
+Cove/Cove/Views/
+└── ContentView.swift          # Tab navigation
 
-Cove/Cove/Info.plist         # Privacy permissions
+Cove/Cove/Views/Home/
+└── HomeView.swift             # Updated to use shared components
 ```
 
 ---
@@ -325,6 +379,5 @@ Cove/Cove/Info.plist         # Privacy permissions
 ## Next Steps (Priority Order)
 
 1. **Open Xcode** - Download matching simulator runtime
-2. **Test capture flow** - Voice → Transcribe → Classify → Stage → Confirm
-3. **Add Settings view** - API key entry
-4. **Start Phase 3** - Daily Contract with 3+2 limit
+2. **Test full flow** - Capture → Classify → Stage → Contract → Complete
+3. **Start Phase 4** - Meltdown Protocol with Goblin Mode

@@ -3,12 +3,12 @@ import SwiftData
 
 struct StagingAreaView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query(
-        filter: #Predicate<CapturedInput> { $0.status == .processed },
-        sort: \CapturedInput.createdAt,
-        order: .reverse
-    )
-    private var pendingCaptures: [CapturedInput]
+    @Query(sort: \CapturedInput.createdAt, order: .reverse)
+    private var allCaptures: [CapturedInput]
+
+    private var pendingCaptures: [CapturedInput] {
+        allCaptures.filter { $0.status == .processed }
+    }
 
     @State private var selectedCapture: CapturedInput?
 
