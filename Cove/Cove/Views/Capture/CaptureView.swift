@@ -9,6 +9,7 @@ struct CaptureView: View {
     @State private var showStagingArea = false
     @State private var errorMessage: String?
     @State private var showError = false
+    @State private var showRemindersImport = false
     @FocusState private var isTextFieldFocused: Bool
 
     @Query(sort: \CapturedInput.createdAt, order: .reverse)
@@ -34,6 +35,12 @@ struct CaptureView: View {
             .background(Color.cloudWhite)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: { showRemindersImport = true }) {
+                        Image(systemName: "checklist")
+                            .foregroundColor(.deepOcean)
+                    }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     if !pendingReviews.isEmpty {
                         Button(action: { showStagingArea = true }) {
@@ -50,6 +57,9 @@ struct CaptureView: View {
             }
             .sheet(isPresented: $showStagingArea) {
                 StagingAreaView()
+            }
+            .sheet(isPresented: $showRemindersImport) {
+                RemindersImportView()
             }
             .alert("Error", isPresented: $showError) {
                 Button("OK") { errorMessage = nil }

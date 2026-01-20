@@ -16,6 +16,9 @@ struct ContractView: View {
     @State private var showAchievement = false
     @State private var unlockedAchievement: Achievement?
     @State private var streakBonus: Int = 0
+    @State private var companionService = AICompanionService()
+    @State private var inactivitySeconds: TimeInterval = 0
+    @State private var inactivityTimer: Timer?
 
     @Query(sort: \DailyContract.date, order: .reverse)
     private var contracts: [DailyContract]
@@ -108,7 +111,42 @@ struct ContractView: View {
             .fullScreenCover(isPresented: $showMeltdown) {
                 MeltdownView(isPresented: $showMeltdown)
             }
+            .overlay {
+                AICompanionOverlay(
+                    message: companionService.microCoachingMessage,
+                    isVisible: companionService.showMicroCoaching,
+                    onDismiss: {
+                        companionService.dismissMicroCoaching()
+                        resetInactivityTimer()
+                    }
+                )
+            }
+            .onAppear {
+                startInactivityTimer()
+            }
+            .onDisappear {
+                stopInactivityTimer()
+            }
         }
+    }
+
+    // MARK: - Inactivity Detection (PRD 6.6.2)
+    private func startInactivityTimer() {
+        inactivityTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
+            inactivitySeconds += 10
+            if inactivitySeconds >= 45 && !companionService.showMicroCoaching {
+                companionService.triggerMicroCoaching(MicroCoachingMessage.stuckOnTask.randomMessage)
+            }
+        }
+    }
+
+    private func stopInactivityTimer() {
+        inactivityTimer?.invalidate()
+        inactivityTimer = nil
+    }
+
+    private func resetInactivityTimer() {
+        inactivitySeconds = 0
     }
 
     // MARK: - Header
@@ -452,6 +490,7 @@ struct ContractView: View {
 
     private func addTaskToContract(_ task: CoveTask, asAnchor: Bool, contract: DailyContract) {
         task.isAnchorTask = asAnchor
+        resetInactivityTimer()
         do {
             try contract.addTask(task)
         } catch {
@@ -467,6 +506,7 @@ struct ContractView: View {
     }
 
     private func completeTask(_ task: CoveTask, in contract: DailyContract) {
+        resetInactivityTimer()
         contract.completeTask(task)
         lastCompletedTask = task
 
@@ -493,6 +533,7 @@ struct ContractView: View {
     }
 
     private func startTask(_ task: CoveTask) {
+        resetInactivityTimer()
         task.status = .inProgress
         task.scheduledFor = Date()
     }

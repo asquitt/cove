@@ -9,6 +9,8 @@ struct HomeView: View {
     @State private var showMeltdown = false
     @State private var patternService = PatternService()
     @State private var suggestions: [AdaptiveSuggestion] = []
+    @State private var companionService = AICompanionService()
+    @State private var showCompanion = false
 
     private var todaysContract: DailyContract? {
         let today = Calendar.current.startOfDay(for: Date())
@@ -57,11 +59,44 @@ struct HomeView: View {
             .background(Color.cloudWhite)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        withAnimation {
+                            showCompanion.toggle()
+                            if showCompanion {
+                                companionService.activate()
+                            } else {
+                                companionService.deactivate()
+                            }
+                        }
+                    } label: {
+                        if showCompanion {
+                            AICompanionIndicator()
+                        } else {
+                            Image(systemName: "person.fill.viewfinder")
+                                .foregroundColor(.calmSea)
+                        }
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     MeltdownButton {
                         showMeltdown = true
                     }
                 }
+            }
+            .overlay(alignment: .bottom) {
+                if showCompanion {
+                    AICompanionView()
+                        .padding(.bottom, 100)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+            }
+            .overlay {
+                AICompanionOverlay(
+                    message: companionService.microCoachingMessage,
+                    isVisible: companionService.showMicroCoaching,
+                    onDismiss: { companionService.dismissMicroCoaching() }
+                )
             }
             .fullScreenCover(isPresented: $showMeltdown) {
                 MeltdownView(isPresented: $showMeltdown)

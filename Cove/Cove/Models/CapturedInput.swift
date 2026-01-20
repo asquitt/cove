@@ -64,12 +64,14 @@ enum CaptureSource: String, Codable {
     case voice
     case text
     case quickCapture
+    case siri
 
     var icon: String {
         switch self {
         case .voice: return "mic.fill"
         case .text: return "keyboard"
         case .quickCapture: return "bolt.fill"
+        case .siri: return "waveform"
         }
     }
 
@@ -78,6 +80,7 @@ enum CaptureSource: String, Codable {
         case .voice: return "Voice"
         case .text: return "Text"
         case .quickCapture: return "Quick"
+        case .siri: return "Siri"
         }
     }
 }

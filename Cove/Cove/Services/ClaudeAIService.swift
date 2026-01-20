@@ -55,13 +55,27 @@ actor ClaudeAIService {
             throw ClaudeError.inputTooLong
         }
 
+        // Check for highly sensitive PII that should not be sent to AI
+        let sensitivityReport = PIIRedactionService.analyze(trimmedText)
+        if sensitivityReport.recommendation == .block {
+            throw ClaudeError.containsSensitivePII(types: sensitivityReport.piiDetected)
+        }
+
         return trimmedText
+    }
+
+    // MARK: - PII Redaction
+    private func redactPII(_ text: String) -> String {
+        PIIRedactionService.redact(text)
     }
 
     // MARK: - Classification
     func classifyInput(_ text: String) async throws -> ClassificationResult {
         // Validate input before making API call
         let validatedText = try validateInput(text)
+
+        // Redact any remaining PII before sending to AI
+        let safeText = redactPII(validatedText)
 
         let systemPrompt = """
         You are an ADHD-friendly task assistant. Classify user input into one of three buckets:
@@ -87,7 +101,7 @@ actor ClaudeAIService {
         }
         """
 
-        let userPrompt = "Classify this input: \"\(validatedText)\""
+        let userPrompt = "Classify this input: \"\(safeText)\""
 
         let responseText = try await sendMessage(
             prompt: userPrompt,
@@ -248,6 +262,7 @@ enum ClaudeError: LocalizedError {
     case parsingFailed
     case inputTooLong
     case emptyInput
+    case containsSensitivePII(types: [PIIRedactionService.PIIType])
 
     var errorDescription: String? {
         switch self {
@@ -271,6 +286,9 @@ enum ClaudeError: LocalizedError {
             return "Input is too long. Please keep it under 5000 characters."
         case .emptyInput:
             return "Please enter some text to classify"
+        case .containsSensitivePII(let types):
+            let typeNames = types.map { $0.displayName }.joined(separator: ", ")
+            return "This text contains sensitive information (\(typeNames)) and cannot be processed by AI for your protection. Please remove the sensitive data and try again."
         }
     }
 }

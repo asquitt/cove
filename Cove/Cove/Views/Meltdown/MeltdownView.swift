@@ -17,6 +17,7 @@ struct MeltdownView: View {
     @State private var showGoblinMode = false
     @State private var selectedGoblinTask: GoblinTask?
     @State private var completedGoblinTasks: Set<GoblinTask> = []
+    @State private var showBailOut = false
 
     private var todaysContract: DailyContract? {
         let today = Calendar.current.startOfDay(for: Date())
@@ -156,17 +157,32 @@ struct MeltdownView: View {
     private var bottomActions: some View {
         VStack(spacing: Spacing.md) {
             if !showGoblinMode {
-                Button(action: { withAnimation { showGoblinMode = true } }) {
-                    HStack(spacing: Spacing.sm) {
-                        Text("👹")
-                        Text("Enter Goblin Mode")
-                            .font(.bodyMedium)
+                HStack(spacing: Spacing.md) {
+                    Button(action: { withAnimation { showGoblinMode = true } }) {
+                        HStack(spacing: Spacing.sm) {
+                            Text("👹")
+                            Text("Goblin Mode")
+                                .font(.bodyMedium)
+                        }
+                        .foregroundColor(.meltdownText)
+                        .padding(.horizontal, Spacing.lg)
+                        .padding(.vertical, Spacing.md)
+                        .background(Color.meltdownAccent)
+                        .cornerRadius(CornerRadius.lg)
                     }
-                    .foregroundColor(.meltdownText)
-                    .padding(.horizontal, Spacing.xl)
-                    .padding(.vertical, Spacing.md)
-                    .background(Color.meltdownAccent)
-                    .cornerRadius(CornerRadius.lg)
+
+                    Button(action: { showBailOut = true }) {
+                        HStack(spacing: Spacing.sm) {
+                            Image(systemName: "envelope")
+                            Text("Bail Out")
+                                .font(.bodyMedium)
+                        }
+                        .foregroundColor(.meltdownText)
+                        .padding(.horizontal, Spacing.lg)
+                        .padding(.vertical, Spacing.md)
+                        .background(Color.meltdownAccent)
+                        .cornerRadius(CornerRadius.lg)
+                    }
                 }
             }
 
@@ -188,6 +204,9 @@ struct MeltdownView: View {
             }
         }
         .padding(.horizontal, Spacing.lg)
+        .sheet(isPresented: $showBailOut) {
+            BailOutView()
+        }
     }
 
     // MARK: - Actions
