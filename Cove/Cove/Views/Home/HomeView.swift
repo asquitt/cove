@@ -4,6 +4,7 @@ import SwiftData
 struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \DailyContract.date, order: .reverse) private var contracts: [DailyContract]
+    @State private var showMeltdown = false
 
     private var todaysContract: DailyContract? {
         let today = Calendar.current.startOfDay(for: Date())
@@ -37,9 +38,12 @@ struct HomeView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     MeltdownButton {
-                        activateMeltdown()
+                        showMeltdown = true
                     }
                 }
+            }
+            .fullScreenCover(isPresented: $showMeltdown) {
+                MeltdownView(isPresented: $showMeltdown)
             }
         }
     }
@@ -129,12 +133,6 @@ struct HomeView: View {
     private func completeTask(_ task: CoveTask, in contract: DailyContract) {
         withAnimation(.spring(response: 0.3)) {
             contract.completeTask(task)
-        }
-    }
-
-    private func activateMeltdown() {
-        if let contract = todaysContract {
-            contract.activateMeltdown()
         }
     }
 }

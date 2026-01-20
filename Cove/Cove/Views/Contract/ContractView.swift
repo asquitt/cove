@@ -8,6 +8,7 @@ struct ContractView: View {
     @State private var lastCompletedTask: CoveTask?
     @State private var errorMessage: String?
     @State private var showError = false
+    @State private var showMeltdown = false
 
     @Query(sort: \DailyContract.date, order: .reverse)
     private var contracts: [DailyContract]
@@ -60,6 +61,16 @@ struct ContractView: View {
                 Button("OK") { errorMessage = nil }
             } message: {
                 Text(errorMessage ?? "An error occurred")
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    MeltdownButton {
+                        showMeltdown = true
+                    }
+                }
+            }
+            .fullScreenCover(isPresented: $showMeltdown) {
+                MeltdownView(isPresented: $showMeltdown)
             }
         }
     }

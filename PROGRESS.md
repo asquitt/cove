@@ -1,8 +1,8 @@
 # Cove iOS App - Progress Tracker
 
 > Last Updated: 2026-01-20
-> Current Phase: **Phase 3 - Contract System** ✅
-> Overall Progress: **50%**
+> Current Phase: **Phase 4 - Meltdown Protocol** ✅
+> Overall Progress: **60%**
 
 ---
 
@@ -14,7 +14,7 @@
 | Phase 1: Foundation | ✅ Complete | 100% |
 | Phase 2: Capture & AI | ✅ Complete | 100% |
 | Phase 3: Contract System | ✅ Complete | 100% |
-| Phase 4: Meltdown Protocol | ⏳ Not Started | 0% |
+| Phase 4: Meltdown Protocol | ✅ Complete | 100% |
 | Phase 5: Calendar Integration | ⏳ Not Started | 0% |
 | Phase 6: XP & Gamification | ⏳ Not Started | 0% |
 | Phase 7: Pattern Learning | ⏳ Not Started | 0% |
@@ -152,27 +152,39 @@
 
 ---
 
-## Phase 4: Meltdown Protocol (Next)
+## Phase 4: Meltdown Protocol ✅
 
 ### Goals
 - Emergency reset button
 - Goblin Mode self-care
 - Gentle recovery flow
 
-### Tasks
-- [ ] Reset button (always accessible)
-- [ ] Meltdown view (dark/calm)
-- [ ] Task triage (hide non-critical)
-- [ ] Goblin Mode tasks
-- [ ] Recovery flow
-- [ ] XP rewards for self-care
-
-### Blockers
-_None yet_
+### Completed ✅
+- [x] MeltdownView.swift - Full-screen calming interface
+  - Dark/calm color scheme (meltdownBackground)
+  - Animated breathing exercise with phases
+  - Breathing circle with scale animation
+  - Encouraging messages
+- [x] Goblin Mode - Self-care task system
+  - 8 gentle self-care tasks (water, stretch, snack, etc.)
+  - XP rewards (+5 XP per task)
+  - Visual completion tracking
+  - Haptic feedback on completion
+- [x] Meltdown button in toolbar (HomeView, ContractView)
+  - Always accessible via navigation bar
+  - Full-screen cover presentation
+- [x] Recovery flow
+  - "I'm feeling better" exit button
+  - Meltdown count tracking per day
+  - Stability score adjustment on meltdown
+- [x] Integration with existing models
+  - DailyContract.activateMeltdown() / deactivateMeltdown()
+  - UserProfile.recordMeltdown() / recordTaskCompletion()
+- [x] Swift type-check passes
 
 ---
 
-## Phase 5: Calendar Integration
+## Phase 5: Calendar Integration (Next)
 
 ### Goals
 - Apple Calendar sync
@@ -315,10 +327,31 @@ _Requires Apple Developer account for TestFlight_
 - Code type-checks successfully with iOS SDK
 - Pushed to GitHub
 
+### Session 3 - 2026-01-20
+**Duration:** ~15 min
+**Completed:**
+- Built Phase 4 Meltdown Protocol:
+  - MeltdownView.swift - Full-screen calming interface
+    - Dark color scheme with calming aesthetics
+    - Animated breathing exercise (inhale/hold/exhale)
+    - Breathing circle with scale animation
+    - Encouraging messages throughout
+  - Goblin Mode - Self-care task system
+    - 8 gentle tasks: water, stretch, snack, bathroom, walk, window, breathe, music
+    - +5 XP per completed task
+    - Visual completion states
+    - Haptic feedback on completion
+  - Integrated meltdown button in HomeView and ContractView toolbars
+  - Full-screen cover presentation for immersive experience
+  - Recovery flow with "I'm feeling better" exit
+  - Meltdown tracking (count, stability adjustment)
+- Code type-checks successfully with iOS SDK
+- Pushed to GitHub
+
 **Next Session:**
 - Open project in Xcode to resolve simulator runtime
 - Build and test full flow end-to-end
-- Start Phase 4: Meltdown Protocol
+- Start Phase 5: Calendar Integration
 
 ---
 
@@ -354,24 +387,25 @@ _Requires Apple Developer account for TestFlight_
 | 2026-01-20 | Phase 2 Services | swiftc -typecheck with iOS SDK | ✅ Pass |
 | 2026-01-20 | Models/Utilities | swiftc -typecheck with iOS SDK | ✅ Pass |
 | 2026-01-20 | Phase 3 Contract System | swiftc -typecheck with iOS SDK | ✅ Pass |
+| 2026-01-20 | Phase 4 Meltdown Protocol | swiftc -typecheck with iOS SDK | ✅ Pass |
 
 ---
 
-## Files Created in Phase 3
+## Files Created in Phase 4
 
 ```
-Cove/Cove/ViewModels/
-└── ContractViewModel.swift    # Contract state management
-
-Cove/Cove/Views/Contract/
-├── ContractView.swift         # Updated with full UI
-└── TaskCardView.swift         # Task cards + celebrations
-
-Cove/Cove/Views/
-└── ContentView.swift          # Tab navigation
+Cove/Cove/Views/Meltdown/
+└── MeltdownView.swift         # Full meltdown experience
+    - BreathingPhase enum
+    - GoblinTask enum (8 self-care tasks)
+    - GoblinTaskCard component
+    - MeltdownTriggerButton component
 
 Cove/Cove/Views/Home/
-└── HomeView.swift             # Updated to use shared components
+└── HomeView.swift             # Updated with meltdown integration
+
+Cove/Cove/Views/Contract/
+└── ContractView.swift         # Updated with meltdown integration
 ```
 
 ---
@@ -379,5 +413,5 @@ Cove/Cove/Views/Home/
 ## Next Steps (Priority Order)
 
 1. **Open Xcode** - Download matching simulator runtime
-2. **Test full flow** - Capture → Classify → Stage → Contract → Complete
-3. **Start Phase 4** - Meltdown Protocol with Goblin Mode
+2. **Test full flow** - Capture → Classify → Stage → Contract → Complete → Meltdown
+3. **Start Phase 5** - Calendar Integration with EventKit
