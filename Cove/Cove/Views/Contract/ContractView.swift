@@ -5,6 +5,7 @@ struct ContractView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var viewModel = ContractViewModel()
     @State private var gamificationService = GamificationService()
+    @State private var patternService = PatternService()
     @State private var showCompletionCelebration = false
     @State private var lastCompletedTask: CoveTask?
     @State private var errorMessage: String?
@@ -478,6 +479,9 @@ struct ContractView: View {
             if let result = gamificationService.processTaskCompletion(task: task, profile: profile) {
                 levelUpResult = result
             }
+
+            // Record pattern for learning
+            patternService.recordTaskCompletion(task: task, profile: profile)
 
             // Check if contract is complete
             if contract.isComplete {

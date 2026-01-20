@@ -11,7 +11,8 @@ struct CoveApp: App {
             CapturedInput.self,
             SkillCategory.self,
             DailyActivity.self,
-            Achievement.self
+            Achievement.self,
+            TaskPattern.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

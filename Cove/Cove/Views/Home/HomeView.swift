@@ -4,11 +4,23 @@ import SwiftData
 struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \DailyContract.date, order: .reverse) private var contracts: [DailyContract]
+    @Query(sort: \UserProfile.createdAt) private var profiles: [UserProfile]
+    @Query(sort: \CoveTask.createdAt, order: .reverse) private var allTasks: [CoveTask]
     @State private var showMeltdown = false
+    @State private var patternService = PatternService()
+    @State private var suggestions: [AdaptiveSuggestion] = []
 
     private var todaysContract: DailyContract? {
         let today = Calendar.current.startOfDay(for: Date())
         return contracts.first { Calendar.current.isDate($0.date, inSameDayAs: today) }
+    }
+
+    private var userProfile: UserProfile? {
+        profiles.first
+    }
+
+    private var pendingTasks: [CoveTask] {
+        allTasks.filter { $0.status == .pending }
     }
 
     var body: some View {
@@ -24,6 +36,12 @@ struct HomeView: View {
                             .padding(.horizontal, Spacing.lg)
                     }
 
+                    // Adaptive Suggestions
+                    if !suggestions.isEmpty {
+                        SuggestionsCardView(suggestions: suggestions)
+                            .padding(.horizontal, Spacing.lg)
+                    }
+
                     // Today's Tasks
                     if let contract = todaysContract, !contract.tasks.isEmpty {
                         todayTasksSection(contract: contract)
@@ -32,6 +50,9 @@ struct HomeView: View {
                     }
                 }
                 .padding(.top, Spacing.md)
+                .onAppear {
+                    loadSuggestions()
+                }
             }
             .background(Color.cloudWhite)
             .navigationBarTitleDisplayMode(.inline)
@@ -134,6 +155,21 @@ struct HomeView: View {
         withAnimation(.spring(response: 0.3)) {
             contract.completeTask(task)
         }
+
+        // Record pattern for learning
+        if let profile = userProfile {
+            patternService.recordTaskCompletion(task: task, profile: profile)
+        }
+    }
+
+    private func loadSuggestions() {
+        guard let profile = userProfile else { return }
+        let currentHour = Calendar.current.component(.hour, from: Date())
+        suggestions = patternService.generateSuggestions(
+            profile: profile,
+            currentHour: currentHour,
+            pendingTasks: pendingTasks
+        )
     }
 }
 

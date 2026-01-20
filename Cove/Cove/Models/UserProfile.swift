@@ -30,6 +30,9 @@ final class UserProfile {
     @Relationship(deleteRule: .cascade)
     var achievements: [Achievement]?
 
+    @Relationship(deleteRule: .cascade)
+    var taskPatterns: [TaskPattern]?
+
     init(displayName: String = "Friend") {
         self.id = UUID()
         self.displayName = displayName
@@ -51,6 +54,7 @@ final class UserProfile {
         self.skillCategories = []
         self.dailyActivities = []
         self.achievements = []
+        self.taskPatterns = []
     }
 
     func adjustedEstimate(minutes: Int) -> Int {
