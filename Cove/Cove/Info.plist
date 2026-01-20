@@ -6,5 +6,7 @@
 	<string>Cove uses speech recognition to capture your thoughts hands-free. Your voice is processed on-device for privacy.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Cove needs microphone access to transcribe your voice for task capture.</string>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Cove syncs with your calendar to find available time slots, avoid scheduling conflicts, and help you plan your day realistically.</string>
 </dict>
 </plist>
