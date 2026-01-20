@@ -1,27 +1,6 @@
 import SwiftUI
 
 extension Color {
-    // MARK: - Primary Colors
-    static let deepOcean = Color(hex: "1a365d")
-    static let calmSea = Color(hex: "2c5282")
-    static let softWave = Color(hex: "4a90a4")
-
-    // MARK: - State Colors
-    static let zenGreen = Color(hex: "48bb78")
-    static let warmSand = Color(hex: "ed8936")
-    static let coralAlert = Color(hex: "fc8181")
-
-    // MARK: - Neutral Colors
-    static let cloudWhite = Color(hex: "f7fafc")
-    static let mistGray = Color(hex: "e2e8f0")
-    static let deepText = Color(hex: "2d3748")
-    static let mutedText = Color(hex: "718096")
-
-    // MARK: - Meltdown Mode Colors
-    static let meltdownBackground = Color(hex: "1a202c")
-    static let meltdownText = Color(hex: "a0aec0")
-    static let meltdownAccent = Color(hex: "4a5568")
-
     // MARK: - Hex Initializer
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
@@ -47,6 +26,44 @@ extension Color {
             opacity: Double(a) / 255
         )
     }
+
+    // MARK: - Adaptive Color Helper
+    /// Creates an adaptive color that changes based on color scheme
+    static func adaptive(light: String, dark: String) -> Color {
+        Color(uiColor: UIColor { traitCollection in
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+                return UIColor(Color(hex: dark))
+            default:
+                return UIColor(Color(hex: light))
+            }
+        })
+    }
+
+    // MARK: - Primary Colors (Adaptive)
+    static let deepOcean = Color.adaptive(light: "1a365d", dark: "4a90a4")
+    static let calmSea = Color.adaptive(light: "2c5282", dark: "5a9fcf")
+    static let softWave = Color.adaptive(light: "4a90a4", dark: "6bb5c9")
+
+    // MARK: - State Colors (Adaptive)
+    static let zenGreen = Color.adaptive(light: "48bb78", dark: "68d391")
+    static let warmSand = Color.adaptive(light: "ed8936", dark: "f6ad55")
+    static let coralAlert = Color.adaptive(light: "fc8181", dark: "feb2b2")
+
+    // MARK: - Neutral Colors (Adaptive)
+    static let cloudWhite = Color.adaptive(light: "f7fafc", dark: "1a202c")
+    static let mistGray = Color.adaptive(light: "e2e8f0", dark: "2d3748")
+    static let deepText = Color.adaptive(light: "2d3748", dark: "e2e8f0")
+    static let mutedText = Color.adaptive(light: "718096", dark: "a0aec0")
+
+    // MARK: - Card & Surface Colors (Adaptive)
+    static let cardBackground = Color.adaptive(light: "ffffff", dark: "2d3748")
+    static let surfaceBackground = Color.adaptive(light: "f7fafc", dark: "1a202c")
+
+    // MARK: - Meltdown Mode Colors (Fixed - always dark)
+    static let meltdownBackground = Color(hex: "1a202c")
+    static let meltdownText = Color(hex: "a0aec0")
+    static let meltdownAccent = Color(hex: "4a5568")
 }
 
 // MARK: - Interest Level Colors

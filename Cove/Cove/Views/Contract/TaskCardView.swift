@@ -142,9 +142,9 @@ struct TaskCardView: View {
 
     private var cardBackground: Color {
         switch task.status {
-        case .completed: return Color.zenGreen.opacity(0.05)
-        case .inProgress: return Color.softWave.opacity(0.05)
-        default: return .white
+        case .completed: return Color.zenGreen.opacity(0.1)
+        case .inProgress: return Color.softWave.opacity(0.1)
+        default: return .cardBackground
         }
     }
 
@@ -256,7 +256,7 @@ struct CompletionCelebrationView: View {
             .padding(.top, Spacing.sm)
         }
         .padding(Spacing.xl)
-        .background(Color.white)
+        .background(Color.cardBackground)
         .cornerRadius(CornerRadius.xl)
         .shadow(color: .black.opacity(0.15), radius: 20, y: 10)
         .opacity(opacity)

@@ -3,17 +3,32 @@ import SwiftData
 
 struct ProfileView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.colorScheme) private var colorScheme
     @Query private var profiles: [UserProfile]
+    @AppStorage("notificationSettings") private var notificationSettingsData: Data = Data()
+    @AppStorage("preferredColorScheme") private var preferredColorScheme: String = "system"
+    @State private var showAPIKeySheet = false
+    @State private var apiKeyInput = ""
+    @State private var notificationStatus: UNAuthorizationStatus = .notDetermined
 
     private var profile: UserProfile? {
         profiles.first
+    }
+
+    private var notificationSettings: NotificationSettings {
+        get {
+            (try? JSONDecoder().decode(NotificationSettings.self, from: notificationSettingsData))
+                ?? NotificationSettings.default
+        }
+        set {
+            notificationSettingsData = (try? JSONEncoder().encode(newValue)) ?? Data()
+        }
     }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: Spacing.lg) {
-                    // Header
                     headerSection
 
                     if let profile = profile {
@@ -26,16 +41,22 @@ struct ProfileView: View {
             }
             .background(Color.cloudWhite)
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $showAPIKeySheet) {
+                apiKeyInputSheet
+            }
+            .task {
+                notificationStatus = await NotificationService.shared.checkPermissionStatus()
+            }
         }
     }
 
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: Spacing.xs) {
-            Text("Profile")
+            Text("Settings")
                 .font(.largeTitle)
                 .foregroundColor(.deepText)
 
-            Text("Settings & Progress")
+            Text("Customize your Cove experience")
                 .font(.bodyMedium)
                 .foregroundColor(.mutedText)
         }
@@ -45,20 +66,18 @@ struct ProfileView: View {
 
     private func profileContent(_ profile: UserProfile) -> some View {
         VStack(spacing: Spacing.lg) {
-            // Stats Card
             statsCard(profile)
-
-            // Level Progress
             levelProgressCard(profile)
-
-            // Settings Sections
-            settingsSection(profile)
-
-            // API Key Section
+            appearanceSection
+            notificationSection
+            timeSettingsSection(profile)
             apiKeySection(profile)
+            dangerZoneSection
         }
         .padding(.horizontal, Spacing.lg)
     }
+
+    // MARK: - Stats Card
 
     private func statsCard(_ profile: UserProfile) -> some View {
         VStack(spacing: Spacing.md) {
@@ -78,7 +97,7 @@ struct ProfileView: View {
             }
         }
         .padding(Spacing.lg)
-        .background(Color.white)
+        .background(Color.cardBackground)
         .cornerRadius(CornerRadius.lg)
         .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
     }
@@ -94,6 +113,8 @@ struct ProfileView: View {
         }
         .frame(maxWidth: .infinity)
     }
+
+    // MARK: - Level Progress
 
     private func levelProgressCard(_ profile: UserProfile) -> some View {
         VStack(spacing: Spacing.md) {
@@ -122,40 +143,189 @@ struct ProfileView: View {
             .frame(height: 12)
         }
         .padding(Spacing.lg)
-        .background(Color.white)
+        .background(Color.cardBackground)
         .cornerRadius(CornerRadius.lg)
         .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
     }
 
-    private func settingsSection(_ profile: UserProfile) -> some View {
-        VStack(alignment: .leading, spacing: Spacing.md) {
-            Text("Settings")
-                .font(.title3)
-                .foregroundColor(.deepText)
+    // MARK: - Appearance Section
 
-            // Pessimism Multiplier
+    private var appearanceSection: some View {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            HStack {
+                Image(systemName: "paintbrush.fill")
+                    .foregroundColor(.softWave)
+                Text("Appearance")
+                    .font(.title3)
+                    .foregroundColor(.deepText)
+                Spacer()
+            }
+
+            Picker("Color Scheme", selection: $preferredColorScheme) {
+                Text("System").tag("system")
+                Text("Light").tag("light")
+                Text("Dark").tag("dark")
+            }
+            .pickerStyle(.segmented)
+        }
+        .padding(Spacing.lg)
+        .background(Color.cardBackground)
+        .cornerRadius(CornerRadius.lg)
+        .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+    }
+
+    // MARK: - Notification Section
+
+    private var notificationSection: some View {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            HStack {
+                Image(systemName: "bell.fill")
+                    .foregroundColor(.warmSand)
+                Text("Notifications")
+                    .font(.title3)
+                    .foregroundColor(.deepText)
+                Spacer()
+
+                if notificationStatus == .authorized {
+                    Text("Enabled")
+                        .font(.caption)
+                        .foregroundColor(.zenGreen)
+                } else if notificationStatus == .denied {
+                    Text("Disabled")
+                        .font(.caption)
+                        .foregroundColor(.coralAlert)
+                }
+            }
+
+            if notificationStatus == .notDetermined {
+                Button(action: requestNotificationPermission) {
+                    HStack {
+                        Text("Enable Notifications")
+                            .font(.bodyMedium)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundColor(.deepOcean)
+                }
+            } else if notificationStatus == .denied {
+                Text("Open Settings to enable notifications")
+                    .font(.caption)
+                    .foregroundColor(.mutedText)
+            } else {
+                notificationToggles
+            }
+        }
+        .padding(Spacing.lg)
+        .background(Color.cardBackground)
+        .cornerRadius(CornerRadius.lg)
+        .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+    }
+
+    private var notificationToggles: some View {
+        VStack(spacing: Spacing.sm) {
+            notificationToggle(
+                title: "Daily Reminder",
+                subtitle: "Remind me to plan my day",
+                isOn: Binding(
+                    get: { notificationSettings.dailyReminderEnabled },
+                    set: { newValue in
+                        var settings = notificationSettings
+                        settings.dailyReminderEnabled = newValue
+                        self.notificationSettingsData = (try? JSONEncoder().encode(settings)) ?? Data()
+                        Task { await updateNotifications() }
+                    }
+                )
+            )
+
+            notificationToggle(
+                title: "Streak Reminder",
+                subtitle: "Keep my streak alive",
+                isOn: Binding(
+                    get: { notificationSettings.streakReminderEnabled },
+                    set: { newValue in
+                        var settings = notificationSettings
+                        settings.streakReminderEnabled = newValue
+                        self.notificationSettingsData = (try? JSONEncoder().encode(settings)) ?? Data()
+                        Task { await updateNotifications() }
+                    }
+                )
+            )
+
+            notificationToggle(
+                title: "Task Reminders",
+                subtitle: "Scheduled task alerts",
+                isOn: Binding(
+                    get: { notificationSettings.taskRemindersEnabled },
+                    set: { newValue in
+                        var settings = notificationSettings
+                        settings.taskRemindersEnabled = newValue
+                        self.notificationSettingsData = (try? JSONEncoder().encode(settings)) ?? Data()
+                    }
+                )
+            )
+
+            notificationToggle(
+                title: "Gentle Nudges",
+                subtitle: "Soft reminders to stay on track",
+                isOn: Binding(
+                    get: { notificationSettings.gentleNudgesEnabled },
+                    set: { newValue in
+                        var settings = notificationSettings
+                        settings.gentleNudgesEnabled = newValue
+                        self.notificationSettingsData = (try? JSONEncoder().encode(settings)) ?? Data()
+                    }
+                )
+            )
+        }
+    }
+
+    private func notificationToggle(title: String, subtitle: String, isOn: Binding<Bool>) -> some View {
+        Toggle(isOn: isOn) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.bodyMedium)
+                    .foregroundColor(.deepText)
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundColor(.mutedText)
+            }
+        }
+        .tint(.deepOcean)
+    }
+
+    // MARK: - Time Settings
+
+    private func timeSettingsSection(_ profile: UserProfile) -> some View {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            HStack {
+                Image(systemName: "clock.fill")
+                    .foregroundColor(.softWave)
+                Text("Time & Energy")
+                    .font(.title3)
+                    .foregroundColor(.deepText)
+                Spacer()
+            }
+
             settingRow(
                 icon: "timer",
                 title: "Time Buffer",
                 value: "\(Int(profile.pessimismMultiplier * 100 - 100))% extra"
             )
 
-            // Energy Pattern
             settingRow(
                 icon: "bolt.fill",
                 title: "Energy Pattern",
                 value: profile.energyPattern.displayName
             )
 
-            // Work Hours
             settingRow(
-                icon: "clock",
+                icon: "calendar",
                 title: "Work Hours",
                 value: "\(profile.preferredWorkStartHour):00 - \(profile.preferredWorkEndHour):00"
             )
         }
         .padding(Spacing.lg)
-        .background(Color.white)
+        .background(Color.cardBackground)
         .cornerRadius(CornerRadius.lg)
         .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
     }
@@ -182,6 +352,8 @@ struct ProfileView: View {
         }
         .padding(.vertical, Spacing.sm)
     }
+
+    // MARK: - API Key Section
 
     private func apiKeySection(_ profile: UserProfile) -> some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
@@ -212,7 +384,7 @@ struct ProfileView: View {
                 Spacer()
 
                 Button(profile.claudeAPIKey != nil ? "Update" : "Add") {
-                    // TODO: Show API key input sheet
+                    showAPIKeySheet = true
                 }
                 .font(.captionBold)
                 .foregroundColor(.deepOcean)
@@ -223,10 +395,96 @@ struct ProfileView: View {
                 .foregroundColor(.mutedText)
         }
         .padding(Spacing.lg)
-        .background(Color.white)
+        .background(Color.cardBackground)
         .cornerRadius(CornerRadius.lg)
         .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
     }
+
+    // MARK: - Danger Zone
+
+    private var dangerZoneSection: some View {
+        VStack(alignment: .leading, spacing: Spacing.md) {
+            HStack {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundColor(.coralAlert)
+                Text("Data")
+                    .font(.title3)
+                    .foregroundColor(.deepText)
+                Spacer()
+            }
+
+            Button(action: {}) {
+                HStack {
+                    Text("Export Data")
+                        .font(.bodyMedium)
+                    Spacer()
+                    Image(systemName: "square.and.arrow.up")
+                }
+                .foregroundColor(.deepOcean)
+            }
+            .padding(.vertical, Spacing.sm)
+
+            Button(action: {}) {
+                HStack {
+                    Text("Clear All Data")
+                        .font(.bodyMedium)
+                    Spacer()
+                    Image(systemName: "trash")
+                }
+                .foregroundColor(.coralAlert)
+            }
+            .padding(.vertical, Spacing.sm)
+        }
+        .padding(Spacing.lg)
+        .background(Color.cardBackground)
+        .cornerRadius(CornerRadius.lg)
+        .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+    }
+
+    // MARK: - API Key Sheet
+
+    private var apiKeyInputSheet: some View {
+        NavigationStack {
+            VStack(spacing: Spacing.lg) {
+                Text("Enter your Claude API key from Anthropic Console")
+                    .font(.bodyMedium)
+                    .foregroundColor(.mutedText)
+                    .multilineTextAlignment(.center)
+
+                SecureField("sk-ant-...", text: $apiKeyInput)
+                    .textFieldStyle(.roundedBorder)
+                    .autocapitalization(.none)
+                    .autocorrectionDisabled()
+
+                Button(action: saveAPIKey) {
+                    Text("Save")
+                        .font(.bodyLargeBold)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(Spacing.md)
+                        .background(apiKeyInput.isEmpty ? Color.mistGray : Color.deepOcean)
+                        .cornerRadius(CornerRadius.lg)
+                }
+                .disabled(apiKeyInput.isEmpty)
+
+                Spacer()
+            }
+            .padding(Spacing.lg)
+            .navigationTitle("API Key")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") {
+                        showAPIKeySheet = false
+                        apiKeyInput = ""
+                    }
+                }
+            }
+        }
+        .presentationDetents([.medium])
+    }
+
+    // MARK: - Create Profile
 
     private var createProfilePrompt: some View {
         VStack(spacing: Spacing.lg) {
@@ -255,9 +513,59 @@ struct ProfileView: View {
         .padding(Spacing.xl)
     }
 
+    // MARK: - Actions
+
     private func createProfile() {
         let profile = UserProfile()
+        profile.initializeGamification()
         modelContext.insert(profile)
+    }
+
+    private func saveAPIKey() {
+        guard let profile = profile else { return }
+        do {
+            try KeychainHelper.save(key: "claude_api_key", value: apiKeyInput)
+            profile.claudeAPIKey = "configured"
+            showAPIKeySheet = false
+            apiKeyInput = ""
+        } catch {
+            // Handle keychain error - could show alert
+            print("Failed to save API key: \(error)")
+        }
+    }
+
+    private func requestNotificationPermission() {
+        Task {
+            let granted = await NotificationService.shared.requestPermission()
+            if granted {
+                await NotificationService.shared.registerNotificationCategories()
+                notificationStatus = .authorized
+            } else {
+                notificationStatus = .denied
+            }
+        }
+    }
+
+    private func updateNotifications() async {
+        let settings = notificationSettings
+
+        if settings.dailyReminderEnabled {
+            try? await NotificationService.shared.scheduleDailyContractReminder(
+                at: settings.dailyReminderHour,
+                minute: settings.dailyReminderMinute
+            )
+        } else {
+            await NotificationService.shared.cancelDailyContractReminder()
+        }
+
+        if settings.streakReminderEnabled, let profile = profile, profile.currentStreak > 0 {
+            try? await NotificationService.shared.scheduleStreakReminder(
+                currentStreak: profile.currentStreak,
+                at: settings.streakReminderHour
+            )
+        } else {
+            await NotificationService.shared.cancelStreakReminder()
+        }
     }
 }
 
