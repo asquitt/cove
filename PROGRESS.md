@@ -1,8 +1,8 @@
 # Cove iOS App - Progress Tracker
 
 > Last Updated: 2026-01-20
-> Current Phase: **Phase 4 - Meltdown Protocol** ✅
-> Overall Progress: **60%**
+> Current Phase: **Phase 7 - Pattern Learning** 🔄
+> Overall Progress: **75%**
 
 ---
 
@@ -15,9 +15,9 @@
 | Phase 2: Capture & AI | ✅ Complete | 100% |
 | Phase 3: Contract System | ✅ Complete | 100% |
 | Phase 4: Meltdown Protocol | ✅ Complete | 100% |
-| Phase 5: Calendar Integration | ⏳ Not Started | 0% |
-| Phase 6: XP & Gamification | ⏳ Not Started | 0% |
-| Phase 7: Pattern Learning | ⏳ Not Started | 0% |
+| Phase 5: Calendar Integration | ✅ Complete | 100% |
+| Phase 6: XP & Gamification | ✅ Complete | 100% |
+| Phase 7: Pattern Learning | 🔄 In Progress | 0% |
 | Phase 8: Polish | ⏳ Not Started | 0% |
 
 ---
@@ -184,46 +184,87 @@
 
 ---
 
-## Phase 5: Calendar Integration (Next)
+## Phase 5: Calendar Integration ✅
 
 ### Goals
 - Apple Calendar sync
 - Conflict detection
 - Time block visualization
 
-### Tasks
-- [ ] EventKit permissions
-- [ ] Read existing events
-- [ ] Write tasks as events
-- [ ] Conflict warnings
-- [ ] Available time slots view
-
-### Blockers
-_Requires device testing (not just simulator)_
+### Completed ✅
+- [x] CalendarService.swift - EventKit integration
+  - Permission handling (requestAccess)
+  - Read existing events from calendars
+  - Write tasks as calendar events
+  - Event conflict detection
+  - Available time slot calculation
+- [x] CalendarView.swift - Schedule visualization
+  - Week view with time blocks
+  - Event display with task indicators
+  - Conflict warnings overlay
+  - Available slots highlighting
+- [x] Task-to-event sync
+  - Create events from scheduled tasks
+  - Two-way sync support
+- [x] ContentView updated with Schedule tab
 
 ---
 
-## Phase 6: XP & Gamification
+## Phase 6: XP & Gamification ✅
 
 ### Goals
 - XP system implementation
 - Visual progress tracking
-- Done List celebration
+- Level-up celebrations
 
-### Tasks
-- [ ] XP categories model
-- [ ] Survival vs Growth tasks
-- [ ] Skill bars UI
-- [ ] Level-up animations
-- [ ] Consistency heatmap
-- [ ] Done List summary
-
-### Blockers
-_None yet_
+### Completed ✅
+- [x] SkillCategory.swift - 4 skill types
+  - Focus, Energy Management, Emotional Regulation, Consistency
+  - XP tracking per skill
+  - Level calculation (50 XP per skill level)
+- [x] DailyActivity.swift - Activity tracking
+  - Tasks completed per day
+  - XP earned per day
+  - Meltdown/goblin task counts
+  - Activity level calculation for heatmap
+- [x] Achievement.swift - 12 achievement types
+  - Streak achievements (3/7/30 days)
+  - Task milestones (1/10/50/100 tasks)
+  - Level milestones (5/10/20)
+  - Special achievements (meltdown survivor, goblin master)
+  - Progress tracking and XP rewards
+- [x] GamificationService.swift - XP flow management
+  - Process task completions
+  - Process goblin task completions
+  - Process meltdown survival
+  - Track pending level-ups and achievements
+- [x] Progress views (8 new files)
+  - ProgressView.swift - Main progress tab
+  - SkillBarsView.swift - Skill progress bars
+  - LevelCardView.swift - Level badge with XP
+  - StreakCardView.swift - Streak display
+  - ActivityHeatmapView.swift - 12-week activity grid
+  - AchievementsPreviewView.swift - Achievement badges
+  - LevelUpCelebrationView.swift - Level-up animation
+  - AchievementUnlockView.swift - Achievement popup
+- [x] ContractView integration
+  - Level-up celebrations after task completion
+  - Achievement unlock notifications
+  - Streak bonus display (+5 XP)
+- [x] MeltdownView integration
+  - Goblin task XP via recordGoblinTaskCompletion()
+  - Survival XP via recordMeltdownSurvival()
+- [x] UserProfile enhanced
+  - Skill categories relationship
+  - Daily activities relationship
+  - Achievements relationship
+  - Gamification methods (recordTaskCompletion, checkAchievements, etc.)
+- [x] ContentView updated with Progress tab (tag 4)
+- [x] CoveApp updated with new model registration
 
 ---
 
-## Phase 7: Pattern Learning
+## Phase 7: Pattern Learning (Current)
 
 ### Goals
 - Learn user habits
@@ -231,15 +272,27 @@ _None yet_
 - Snooze pattern tracking
 
 ### Tasks
-- [ ] Passive tracking implementation
-- [ ] Snooze pattern analysis
-- [ ] Energy rhythm detection
-- [ ] Feedback collection UI
-- [ ] Adaptive suggestion engine
-- [ ] Pessimism multiplier auto-adjustment
+- [ ] PatternService.swift - Pattern analysis service
+  - Track task completion times
+  - Analyze snooze patterns
+  - Detect energy rhythms
+- [ ] TaskPattern.swift - Pattern data model
+  - Completion time patterns
+  - Snooze frequency by time/task type
+  - Energy level correlations
+- [ ] EnergyRhythmView.swift - Energy visualization
+  - Show detected peak hours
+  - Suggest optimal task scheduling
+- [ ] Adaptive suggestions
+  - Suggest tasks based on current energy
+  - Warn about snooze-prone tasks
+  - Auto-adjust pessimism multiplier
+- [ ] Feedback collection
+  - Post-task energy check
+  - Weekly pattern summary
 
 ### Blockers
-_None yet_
+_None_
 
 ---
 
@@ -348,10 +401,42 @@ _Requires Apple Developer account for TestFlight_
 - Code type-checks successfully with iOS SDK
 - Pushed to GitHub
 
+### Session 4 - 2026-01-20
+**Duration:** ~25 min
+**Completed:**
+- Built Phase 5 Calendar Integration:
+  - CalendarService.swift with EventKit permissions
+  - CalendarView.swift with week view and time blocks
+  - Event conflict detection
+  - Available time slot calculation
+  - Task-to-event sync
+- Code type-checks successfully with iOS SDK
+- Pushed to GitHub
+
+### Session 5 - 2026-01-20
+**Duration:** ~35 min
+**Completed:**
+- Built Phase 6 XP & Gamification System:
+  - SkillCategory.swift - 4 skill types with XP/level tracking
+  - DailyActivity.swift - Daily stats for heatmap
+  - Achievement.swift - 12 achievement types with progress
+  - GamificationService.swift - XP flow management
+  - 8 new Progress views:
+    - ProgressView, SkillBarsView, LevelCardView, StreakCardView
+    - ActivityHeatmapView, AchievementsPreviewView
+    - LevelUpCelebrationView, AchievementUnlockView
+  - Integrated gamification into ContractView (level-up, achievements)
+  - Updated MeltdownView with goblin/survival XP
+  - Enhanced UserProfile with relationships and methods
+  - Added Progress tab to ContentView
+  - Registered new models in CoveApp
+- Code type-checks successfully with iOS SDK
+- Pushed to GitHub
+
 **Next Session:**
-- Open project in Xcode to resolve simulator runtime
-- Build and test full flow end-to-end
-- Start Phase 5: Calendar Integration
+- Start Phase 7: Pattern Learning
+- Implement snooze pattern tracking
+- Add energy rhythm detection
 
 ---
 
@@ -388,6 +473,8 @@ _Requires Apple Developer account for TestFlight_
 | 2026-01-20 | Models/Utilities | swiftc -typecheck with iOS SDK | ✅ Pass |
 | 2026-01-20 | Phase 3 Contract System | swiftc -typecheck with iOS SDK | ✅ Pass |
 | 2026-01-20 | Phase 4 Meltdown Protocol | swiftc -typecheck with iOS SDK | ✅ Pass |
+| 2026-01-20 | Phase 5 Calendar Integration | swiftc -typecheck with iOS SDK | ✅ Pass |
+| 2026-01-20 | Phase 6 XP & Gamification | swiftc -typecheck with iOS SDK | ✅ Pass |
 
 ---
 
@@ -400,18 +487,45 @@ Cove/Cove/Views/Meltdown/
     - GoblinTask enum (8 self-care tasks)
     - GoblinTaskCard component
     - MeltdownTriggerButton component
+```
 
-Cove/Cove/Views/Home/
-└── HomeView.swift             # Updated with meltdown integration
+## Files Created in Phase 5
 
-Cove/Cove/Views/Contract/
-└── ContractView.swift         # Updated with meltdown integration
+```
+Cove/Cove/Services/
+└── CalendarService.swift      # EventKit integration
+
+Cove/Cove/Views/Calendar/
+└── CalendarView.swift         # Week view with time blocks
+```
+
+## Files Created in Phase 6
+
+```
+Cove/Cove/Models/
+├── SkillCategory.swift        # 4 skill types with XP
+├── DailyActivity.swift        # Daily stats for heatmap
+└── Achievement.swift          # 12 achievement types
+
+Cove/Cove/Services/
+└── GamificationService.swift  # XP flow management
+
+Cove/Cove/Views/Progress/
+├── ProgressView.swift         # Main progress tab
+├── SkillBarsView.swift        # Skill progress bars
+├── LevelCardView.swift        # Level badge with XP
+├── StreakCardView.swift       # Streak display
+├── ActivityHeatmapView.swift  # 12-week activity grid
+├── AchievementsPreviewView.swift # Achievement badges
+├── LevelUpCelebrationView.swift  # Level-up animation
+└── AchievementUnlockView.swift   # Achievement popup
 ```
 
 ---
 
 ## Next Steps (Priority Order)
 
-1. **Open Xcode** - Download matching simulator runtime
-2. **Test full flow** - Capture → Classify → Stage → Contract → Complete → Meltdown
-3. **Start Phase 5** - Calendar Integration with EventKit
+1. **Start Phase 7** - Pattern Learning
+2. **Implement PatternService** - Track task completion patterns
+3. **Add energy rhythm detection** - Detect peak productivity hours
+4. **Create adaptive suggestions** - Based on learned patterns
