@@ -40,8 +40,29 @@ actor ClaudeAIService {
         }
     }
 
+    // MARK: - Input Validation
+    private static let maxInputLength = 5000
+
+    private func validateInput(_ text: String) throws -> String {
+        // Check for empty or whitespace-only input
+        let trimmedText = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedText.isEmpty else {
+            throw ClaudeError.emptyInput
+        }
+
+        // Check for maximum length
+        guard trimmedText.count <= Self.maxInputLength else {
+            throw ClaudeError.inputTooLong
+        }
+
+        return trimmedText
+    }
+
     // MARK: - Classification
     func classifyInput(_ text: String) async throws -> ClassificationResult {
+        // Validate input before making API call
+        let validatedText = try validateInput(text)
+
         let systemPrompt = """
         You are an ADHD-friendly task assistant. Classify user input into one of three buckets:
 
@@ -66,7 +87,7 @@ actor ClaudeAIService {
         }
         """
 
-        let userPrompt = "Classify this input: \"\(text)\""
+        let userPrompt = "Classify this input: \"\(validatedText)\""
 
         let responseText = try await sendMessage(
             prompt: userPrompt,
@@ -219,11 +240,14 @@ struct TaskSuggestion: Codable {
 enum ClaudeError: LocalizedError {
     case apiKeyMissing
     case invalidAPIKey
+    case invalidAPIKeyFormat
     case invalidResponse
     case apiError(statusCode: Int)
     case emptyResponse
     case rateLimited
     case parsingFailed
+    case inputTooLong
+    case emptyInput
 
     var errorDescription: String? {
         switch self {
@@ -231,6 +255,8 @@ enum ClaudeError: LocalizedError {
             return "Please add your Claude API key in Settings"
         case .invalidAPIKey:
             return "Invalid API key. Please check your settings."
+        case .invalidAPIKeyFormat:
+            return "API key format is invalid. It should start with 'sk-ant-'"
         case .invalidResponse:
             return "Invalid response from Claude API"
         case .apiError(let code):
@@ -241,6 +267,10 @@ enum ClaudeError: LocalizedError {
             return "Rate limited. Please try again later."
         case .parsingFailed:
             return "Failed to parse AI response"
+        case .inputTooLong:
+            return "Input is too long. Please keep it under 5000 characters."
+        case .emptyInput:
+            return "Please enter some text to classify"
         }
     }
 }

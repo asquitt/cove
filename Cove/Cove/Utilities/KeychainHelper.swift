@@ -19,6 +19,8 @@ enum KeychainHelper {
 
         var newItem = query
         newItem[kSecValueData as String] = data
+        // Ensure key is only accessible when device is unlocked and not included in backups
+        newItem[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
 
         let status = SecItemAdd(newItem as CFDictionary, nil)
 
@@ -63,6 +65,12 @@ enum KeychainHelper {
     // MARK: - Exists
     static func exists(key: String) -> Bool {
         load(key: key) != nil
+    }
+
+    // MARK: - Claude API Key Validation
+    static func isValidClaudeAPIKeyFormat(_ key: String) -> Bool {
+        // Claude API keys start with "sk-ant-" and are at least 32 characters
+        return key.hasPrefix("sk-ant-") && key.count >= 32
     }
 }
 

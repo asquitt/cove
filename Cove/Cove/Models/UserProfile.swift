@@ -10,7 +10,6 @@ final class UserProfile {
     var preferredWorkEndHour: Int
     var energyPattern: EnergyPattern
     var hasCompletedOnboarding: Bool
-    var claudeAPIKey: String?
     var createdAt: Date
     var totalTasksCompleted: Int
     var totalXPEarned: Int
@@ -41,7 +40,6 @@ final class UserProfile {
         self.preferredWorkEndHour = 17
         self.energyPattern = .morningPerson
         self.hasCompletedOnboarding = false
-        self.claudeAPIKey = nil
         self.createdAt = Date()
         self.totalTasksCompleted = 0
         self.totalXPEarned = 0

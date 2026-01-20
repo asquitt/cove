@@ -9,6 +9,7 @@ struct ProfileView: View {
     @AppStorage("preferredColorScheme") private var preferredColorScheme: String = "system"
     @State private var showAPIKeySheet = false
     @State private var apiKeyInput = ""
+    @State private var apiKeyError: String?
     @State private var notificationStatus: UNAuthorizationStatus = .notDetermined
 
     private var profile: UserProfile? {
@@ -355,6 +356,10 @@ struct ProfileView: View {
 
     // MARK: - API Key Section
 
+    private var hasAPIKey: Bool {
+        KeychainHelper.exists(key: Constants.claudeAPIKeyKey)
+    }
+
     private func apiKeySection(_ profile: UserProfile) -> some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             HStack {
@@ -367,7 +372,7 @@ struct ProfileView: View {
             }
 
             HStack {
-                if profile.claudeAPIKey != nil {
+                if hasAPIKey {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.zenGreen)
                     Text("API Key configured")
@@ -383,7 +388,7 @@ struct ProfileView: View {
 
                 Spacer()
 
-                Button(profile.claudeAPIKey != nil ? "Update" : "Add") {
+                Button(hasAPIKey ? "Update" : "Add") {
                     showAPIKeySheet = true
                 }
                 .font(.captionBold)
@@ -456,6 +461,13 @@ struct ProfileView: View {
                     .autocapitalization(.none)
                     .autocorrectionDisabled()
 
+                if let error = apiKeyError {
+                    Text(error)
+                        .font(.caption)
+                        .foregroundColor(.coralAlert)
+                        .multilineTextAlignment(.center)
+                }
+
                 Button(action: saveAPIKey) {
                     Text("Save")
                         .font(.bodyLargeBold)
@@ -477,6 +489,7 @@ struct ProfileView: View {
                     Button("Cancel") {
                         showAPIKeySheet = false
                         apiKeyInput = ""
+                        apiKeyError = nil
                     }
                 }
             }
@@ -522,15 +535,21 @@ struct ProfileView: View {
     }
 
     private func saveAPIKey() {
-        guard let profile = profile else { return }
+        guard profile != nil else { return }
+
+        // Validate API key format
+        guard KeychainHelper.isValidClaudeAPIKeyFormat(apiKeyInput) else {
+            apiKeyError = "Invalid API key format. Keys should start with 'sk-ant-' and be at least 32 characters."
+            return
+        }
+
         do {
-            try KeychainHelper.save(key: "claude_api_key", value: apiKeyInput)
-            profile.claudeAPIKey = "configured"
+            try KeychainHelper.save(key: Constants.claudeAPIKeyKey, value: apiKeyInput)
             showAPIKeySheet = false
             apiKeyInput = ""
+            apiKeyError = nil
         } catch {
-            // Handle keychain error - could show alert
-            print("Failed to save API key: \(error)")
+            apiKeyError = "Failed to save API key securely"
         }
     }
 

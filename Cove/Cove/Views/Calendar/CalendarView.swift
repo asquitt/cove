@@ -305,17 +305,16 @@ struct CalendarView: View {
 
         Task {
             do {
-                let eventId = try await calendarService.createEvent(for: task, at: date)
-                print("Created calendar event: \(eventId)")
+                _ = try await calendarService.createEvent(for: task, at: date)
             } catch {
-                print("Failed to create calendar event: \(error)")
+                // Calendar event creation failed - task is still scheduled locally
             }
         }
 
         do {
             try modelContext.save()
         } catch {
-            print("Failed to save task: \(error)")
+            // Failed to persist task schedule
         }
     }
 }
