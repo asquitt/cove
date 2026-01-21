@@ -62,7 +62,6 @@
 		A1000054 /* ObsidianSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000054 /* ObsidianSettingsView.swift */; };
 		A1000055 /* ShareExtensionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000055 /* ShareExtensionService.swift */; };
 		A1000056 /* SharedInputsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000056 /* SharedInputsView.swift */; };
-		A1000057 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000057 /* ShareViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -123,9 +122,6 @@
 		A2000054 /* ObsidianSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObsidianSettingsView.swift; sourceTree = "<group>"; };
 		A2000055 /* ShareExtensionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareExtensionService.swift; sourceTree = "<group>"; };
 		A2000056 /* SharedInputsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedInputsView.swift; sourceTree = "<group>"; };
-		A2000057 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = CoveShareExtension/ShareViewController.swift; sourceTree = SOURCE_ROOT; };
-		A2000058 /* CoveShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CoveShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		A2000059 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = CoveShareExtension/Info.plist; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,57 +196,6 @@
 				A4000011 /* Components */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		A400000D /* Meltdown */ = {
-			isa = PBXGroup;
-			children = (
-				A2000022 /* MeltdownView.swift */,
-				A2000041 /* BailOutView.swift */,
-			);
-			path = Meltdown;
-			sourceTree = "<group>";
-		};
-		A400000E /* Intents */ = {
-			isa = PBXGroup;
-			children = (
-				A2000046 /* CoveAppIntents.swift */,
-			);
-			path = Intents;
-			sourceTree = "<group>";
-		};
-		A400000F /* Calendar */ = {
-			isa = PBXGroup;
-			children = (
-				A2000031 /* CalendarView.swift */,
-			);
-			path = Calendar;
-			sourceTree = "<group>";
-		};
-		A4000010 /* Progress */ = {
-			isa = PBXGroup;
-			children = (
-				A2000032 /* ProgressView.swift */,
-				A2000033 /* SkillBarsView.swift */,
-				A2000034 /* StreakCardView.swift */,
-				A2000035 /* ActivityHeatmapView.swift */,
-				A2000036 /* EnergyRhythmView.swift */,
-				A2000037 /* LevelCardView.swift */,
-				A2000038 /* LevelUpCelebrationView.swift */,
-				A2000039 /* AchievementsPreviewView.swift */,
-				A2000040 /* AchievementUnlockView.swift */,
-				A2000048 /* EnergyInsightsView.swift */,
-				A2000050 /* ColdStorageView.swift */,
-			);
-			path = Progress;
-			sourceTree = "<group>";
-		};
-		A4000011 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				A2000045 /* AICompanionView.swift */,
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		A4000005 /* Home */ = {
@@ -338,6 +283,57 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		A400000D /* Meltdown */ = {
+			isa = PBXGroup;
+			children = (
+				A2000022 /* MeltdownView.swift */,
+				A2000041 /* BailOutView.swift */,
+			);
+			path = Meltdown;
+			sourceTree = "<group>";
+		};
+		A400000E /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				A2000046 /* CoveAppIntents.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
+		A400000F /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				A2000031 /* CalendarView.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		A4000010 /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				A2000032 /* ProgressView.swift */,
+				A2000033 /* SkillBarsView.swift */,
+				A2000034 /* StreakCardView.swift */,
+				A2000035 /* ActivityHeatmapView.swift */,
+				A2000036 /* EnergyRhythmView.swift */,
+				A2000037 /* LevelCardView.swift */,
+				A2000038 /* LevelUpCelebrationView.swift */,
+				A2000039 /* AchievementsPreviewView.swift */,
+				A2000040 /* AchievementUnlockView.swift */,
+				A2000048 /* EnergyInsightsView.swift */,
+				A2000050 /* ColdStorageView.swift */,
+			);
+			path = Progress;
+			sourceTree = "<group>";
+		};
+		A4000011 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A2000045 /* AICompanionView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -366,7 +362,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					A5000001 = {
 						CreatedOnToolsVersion = 15.0;
@@ -525,6 +521,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -581,6 +578,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
