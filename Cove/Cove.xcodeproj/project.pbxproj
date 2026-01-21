@@ -60,6 +60,9 @@
 		A1000052 /* GoogleCalendarSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000052 /* GoogleCalendarSettingsView.swift */; };
 		A1000053 /* ObsidianService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000053 /* ObsidianService.swift */; };
 		A1000054 /* ObsidianSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000054 /* ObsidianSettingsView.swift */; };
+		A1000055 /* ShareExtensionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000055 /* ShareExtensionService.swift */; };
+		A1000056 /* SharedInputsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000056 /* SharedInputsView.swift */; };
+		A1000057 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000057 /* ShareViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +121,11 @@
 		A2000052 /* GoogleCalendarSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarSettingsView.swift; sourceTree = "<group>"; };
 		A2000053 /* ObsidianService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObsidianService.swift; sourceTree = "<group>"; };
 		A2000054 /* ObsidianSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObsidianSettingsView.swift; sourceTree = "<group>"; };
+		A2000055 /* ShareExtensionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareExtensionService.swift; sourceTree = "<group>"; };
+		A2000056 /* SharedInputsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedInputsView.swift; sourceTree = "<group>"; };
+		A2000057 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ShareViewController.swift; path = CoveShareExtension/ShareViewController.swift; sourceTree = SOURCE_ROOT; };
+		A2000058 /* CoveShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CoveShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2000059 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = CoveShareExtension/Info.plist; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +267,7 @@
 				A2000011 /* CaptureView.swift */,
 				A2000018 /* StagingAreaView.swift */,
 				A2000043 /* RemindersImportView.swift */,
+				A2000056 /* SharedInputsView.swift */,
 			);
 			path = Capture;
 			sourceTree = "<group>";
@@ -305,6 +314,7 @@
 				A2000049 /* ColdStorageService.swift */,
 				A2000051 /* GoogleCalendarService.swift */,
 				A2000053 /* ObsidianService.swift */,
+				A2000055 /* ShareExtensionService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -449,6 +459,8 @@
 				A1000052 /* GoogleCalendarSettingsView.swift in Sources */,
 				A1000053 /* ObsidianService.swift in Sources */,
 				A1000054 /* ObsidianSettingsView.swift in Sources */,
+				A1000055 /* ShareExtensionService.swift in Sources */,
+				A1000056 /* SharedInputsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
