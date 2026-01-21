@@ -11,6 +11,9 @@ struct StagingAreaView: View {
     }
 
     @State private var selectedCapture: CapturedInput?
+    @State private var calendarService = CalendarService()
+    @State private var scheduledTaskMessage: String?
+    @State private var showScheduledToast = false
 
     var body: some View {
         NavigationStack {
@@ -24,7 +27,32 @@ struct StagingAreaView: View {
             .navigationTitle("Review")
             .navigationBarTitleDisplayMode(.inline)
             .background(Color.cloudWhite)
+            .overlay(alignment: .top) {
+                if showScheduledToast, let message = scheduledTaskMessage {
+                    scheduledToast(message)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                }
+            }
+            .task {
+                _ = await calendarService.requestAccess()
+            }
         }
+    }
+
+    private func scheduledToast(_ message: String) -> some View {
+        HStack(spacing: Spacing.sm) {
+            Image(systemName: "calendar.badge.checkmark")
+                .foregroundColor(.zenGreen)
+            Text(message)
+                .font(.caption)
+                .foregroundColor(.deepText)
+        }
+        .padding(.horizontal, Spacing.lg)
+        .padding(.vertical, Spacing.md)
+        .background(Color.white)
+        .cornerRadius(CornerRadius.lg)
+        .shadow(color: .black.opacity(0.1), radius: 8, y: 4)
+        .padding(.top, Spacing.lg)
     }
 
     private var emptyState: some View {
@@ -79,6 +107,10 @@ struct StagingAreaView: View {
            let data = responseJSON.data(using: .utf8),
            let result = try? JSONDecoder().decode(ClassificationResult.self, from: data),
            let tasks = result.tasks {
+
+            var scheduledCount = 0
+            var lastScheduledTime: Date?
+
             for suggestion in tasks {
                 let task = CoveTask(
                     title: suggestion.title,
@@ -88,6 +120,47 @@ struct StagingAreaView: View {
                 )
                 modelContext.insert(task)
                 capture.generatedTasks.append(task)
+
+                // Auto-schedule to calendar if access granted
+                if calendarService.hasCalendarAccess {
+                    if let suggestedTime = calendarService.suggestTime(for: task, on: Date()) {
+                        Task {
+                            do {
+                                _ = try await calendarService.createEvent(for: task, at: suggestedTime)
+                                await MainActor.run {
+                                    task.scheduledFor = suggestedTime
+                                }
+                            } catch {
+                                print("Failed to schedule task: \(error)")
+                            }
+                        }
+                        scheduledCount += 1
+                        lastScheduledTime = suggestedTime
+                    }
+                }
+            }
+
+            // Show toast if tasks were scheduled
+            if scheduledCount > 0, let time = lastScheduledTime {
+                let formatter = DateFormatter()
+                formatter.timeStyle = .short
+                let timeStr = formatter.string(from: time)
+
+                withAnimation(.spring(response: 0.3)) {
+                    if scheduledCount == 1 {
+                        scheduledTaskMessage = "Task scheduled for \(timeStr)"
+                    } else {
+                        scheduledTaskMessage = "\(scheduledCount) tasks scheduled starting \(timeStr)"
+                    }
+                    showScheduledToast = true
+                }
+
+                // Hide toast after 3 seconds
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    withAnimation(.spring(response: 0.3)) {
+                        showScheduledToast = false
+                    }
+                }
             }
         }
     }
