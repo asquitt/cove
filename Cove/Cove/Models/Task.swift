@@ -17,6 +17,8 @@ final class CoveTask {
     var completedAt: Date?
     var scheduledFor: Date?
     var snoozeCount: Int
+    var ignoreCount: Int
+    var archivedAt: Date?
     var xpValue: Int
 
     @Relationship(deleteRule: .nullify, inverse: \DailyContract.tasks)
@@ -47,6 +49,8 @@ final class CoveTask {
         self.completedAt = nil
         self.scheduledFor = scheduledFor
         self.snoozeCount = 0
+        self.ignoreCount = 0
+        self.archivedAt = nil
         self.xpValue = Self.calculateXP(interest: interestLevel, energy: energyRequired)
     }
 
@@ -61,6 +65,35 @@ final class CoveTask {
     func snooze() {
         snoozeCount += 1
         status = .snoozed
+    }
+
+    func ignore() {
+        ignoreCount += 1
+    }
+
+    /// Whether this task should be suggested for cold storage (ignored 3+ times)
+    var shouldSuggestColdStorage: Bool {
+        ignoreCount >= 3 && status != .coldStorage && status != .completed
+    }
+
+    /// Move task to cold storage (Someday list)
+    func moveToColdStorage() {
+        status = .coldStorage
+        archivedAt = Date()
+        contract = nil
+    }
+
+    /// Revive task from cold storage
+    func revive() {
+        status = .pending
+        ignoreCount = 0
+        archivedAt = nil
+    }
+
+    /// Time since archived (for revival suggestions)
+    var timeSinceArchived: TimeInterval? {
+        guard let archived = archivedAt else { return nil }
+        return Date().timeIntervalSince(archived)
     }
 
     private static func calculateXP(interest: InterestLevel, energy: EnergyLevel) -> Int {
@@ -111,6 +144,7 @@ enum TaskStatus: String, Codable, CaseIterable {
     case completed
     case snoozed
     case cancelled
+    case coldStorage
 
     var displayName: String {
         switch self {
@@ -119,6 +153,7 @@ enum TaskStatus: String, Codable, CaseIterable {
         case .completed: return "Done"
         case .snoozed: return "Snoozed"
         case .cancelled: return "Cancelled"
+        case .coldStorage: return "Someday"
         }
     }
 }

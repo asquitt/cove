@@ -28,6 +28,38 @@
 		A1000019 /* ContractViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000020 /* ContractViewModel.swift */; };
 		A1000020 /* TaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000021 /* TaskCardView.swift */; };
 		A1000021 /* MeltdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000022 /* MeltdownView.swift */; };
+		A1000023 /* SkillCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000023 /* SkillCategory.swift */; };
+		A1000024 /* DailyActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000024 /* DailyActivity.swift */; };
+		A1000025 /* Achievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000025 /* Achievement.swift */; };
+		A1000026 /* TaskPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000026 /* TaskPattern.swift */; };
+		A1000027 /* CalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000027 /* CalendarService.swift */; };
+		A1000028 /* GamificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000028 /* GamificationService.swift */; };
+		A1000029 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000029 /* NotificationService.swift */; };
+		A1000030 /* PatternService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000030 /* PatternService.swift */; };
+		A1000031 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000031 /* CalendarView.swift */; };
+		A1000032 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000032 /* ProgressView.swift */; };
+		A1000033 /* SkillBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000033 /* SkillBarsView.swift */; };
+		A1000034 /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000034 /* StreakCardView.swift */; };
+		A1000035 /* ActivityHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000035 /* ActivityHeatmapView.swift */; };
+		A1000036 /* EnergyRhythmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000036 /* EnergyRhythmView.swift */; };
+		A1000037 /* LevelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000037 /* LevelCardView.swift */; };
+		A1000038 /* LevelUpCelebrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000038 /* LevelUpCelebrationView.swift */; };
+		A1000039 /* AchievementsPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000039 /* AchievementsPreviewView.swift */; };
+		A1000040 /* AchievementUnlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000040 /* AchievementUnlockView.swift */; };
+		A1000041 /* BailOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000041 /* BailOutView.swift */; };
+		A1000042 /* RemindersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000042 /* RemindersService.swift */; };
+		A1000043 /* RemindersImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000043 /* RemindersImportView.swift */; };
+		A1000044 /* PIIRedactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000044 /* PIIRedactionService.swift */; };
+		A1000045 /* AICompanionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000045 /* AICompanionView.swift */; };
+		A1000046 /* CoveAppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000046 /* CoveAppIntents.swift */; };
+		A1000047 /* HealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000047 /* HealthService.swift */; };
+		A1000048 /* EnergyInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000048 /* EnergyInsightsView.swift */; };
+		A1000049 /* ColdStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000049 /* ColdStorageService.swift */; };
+		A1000050 /* ColdStorageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000050 /* ColdStorageView.swift */; };
+		A1000051 /* GoogleCalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000051 /* GoogleCalendarService.swift */; };
+		A1000052 /* GoogleCalendarSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000052 /* GoogleCalendarSettingsView.swift */; };
+		A1000053 /* ObsidianService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000053 /* ObsidianService.swift */; };
+		A1000054 /* ObsidianSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000054 /* ObsidianSettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +86,38 @@
 		A2000020 /* ContractViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractViewModel.swift; sourceTree = "<group>"; };
 		A2000021 /* TaskCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCardView.swift; sourceTree = "<group>"; };
 		A2000022 /* MeltdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeltdownView.swift; sourceTree = "<group>"; };
+		A2000023 /* SkillCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillCategory.swift; sourceTree = "<group>"; };
+		A2000024 /* DailyActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyActivity.swift; sourceTree = "<group>"; };
+		A2000025 /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
+		A2000026 /* TaskPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPattern.swift; sourceTree = "<group>"; };
+		A2000027 /* CalendarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarService.swift; sourceTree = "<group>"; };
+		A2000028 /* GamificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamificationService.swift; sourceTree = "<group>"; };
+		A2000029 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		A2000030 /* PatternService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternService.swift; sourceTree = "<group>"; };
+		A2000031 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		A2000032 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		A2000033 /* SkillBarsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillBarsView.swift; sourceTree = "<group>"; };
+		A2000034 /* StreakCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakCardView.swift; sourceTree = "<group>"; };
+		A2000035 /* ActivityHeatmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityHeatmapView.swift; sourceTree = "<group>"; };
+		A2000036 /* EnergyRhythmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyRhythmView.swift; sourceTree = "<group>"; };
+		A2000037 /* LevelCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelCardView.swift; sourceTree = "<group>"; };
+		A2000038 /* LevelUpCelebrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUpCelebrationView.swift; sourceTree = "<group>"; };
+		A2000039 /* AchievementsPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsPreviewView.swift; sourceTree = "<group>"; };
+		A2000040 /* AchievementUnlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementUnlockView.swift; sourceTree = "<group>"; };
+		A2000041 /* BailOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BailOutView.swift; sourceTree = "<group>"; };
+		A2000042 /* RemindersService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersService.swift; sourceTree = "<group>"; };
+		A2000043 /* RemindersImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersImportView.swift; sourceTree = "<group>"; };
+		A2000044 /* PIIRedactionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIIRedactionService.swift; sourceTree = "<group>"; };
+		A2000045 /* AICompanionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AICompanionView.swift; sourceTree = "<group>"; };
+		A2000046 /* CoveAppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoveAppIntents.swift; sourceTree = "<group>"; };
+		A2000047 /* HealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthService.swift; sourceTree = "<group>"; };
+		A2000048 /* EnergyInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyInsightsView.swift; sourceTree = "<group>"; };
+		A2000049 /* ColdStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColdStorageService.swift; sourceTree = "<group>"; };
+		A2000050 /* ColdStorageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColdStorageView.swift; sourceTree = "<group>"; };
+		A2000051 /* GoogleCalendarService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarService.swift; sourceTree = "<group>"; };
+		A2000052 /* GoogleCalendarSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarSettingsView.swift; sourceTree = "<group>"; };
+		A2000053 /* ObsidianService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObsidianService.swift; sourceTree = "<group>"; };
+		A2000054 /* ObsidianSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObsidianSettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +149,7 @@
 				A4000009 /* ViewModels */,
 				A400000A /* Services */,
 				A400000B /* Utilities */,
+				A400000E /* Intents */,
 				A2000003 /* Assets.xcassets */,
 				A2000019 /* Info.plist */,
 			);
@@ -106,6 +171,10 @@
 				A2000005 /* DailyContract.swift */,
 				A2000006 /* UserProfile.swift */,
 				A2000007 /* CapturedInput.swift */,
+				A2000023 /* SkillCategory.swift */,
+				A2000024 /* DailyActivity.swift */,
+				A2000025 /* Achievement.swift */,
+				A2000026 /* TaskPattern.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -118,6 +187,9 @@
 				A4000007 /* Contract */,
 				A400000D /* Meltdown */,
 				A4000008 /* Settings */,
+				A400000F /* Calendar */,
+				A4000010 /* Progress */,
+				A4000011 /* Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -126,8 +198,51 @@
 			isa = PBXGroup;
 			children = (
 				A2000022 /* MeltdownView.swift */,
+				A2000041 /* BailOutView.swift */,
 			);
 			path = Meltdown;
+			sourceTree = "<group>";
+		};
+		A400000E /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				A2000046 /* CoveAppIntents.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
+		A400000F /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				A2000031 /* CalendarView.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		A4000010 /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				A2000032 /* ProgressView.swift */,
+				A2000033 /* SkillBarsView.swift */,
+				A2000034 /* StreakCardView.swift */,
+				A2000035 /* ActivityHeatmapView.swift */,
+				A2000036 /* EnergyRhythmView.swift */,
+				A2000037 /* LevelCardView.swift */,
+				A2000038 /* LevelUpCelebrationView.swift */,
+				A2000039 /* AchievementsPreviewView.swift */,
+				A2000040 /* AchievementUnlockView.swift */,
+				A2000048 /* EnergyInsightsView.swift */,
+				A2000050 /* ColdStorageView.swift */,
+			);
+			path = Progress;
+			sourceTree = "<group>";
+		};
+		A4000011 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A2000045 /* AICompanionView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		A4000005 /* Home */ = {
@@ -143,6 +258,7 @@
 			children = (
 				A2000011 /* CaptureView.swift */,
 				A2000018 /* StagingAreaView.swift */,
+				A2000043 /* RemindersImportView.swift */,
 			);
 			path = Capture;
 			sourceTree = "<group>";
@@ -160,6 +276,8 @@
 			isa = PBXGroup;
 			children = (
 				A2000013 /* ProfileView.swift */,
+				A2000052 /* GoogleCalendarSettingsView.swift */,
+				A2000054 /* ObsidianSettingsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -177,6 +295,16 @@
 			children = (
 				A2000015 /* SpeechService.swift */,
 				A2000016 /* ClaudeAIService.swift */,
+				A2000027 /* CalendarService.swift */,
+				A2000028 /* GamificationService.swift */,
+				A2000029 /* NotificationService.swift */,
+				A2000030 /* PatternService.swift */,
+				A2000042 /* RemindersService.swift */,
+				A2000044 /* PIIRedactionService.swift */,
+				A2000047 /* HealthService.swift */,
+				A2000049 /* ColdStorageService.swift */,
+				A2000051 /* GoogleCalendarService.swift */,
+				A2000053 /* ObsidianService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -289,6 +417,38 @@
 				A1000019 /* ContractViewModel.swift in Sources */,
 				A1000020 /* TaskCardView.swift in Sources */,
 				A1000021 /* MeltdownView.swift in Sources */,
+				A1000023 /* SkillCategory.swift in Sources */,
+				A1000024 /* DailyActivity.swift in Sources */,
+				A1000025 /* Achievement.swift in Sources */,
+				A1000026 /* TaskPattern.swift in Sources */,
+				A1000027 /* CalendarService.swift in Sources */,
+				A1000028 /* GamificationService.swift in Sources */,
+				A1000029 /* NotificationService.swift in Sources */,
+				A1000030 /* PatternService.swift in Sources */,
+				A1000031 /* CalendarView.swift in Sources */,
+				A1000032 /* ProgressView.swift in Sources */,
+				A1000033 /* SkillBarsView.swift in Sources */,
+				A1000034 /* StreakCardView.swift in Sources */,
+				A1000035 /* ActivityHeatmapView.swift in Sources */,
+				A1000036 /* EnergyRhythmView.swift in Sources */,
+				A1000037 /* LevelCardView.swift in Sources */,
+				A1000038 /* LevelUpCelebrationView.swift in Sources */,
+				A1000039 /* AchievementsPreviewView.swift in Sources */,
+				A1000040 /* AchievementUnlockView.swift in Sources */,
+				A1000041 /* BailOutView.swift in Sources */,
+				A1000042 /* RemindersService.swift in Sources */,
+				A1000043 /* RemindersImportView.swift in Sources */,
+				A1000044 /* PIIRedactionService.swift in Sources */,
+				A1000045 /* AICompanionView.swift in Sources */,
+				A1000046 /* CoveAppIntents.swift in Sources */,
+				A1000047 /* HealthService.swift in Sources */,
+				A1000048 /* EnergyInsightsView.swift in Sources */,
+				A1000049 /* ColdStorageService.swift in Sources */,
+				A1000050 /* ColdStorageView.swift in Sources */,
+				A1000051 /* GoogleCalendarService.swift in Sources */,
+				A1000052 /* GoogleCalendarSettingsView.swift in Sources */,
+				A1000053 /* ObsidianService.swift in Sources */,
+				A1000054 /* ObsidianSettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

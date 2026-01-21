@@ -97,6 +97,7 @@ extension TaskStatus {
         case .completed: return .zenGreen
         case .snoozed: return .warmSand
         case .cancelled: return .mutedText
+        case .coldStorage: return .calmSea
         }
     }
 }

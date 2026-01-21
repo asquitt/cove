@@ -128,7 +128,7 @@ struct CoveAppShortcuts: AppShortcutsProvider {
                 "I need a \(.applicationName) meltdown",
                 "Overwhelmed mode in \(.applicationName)",
                 "Help me calm down with \(.applicationName)",
-                "Cove calm me down"
+                "\(.applicationName) calm me down"
             ],
             shortTitle: "Meltdown Mode",
             systemImageName: "heart.fill"
