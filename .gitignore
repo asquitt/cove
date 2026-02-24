@@ -46,3 +46,9 @@ fastlane/test_output/
 *.cer
 .env
 .env.local
+
+# Claude Code / Codex artifacts
+CLAUDE.md
+AGENTS.md
+.claude/
+.codex/
