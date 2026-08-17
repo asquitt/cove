@@ -1,0 +1,380 @@
+# Cove iOS App - Claude Code Configuration
+
+## Autonomous Delivery Standard
+
+These rules govern implementation, diagnosis, review, release, and handoff. More specific project invariants below remain binding.
+
+### Scope and planning
+
+- State assumptions, scope, and measurable success criteria before multi-step work.
+- Turn the plan into `step -> verification` pairs and keep it current.
+- Proceed autonomously with routine, reversible work inside the requested scope.
+- Stop for missing credentials, destructive or production-wide actions, ownership conflicts, or choices that materially change the product.
+- A request to diagnose, review, or report is read-only unless the user also authorizes changes.
+- Inspect `git status -sb` first. Preserve unrelated tracked, untracked, staged, and generated work.
+
+### Simplicity and adoption
+
+- Write the minimum code that completely solves the requested problem.
+- Search callers, registries, shared services, adapters, hooks, and existing implementations before adding a new abstraction or concern home.
+- Extend the canonical layer when responsibility is the same. If a shared layer changes, migrate the touched callers rather than creating a sibling implementation.
+- Do not add speculative configuration, redundant fallback paths, or infrastructure for remote hypotheticals.
+- Update affected imports, exports, routers, task maps, migrations, schemas, clients, and documentation.
+- Remove only dead code made obsolete by the current change. Do not clean unrelated debt.
+
+### Outcome truth and no false greens
+
+- A passing test, HTTP 200, status flag, database row, mock, screenshot, or healthy container is evidence, not proof of the claimed outcome.
+- Verify the real producer, persistence, ownership boundary, consumer, and user or operator-visible result.
+- For Cove, the Capture to Classify to Confirm to Complete flow must render in Simulator, persist correct SwiftData state, preserve Daily Contract limits, expose recoverable errors, and remain accessible without leaking the user's API key.
+- Mocks and deterministic fixtures are acceptable development evidence only. Label them clearly and do not use them to support live-provider or production claims.
+- Deployment proof requires exact repository, revision, artifact or image, configuration contract, health behavior, and rendered application identity.
+- Never weaken a customer-facing claim to make QA pass. Fix the behavior or request an explicit positioning decision.
+
+### Verification
+
+- Bug fix: reproduce with a focused regression, implement the smallest fix, and prove the regression now passes.
+- Start with the narrowest relevant checks, then run changed-file gates and broader build, integration, E2E, security, or release gates in proportion to risk.
+- The normal Cove path is the narrowest XCTest target, an `xcodebuild` build and relevant test target against an installed simulator, plus direct Simulator interaction for UI, persistence, permissions, or accessibility changes.
+- Test negative and adversarial cases for auth, isolation, validation, retries, partial failure, rollback, and cleanup when those boundaries change.
+- Verify APIs with actual requests and response bodies, UI with a real render and interaction, persistence with stored and reloaded state, and background work with produced results and logs.
+- If a required gate cannot run, report exactly what passed, what failed, and what remains unverified.
+
+### Independent senior review
+
+- Material production behavior, security boundaries, autonomous mutations, persistence, provider routing, migrations, deployment controls, and public UI changes require one separate independent xhigh review of an immutable base-to-head commit.
+- Give the reviewer the full base and head SHAs, user requirements, affected architecture, tests, and runtime context. The reviewer is read-only and follows `.github/ai-review/senior-review.md`.
+- HIGH or MEDIUM findings require a plausible current trigger, concrete impact, reproducible evidence, an affected file and line, and the smallest sufficient fix.
+- Freeze the candidate on any admitted blocker. Fix narrowly, rerun relevant gates, commit a new head, and request one bounded re-review from the same reviewer.
+- LOW, speculative, unrelated, stylistic, and non-reproducible observations do not extend the cycle.
+- CI, previews, and deployment checks are separate evidence and do not replace independent review.
+
+### Git, secrets, and production safety
+
+- Stage and commit only files belonging to the current task. Use conventional, coherent commits without AI co-author trailers.
+- Push once at the requested or final handoff boundary. Never force-push, rewrite history, or change remotes unless explicitly requested.
+- Never print, log, screenshot, commit, or place secrets in command arguments. Source only required variables from an approved local or external secret store.
+- Production starts read-only: verify target, identity, health, logs, rollback, and cleanup path before mutation.
+- Never run destructive database, provider, deployment, or filesystem operations against an unresolved or broad target.
+- Do not claim deployment, rollback, cleanup, or public verification that was not directly observed.
+
+### Handoff
+
+Report the exact branch and head, files changed, tests and probes run, runtime or public evidence, independent-review result, rollback and cleanup state, and remaining risks. Distinguish complete, partial, blocked, and unverified work explicitly.
+
+### Cove risk focus
+
+Prioritize SwiftData migration and persistence, MainActor and cancellation behavior, Keychain secrets, Speech and EventKit permissions, duplicate AI requests, offline recovery, VoiceOver, and Meltdown accessibility.
+
+## Project Overview
+**Cove** - An ADHD-friendly task management iOS app built with SwiftUI + SwiftData + Claude API.
+
+## Tech Stack
+- **Platform:** iOS 17+
+- **UI:** SwiftUI
+- **Data:** SwiftData (local persistence)
+- **AI:** Claude API (Anthropic) for task classification
+- **Voice:** iOS Speech framework (on-device transcription)
+- **Calendar:** EventKit
+
+## Project Structure
+```
+Cove/
+├── CoveApp.swift                 # App entry point
+├── Models/                       # SwiftData models
+│   ├── Task.swift
+│   ├── DailyContract.swift
+│   ├── UserProfile.swift
+│   ├── CapturedInput.swift
+│   └── XPCategory.swift
+├── Views/                        # SwiftUI views
+│   ├── Home/
+│   ├── Capture/
+│   ├── Contract/
+│   ├── Meltdown/
+│   ├── Progress/
+│   └── Settings/
+├── ViewModels/                   # View models (MVVM)
+├── Services/                     # Business logic
+│   ├── ClaudeAIService.swift     # Claude API integration
+│   ├── SpeechService.swift
+│   ├── ContractService.swift
+│   ├── CalendarService.swift
+│   └── PatternService.swift
+└── Utilities/
+    ├── Extensions/
+    ├── Constants.swift
+    └── KeychainHelper.swift
+```
+
+## Core Concepts
+
+### The Daily Contract
+- Maximum 3 Anchor Tasks (critical)
+- Maximum 2 Side Quests (optional)
+- Enforced constraint - can't add more without removing
+
+### AI Classification Buckets
+- **Bucket A (Directives):** Actionable tasks
+- **Bucket B (Archive):** Reference material
+- **Bucket C (Venting):** Emotional processing
+
+### Meltdown Protocol
+- Reset button always accessible
+- Hides gamification, shows only essentials
+- "Goblin Mode" for self-care tasks
+
+## API Configuration
+
+### Claude API
+- **Model:** claude-sonnet-4-20250514 (fast, cost-effective)
+- **API Key Location:** iOS Keychain (never in code/logs)
+- **Endpoint:** https://api.anthropic.com/v1/messages
+
+### API Key Setup
+User must add their Claude API key in app Settings. Store using KeychainHelper:
+```swift
+KeychainHelper.save(key: "claude_api_key", value: apiKey)
+```
+
+## Design System
+
+### Colors (Deep Ocean Blue Palette)
+```swift
+// Primary
+Color("DeepOcean")       // #1a365d - Primary actions
+Color("CalmSea")         // #2c5282 - Secondary
+Color("SoftWave")        // #4a90a4 - Accents
+
+// States
+Color("ZenGreen")        // #48bb78 - Success/Complete
+Color("WarmSand")        // #ed8936 - Warning
+Color("CoralAlert")      // #fc8181 - Danger/Reset
+
+// Neutrals
+Color("CloudWhite")      // #f7fafc - Background
+Color("MistGray")        // #e2e8f0 - Subtle borders
+Color("DeepText")        // #2d3748 - Primary text
+```
+
+### Typography
+- **Font:** SF Pro Rounded (system)
+- **Headings:** .bold, sizes 28/24/20
+- **Body:** .regular, size 17
+- **Captions:** .regular, size 13
+
+### Haptics
+- Task complete: `.success`
+- Contract filled: `.warning`
+- Meltdown activated: `.soft`
+
+## Verification Requirements
+
+### Before ANY Commit
+1. `xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' build` - Must succeed
+2. `xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' test` - Relevant tests pass
+3. No compiler warnings (treat warnings as errors)
+4. SwiftLint passes (if configured)
+
+### Feature Verification
+- UI changes: Take simulator screenshot, describe what changed
+- AI features: Test with sample input, show classification result
+- Data changes: Query SwiftData, show persisted values
+
+## Coding Standards
+
+### SwiftUI Best Practices
+```swift
+// GOOD - Extract subviews
+struct TaskCard: View {
+    let task: Task
+    var body: some View {
+        VStack { ... }
+    }
+}
+
+// BAD - Massive nested views
+var body: some View {
+    VStack {
+        HStack {
+            VStack {
+                // 200 lines of nesting...
+            }
+        }
+    }
+}
+```
+
+### Async/Await
+```swift
+// GOOD - Modern concurrency
+func classifyInput(_ text: String) async throws -> Classification {
+    let response = try await claudeService.classify(text)
+    return response
+}
+
+// BAD - Completion handlers
+func classifyInput(_ text: String, completion: @escaping (Result<Classification, Error>) -> Void) {
+    // Callback hell
+}
+```
+
+### Error Handling
+```swift
+// GOOD - Specific errors
+enum CoveError: LocalizedError {
+    case apiKeyMissing
+    case classificationFailed(String)
+    case contractFull
+
+    var errorDescription: String? {
+        switch self {
+        case .apiKeyMissing: return "Please add your Claude API key in Settings"
+        case .classificationFailed(let reason): return "Classification failed: \(reason)"
+        case .contractFull: return "Daily contract is full. Remove a task first."
+        }
+    }
+}
+```
+
+### View Models
+```swift
+@Observable
+class ContractViewModel {
+    private let contractService: ContractService
+
+    var anchorTasks: [Task] = []
+    var sideQuests: [Task] = []
+    var isLoading = false
+    var error: CoveError?
+
+    func addTask(_ task: Task) throws {
+        guard anchorTasks.count < 3 else {
+            throw CoveError.contractFull
+        }
+        // ...
+    }
+}
+```
+
+## File Limits
+- Max 300 lines per Swift file
+- Extract components when views exceed 150 lines
+- One model per file
+- One service per file
+
+## Testing Strategy
+
+### Unit Tests
+- All service methods
+- ViewModel logic
+- Model validation
+
+### UI Tests
+- Critical flows: Capture → Classify → Confirm → Complete
+- Meltdown Protocol activation
+- Contract constraints
+
+## Common Patterns
+
+### Claude API Call
+```swift
+struct ClaudeRequest: Codable {
+    let model: String
+    let max_tokens: Int
+    let messages: [Message]
+
+    struct Message: Codable {
+        let role: String
+        let content: String
+    }
+}
+
+// Usage
+let request = ClaudeRequest(
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 1024,
+    messages: [.init(role: "user", content: prompt)]
+)
+```
+
+### SwiftData Query
+```swift
+@Query(sort: \Task.createdAt, order: .reverse)
+private var tasks: [Task]
+
+// Filtered query
+@Query(filter: #Predicate<Task> { $0.status == .pending })
+private var pendingTasks: [Task]
+```
+
+## Progress Tracking
+See `PROGRESS.md` for current phase, completed features, and next steps.
+
+## Quick Commands
+
+```bash
+# Build
+xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' build
+
+# Test
+xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' test
+
+# Clean
+xcodebuild -project Cove/Cove.xcodeproj -scheme Cove clean
+
+# List simulators
+xcrun simctl list devices
+
+# Boot simulator
+xcrun simctl boot "iPhone 15"
+
+# Open simulator
+open -a Simulator
+```
+
+## DO NOT
+- Hardcode API keys
+- Skip build verification
+- Commit with warnings
+- Create massive view files
+- Use completion handlers (prefer async/await)
+- Add features not in current phase
+
+## ALWAYS
+- Verify builds compile before committing
+- Test AI features with real input
+- Update PROGRESS.md after completing features
+- Follow the Daily Contract principle: small, focused commits
+- Commit coherent verified changes; push once at the requested or final handoff boundary
+
+## Dead Code & Orphan Prevention (MANDATORY)
+
+When your changes make files, views, or functions unused, **delete them in the same commit**.
+
+## NEVER Mark Tasks Complete Without Verification (CRITICAL)
+
+**NEVER claim something is working without ACTUALLY verifying it.**
+
+1. **Build**: `xcodebuild build` must succeed
+2. **Tests**: `xcodebuild test` must pass
+3. **AI features**: Test with sample input, show result
+
+**If you cannot verify, say so explicitly. Never fabricate verification results.**
+
+## Workflow Conventions (MANDATORY)
+
+### Immediate Execution, Not Summarization
+When implementing from a plan, start execution immediately. Do NOT summarize.
+
+### Scope Discipline
+Implement exactly what's requested before expanding.
+
+### Debugging Structure
+Start from the error → trace the call chain → identify root cause → then fix.
+
+## Decision Authority
+
+**DO autonomously:** Fix bugs, compiler warnings, SwiftLint issues, clean dead code, add tests
+
+**ASK first:** Architecture changes, new features, new dependencies, remove features
