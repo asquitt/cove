@@ -1,0 +1,404 @@
+# Cove iOS App - Claude Code Configuration
+
+## Autonomous Delivery Standard
+
+These rules govern implementation, diagnosis, review, release, and handoff. More specific project invariants below remain binding.
+
+### Scope and planning
+
+- State assumptions, scope, and measurable success criteria before multi-step work.
+- Turn the plan into `step -> verification` pairs and keep it current.
+- Proceed autonomously with routine, reversible work inside the requested scope.
+- Stop for missing credentials, destructive or production-wide actions, ownership conflicts, or choices that materially change the product.
+- A request to diagnose, review, or report is read-only unless the user also authorizes changes.
+- Inspect `git status -sb` first. Preserve unrelated tracked, untracked, staged, and generated work.
+
+### Simplicity and adoption
+
+- Write the minimum code that completely solves the requested problem.
+- Search callers, registries, shared services, adapters, hooks, and existing implementations before adding a new abstraction or concern home.
+- Extend the canonical layer when responsibility is the same. If a shared layer changes, migrate the touched callers rather than creating a sibling implementation.
+- Do not add speculative configuration, redundant fallback paths, or infrastructure for remote hypotheticals.
+- Update affected imports, exports, routers, task maps, migrations, schemas, clients, and documentation.
+- Remove only dead code made obsolete by the current change. Do not clean unrelated debt.
+
+### Outcome truth and no false greens
+
+- A passing test, HTTP 200, status flag, database row, mock, screenshot, or healthy container is evidence, not proof of the claimed outcome.
+- Verify the real producer, persistence, ownership boundary, consumer, and user or operator-visible result.
+- For Cove, the Capture to Classify to Confirm to Complete flow must render in Simulator, persist correct SwiftData state, preserve Daily Contract limits, expose recoverable errors, and remain accessible without leaking the user's API key.
+- Mocks and deterministic fixtures are acceptable development evidence only. Label them clearly and do not use them to support live-provider or production claims.
+- Deployment proof requires exact repository, revision, artifact or image, configuration contract, health behavior, and rendered application identity.
+- Never weaken a customer-facing claim to make QA pass. Fix the behavior or request an explicit positioning decision.
+
+### Verification
+
+- Bug fix: reproduce with a focused regression, implement the smallest fix, and prove the regression now passes.
+- Start with the narrowest relevant checks, then run changed-file gates and broader build, integration, E2E, security, or release gates in proportion to risk.
+- The normal Cove app-change path is an `xcodebuild` build against an installed simulator, the narrowest relevant XCTest target once one exists, plus direct Simulator interaction for UI, persistence, permissions, or accessibility changes. The current project has no test target, so automated app-test evidence remains unavailable rather than green.
+- Test negative and adversarial cases for auth, isolation, validation, retries, partial failure, rollback, and cleanup when those boundaries change.
+- Verify APIs with actual requests and response bodies, UI with a real render and interaction, persistence with stored and reloaded state, and background work with produced results and logs.
+- If a required gate cannot run, report exactly what passed, what failed, and what remains unverified.
+
+### Independent senior review
+
+- Material production behavior, security boundaries, autonomous mutations, persistence, provider routing, migrations, deployment controls, and public UI changes require one separate independent xhigh review of an immutable base-to-head commit.
+- Give the reviewer the full base and head SHAs, user requirements, affected architecture, tests, and runtime context. The reviewer is read-only and follows `.github/ai-review/senior-review.md`.
+- HIGH or MEDIUM findings require a plausible current trigger, concrete impact, reproducible evidence, an affected file and line, and the smallest sufficient fix.
+- Freeze the candidate on any admitted blocker. Fix narrowly, rerun relevant gates, commit a new head, and request one bounded re-review from the same reviewer.
+- LOW, speculative, unrelated, stylistic, and non-reproducible observations do not extend the cycle.
+- CI, previews, and deployment checks are separate evidence and do not replace independent review.
+
+### Git, secrets, and production safety
+
+- Stage and commit only files belonging to the current task. Use conventional, coherent commits without AI co-author trailers.
+- Push once at the requested or final handoff boundary. Never force-push, rewrite history, or change remotes unless explicitly requested.
+- Never print, log, screenshot, commit, or place secrets in command arguments. Source only required variables from an approved local or external secret store.
+- Production starts read-only: verify target, identity, health, logs, rollback, and cleanup path before mutation.
+- Never run destructive database, provider, deployment, or filesystem operations against an unresolved or broad target.
+- Do not claim deployment, rollback, cleanup, or public verification that was not directly observed.
+
+### Commit cadence and pull-request lifecycle
+
+- One branch and one pull request represent one coherent customer-impact or operational slice. Start material work from the latest verified default branch on `codex/<short-slug>` unless the task already owns a suitable branch.
+- Commit each verified, bisectable checkpoint and at least once at the end of a successful work session. Do not wait for a large dump, create noisy save-point commits, or mix unrelated cleanup.
+- Every commit must preserve focused green evidence for its changed property. Use conventional messages, stage only task-owned files, and never add AI co-author trailers.
+- Batch local commits and push once at the authorized session or correction-cycle boundary. Do not push after every commit, force-push, amend, rebase, or otherwise rewrite a candidate that has been shared or reviewed.
+- At the first authorized push for a material slice, open or update one draft pull request; never create a duplicate PR for the same branch. Documentation that accompanies code stays in that PR. Do not create a PR solely for low-risk documentation unless repository protection requires it.
+- Keep the PR draft while required tests, preview or runtime proof, rollback planning, cleanup, or independent exact-commit review remains incomplete. Record exact base, head, and tree SHAs plus the commands and results that support the candidate.
+- Freeze the PR head for independent review. HIGH or MEDIUM findings keep it blocked and draft; make the smallest coherent fix as a new commit, push once, freeze the new head, rerun affected gates, and request bounded re-review.
+- Mark ready and merge only when the current remote head is the reviewed head, required evidence is green, conversations are resolved, and the task includes merge or release authority. Use a merge commit, not squash or rebase, so candidate commits and review identities remain recoverable.
+- An accepted PR is merged and GitHub closes it automatically. Manually close only an abandoned, duplicate, or explicitly superseded PR, and leave a final comment naming the reason, preserved head SHA, remaining blockers, and successor when one exists. Never close a PR to hide a blocker.
+- After merge, record the PR number and merge SHA, verify the merged tree and any required deployment or public behavior, then report rollback and cleanup state. Delete a branch or worktree only when it is merged or superseded, clean, idle, and explicitly released; otherwise preserve it.
+
+### Handoff
+
+Report the exact branch and head, files changed, tests and probes run, runtime or public evidence, independent-review result, rollback and cleanup state, and remaining risks. Distinguish complete, partial, blocked, and unverified work explicitly.
+
+### Cove risk focus
+
+Prioritize SwiftData migration and persistence, MainActor and cancellation behavior, Keychain secrets, Speech and EventKit permissions, duplicate AI requests, offline recovery, VoiceOver, and Meltdown accessibility.
+
+## Project Overview
+**Cove** - An ADHD-friendly task management iOS app built with SwiftUI + SwiftData + Claude API.
+
+## Tech Stack
+- **Platform:** iOS 18+ (current Xcode deployment target)
+- **UI:** SwiftUI
+- **Data:** SwiftData (local persistence)
+- **AI:** Claude API (Anthropic) for task classification
+- **Voice:** iOS Speech framework (on-device transcription)
+- **Calendar:** EventKit
+
+## Project Structure
+```
+Cove/
+├── CoveApp.swift                 # App entry point
+├── Models/                       # SwiftData models
+│   ├── Task.swift
+│   ├── DailyContract.swift
+│   ├── UserProfile.swift
+│   ├── CapturedInput.swift
+│   └── XPCategory.swift
+├── Views/                        # SwiftUI views
+│   ├── Home/
+│   ├── Capture/
+│   ├── Contract/
+│   ├── Meltdown/
+│   ├── Progress/
+│   └── Settings/
+├── ViewModels/                   # View models (MVVM)
+├── Services/                     # Business logic
+│   ├── ClaudeAIService.swift     # Claude API integration
+│   ├── SpeechService.swift
+│   ├── ContractService.swift
+│   ├── CalendarService.swift
+│   └── PatternService.swift
+└── Utilities/
+    ├── Extensions/
+    ├── Constants.swift
+    └── KeychainHelper.swift
+```
+
+## Core Concepts
+
+### The Daily Contract
+- Maximum 3 Anchor Tasks (critical)
+- Maximum 2 Side Quests (optional)
+- Enforced constraint - can't add more without removing
+
+### AI Classification Buckets
+- **Bucket A (Directives):** Actionable tasks
+- **Bucket B (Archive):** Reference material
+- **Bucket C (Venting):** Emotional processing
+
+### Meltdown Protocol
+- Reset button always accessible
+- Hides gamification, shows only essentials
+- "Goblin Mode" for self-care tasks
+
+## API Configuration
+
+### Claude API
+- **Model:** claude-sonnet-4-20250514 (fast, cost-effective)
+- **API Key Location:** iOS Keychain (never in code/logs)
+- **Endpoint:** https://api.anthropic.com/v1/messages
+
+### API Key Setup
+User must add their Claude API key in app Settings. Store using KeychainHelper:
+```swift
+KeychainHelper.save(key: "claude_api_key", value: apiKey)
+```
+
+## Design System
+
+### Colors (Deep Ocean Blue Palette)
+```swift
+// Primary
+Color("DeepOcean")       // #1a365d - Primary actions
+Color("CalmSea")         // #2c5282 - Secondary
+Color("SoftWave")        // #4a90a4 - Accents
+
+// States
+Color("ZenGreen")        // #48bb78 - Success/Complete
+Color("WarmSand")        // #ed8936 - Warning
+Color("CoralAlert")      // #fc8181 - Danger/Reset
+
+// Neutrals
+Color("CloudWhite")      // #f7fafc - Background
+Color("MistGray")        // #e2e8f0 - Subtle borders
+Color("DeepText")        // #2d3748 - Primary text
+```
+
+### Typography
+- **Font:** SF Pro Rounded (system)
+- **Headings:** .bold, sizes 28/24/20
+- **Body:** .regular, size 17
+- **Captions:** .regular, size 13
+
+### Haptics
+- Task complete: `.success`
+- Contract filled: `.warning`
+- Meltdown activated: `.soft`
+
+## Verification Requirements
+
+### Proportional Commit Gates
+
+Current limitation: the Xcode project has one application target and no XCTest or
+UI-test target. A zero-test or unavailable `xcodebuild test` result is not a green test
+gate. Add a real test target before claiming automated app-test coverage.
+
+For app-code or project changes:
+
+1. `xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' build` must succeed.
+2. Run the narrowest relevant XCTest/UI-test target only after `xcodebuild -list` confirms it exists; otherwise record test evidence as unavailable.
+3. Treat compiler warnings as errors for the changed build.
+4. Run SwiftLint only when the repository contains a validated SwiftLint configuration.
+
+For documentation, governance, or hook-only changes, run the relevant parser, syntax,
+contract, and relocation checks. Do not require an unrelated app build solely to create
+a false green.
+
+### Feature Verification
+- UI changes: Take simulator screenshot, describe what changed
+- AI features: Test with sample input, show classification result
+- Data changes: Query SwiftData, show persisted values
+
+## Coding Standards
+
+### SwiftUI Best Practices
+```swift
+// GOOD - Extract subviews
+struct TaskCard: View {
+    let task: Task
+    var body: some View {
+        VStack { ... }
+    }
+}
+
+// BAD - Massive nested views
+var body: some View {
+    VStack {
+        HStack {
+            VStack {
+                // 200 lines of nesting...
+            }
+        }
+    }
+}
+```
+
+### Async/Await
+```swift
+// GOOD - Modern concurrency
+func classifyInput(_ text: String) async throws -> Classification {
+    let response = try await claudeService.classify(text)
+    return response
+}
+
+// BAD - Completion handlers
+func classifyInput(_ text: String, completion: @escaping (Result<Classification, Error>) -> Void) {
+    // Callback hell
+}
+```
+
+### Error Handling
+```swift
+// GOOD - Specific errors
+enum CoveError: LocalizedError {
+    case apiKeyMissing
+    case classificationFailed(String)
+    case contractFull
+
+    var errorDescription: String? {
+        switch self {
+        case .apiKeyMissing: return "Please add your Claude API key in Settings"
+        case .classificationFailed(let reason): return "Classification failed: \(reason)"
+        case .contractFull: return "Daily contract is full. Remove a task first."
+        }
+    }
+}
+```
+
+### View Models
+```swift
+@Observable
+class ContractViewModel {
+    private let contractService: ContractService
+
+    var anchorTasks: [Task] = []
+    var sideQuests: [Task] = []
+    var isLoading = false
+    var error: CoveError?
+
+    func addTask(_ task: Task) throws {
+        guard anchorTasks.count < 3 else {
+            throw CoveError.contractFull
+        }
+        // ...
+    }
+}
+```
+
+## File Limits
+- Max 300 lines per Swift file
+- Extract components when views exceed 150 lines
+- One model per file
+- One service per file
+
+## Testing Strategy
+
+### Unit Tests
+- All service methods
+- ViewModel logic
+- Model validation
+
+### UI Tests
+- Critical flows: Capture → Classify → Confirm → Complete
+- Meltdown Protocol activation
+- Contract constraints
+
+## Common Patterns
+
+### Claude API Call
+```swift
+struct ClaudeRequest: Codable {
+    let model: String
+    let max_tokens: Int
+    let messages: [Message]
+
+    struct Message: Codable {
+        let role: String
+        let content: String
+    }
+}
+
+// Usage
+let request = ClaudeRequest(
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 1024,
+    messages: [.init(role: "user", content: prompt)]
+)
+```
+
+### SwiftData Query
+```swift
+@Query(sort: \Task.createdAt, order: .reverse)
+private var tasks: [Task]
+
+// Filtered query
+@Query(filter: #Predicate<Task> { $0.status == .pending })
+private var pendingTasks: [Task]
+```
+
+## Progress Tracking
+See `PROGRESS.md` for current phase, completed features, and next steps.
+
+## Quick Commands
+
+```bash
+# Build
+xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' build
+
+# Test only after xcodebuild -list confirms a real test target exists
+xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' test
+
+# Clean
+xcodebuild -project Cove/Cove.xcodeproj -scheme Cove clean
+
+# List simulators
+xcrun simctl list devices
+
+# Boot simulator
+xcrun simctl boot "iPhone 15"
+
+# Open simulator
+open -a Simulator
+```
+
+## DO NOT
+- Hardcode API keys
+- Skip build verification
+- Commit with warnings
+- Create massive view files
+- Use completion handlers (prefer async/await)
+- Add features not in current phase
+
+## ALWAYS
+- Verify builds compile before committing app-code or Xcode-project changes
+- Verify AI changes deterministically; run a separately labeled live-provider probe only when approved credentials are available
+- Update PROGRESS.md after completing features
+- Follow the Daily Contract principle: small, focused commits
+- Commit coherent verified changes; push once at the requested or final handoff boundary
+
+## Dead Code & Orphan Prevention (MANDATORY)
+
+When your changes make files, views, or functions unused, **delete them in the same commit**.
+
+## NEVER Mark Tasks Complete Without Verification (CRITICAL)
+
+**NEVER claim something is working without ACTUALLY verifying it.**
+
+1. **Build**: `xcodebuild build` must succeed for app-code or Xcode-project changes.
+2. **Tests**: Run a real relevant target when one exists. Until then, report app-test evidence as unavailable, never passing.
+3. **AI features**: Prove deterministic behavior and label any approved live-provider result separately.
+
+**If you cannot verify, say so explicitly. Never fabricate verification results.**
+
+## Workflow Conventions (MANDATORY)
+
+### Immediate Execution, Not Summarization
+When implementing from a plan, start execution immediately. Do NOT summarize.
+
+### Scope Discipline
+Implement exactly what's requested before expanding.
+
+### Debugging Structure
+Start from the error → trace the call chain → identify root cause → then fix.
+
+## Decision Authority
+
+**DO autonomously:** Fix bugs, compiler warnings, SwiftLint issues, clean dead code, add tests
+
+**ASK first:** Architecture changes, new features, new dependencies, remove features
