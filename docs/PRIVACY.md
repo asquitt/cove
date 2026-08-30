@@ -2,7 +2,7 @@
 
 ## Product Boundary
 
-The cohort target is local-only. It contains no network client, analytics SDK, external AI provider, account system, advertising identifier, Speech, microphone, Calendar, Reminders, HealthKit, Google, Obsidian, notification, App Intent, or share-extension source.
+The cohort target has no automatic network collection. It contains no network client, analytics SDK, external AI provider, account system, advertising identifier, Speech, microphone, Calendar, Reminders, HealthKit, Google, Obsidian, notification, App Intent, or share-extension source.
 
 The legacy exploratory files for those capabilities remain outside target membership and are not product claims.
 
@@ -16,7 +16,7 @@ SwiftData stores:
 - Content-free study events
 - One closed-choice response per study week
 
-The app does not configure CloudKit or an App Group. Normal device backup behavior has not been independently verified and must be disclosed in final App Store privacy materials if applicable.
+The app does not configure CloudKit or an App Group. It uses the dedicated `com.demario.cove.cohort` bundle and `CoveCohortV1` store, so it cannot replace or claim to erase data from the legacy `com.demario.Cove` app. Normal device backup behavior has not been independently verified and must be disclosed in final App Store privacy materials if applicable.
 
 ## Export
 
@@ -31,7 +31,9 @@ Export is an explicit iOS share action. The JSON report contains:
 - Week-four stated willingness to pay
 - Derived activation and four-week-use state
 
-Export excludes entries and task titles by construction and regression test. Nothing uploads automatically. Once a participant shares a report, the recipient controls that copy; local deletion cannot recall it.
+Export excludes entries and task titles by construction and regression test. Nothing uploads automatically. The report is pseudonymous, not anonymous: its participant ID is stable across exports, and an identifiable delivery channel can link the report to its sender.
+
+The study owner may use shared user-ID and product-interaction data only for cohort analytics. Shared reports are retained for no more than 90 days after the cohort closes, then deleted. A participant can request earlier deletion through the channel used for enrollment. Local deletion cannot recall a previously shared copy by itself.
 
 ## Let Go
 
@@ -50,4 +52,4 @@ The app then returns to onboarding. Deletion is reported as complete only after 
 
 ## Apple Declarations
 
-`PrivacyInfo.xcprivacy` declares no tracking, collected-data type, tracking domain, or required-reason API because the compiled cohort source uses none of those APIs and performs no collection off device. App Store Connect privacy answers, privacy-policy URL, generated privacy report, and archive contents remain external release checks.
+`PrivacyInfo.xcprivacy` declares linked User ID and Product Interaction data for Analytics because explicit report sharing is part of the field-study workflow. It declares no tracking, tracking domains, or required-reason API. App Store Connect must make the same conservative declarations. The privacy-policy URL, generated privacy report, delivery-channel controls, retention operation, and archive contents remain external release checks.

@@ -6,7 +6,9 @@ struct ContentView: View {
 
     var body: some View {
         Group {
-            if let participant = participants.first {
+            if let participant = participants.first(where: {
+                $0.consentVersion == CohortStore.consentVersion
+            }) {
                 CohortRootView(participant: participant)
             } else {
                 StudyOnboardingView()

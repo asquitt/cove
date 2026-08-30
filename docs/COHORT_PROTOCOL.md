@@ -54,6 +54,7 @@ Every study event stores:
 - Optional random subject ID
 - Derived study week
 - Closed outcome value
+- Persisted lifecycle order for deterministic same-time events
 
 Allowed events:
 
@@ -67,7 +68,7 @@ Allowed events:
 | `task_completed` | `anchor` or `sideQuest` |
 | `weekly_feedback_submitted` | `feedback_recorded`, `stated_yes`, or `stated_no` |
 
-The exported report replaces exact timestamps with integer elapsed hours. It never contains entry text, task title, task description, voice, provider output, health data, calendar data, display name, email, device ID, Apple ID, IP address, API key, or free-form survey text.
+The exported report replaces exact timestamps with integer elapsed hours. It never contains entry text, task title, task description, voice, provider output, health data, calendar data, display name, email, device ID, Apple ID, IP address, API key, or free-form survey text. The stable participant ID makes the report pseudonymous; the delivery channel may identify the sender.
 
 ## Metrics
 
@@ -98,9 +99,9 @@ If fewer than 8 participants provide structurally valid reports, classify the co
 ## Study Operation
 
 1. Give each qualified participant the same reviewed TestFlight build.
-2. Record enrollment separately without mapping personal identity into the app report.
+2. Record enrollment separately without adding personal identity to the app report; do not describe the stable report ID as anonymous.
 3. Do not coach individual task choices after onboarding.
-4. Ask for the local report only after the four-week window or withdrawal.
+4. Ask for the local report only after the four-week window or withdrawal, retain it for no more than 90 days after cohort close, and honor earlier deletion requests through the enrollment channel.
 5. Validate report schema and event lineage before calculating outcomes.
 6. Count missing reports as missing outcomes, not exclusions.
 7. Record incidents and build changes. Do not mix materially different builds without a separate stratum.

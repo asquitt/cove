@@ -50,6 +50,7 @@ final class CohortParticipant {
 @Model
 final class FocusItem {
     @Attribute(.unique) var id: UUID
+    var participantID: UUID
     var rawText: String
     var title: String
     var suggestedBucketRaw: String
@@ -64,12 +65,14 @@ final class FocusItem {
 
     init(
         id: UUID = UUID(),
+        participantID: UUID,
         rawText: String,
         title: String,
         suggestedBucket: FocusBucket,
         createdAt: Date = Date()
     ) {
         self.id = id
+        self.participantID = participantID
         self.rawText = rawText
         self.title = title
         self.suggestedBucketRaw = suggestedBucket.rawValue
@@ -125,6 +128,7 @@ final class StudyEvent {
     var occurredAt: Date
     var appBuild: String
     var schemaVersion: Int
+    var lifecycleOrder: Int
     var subjectID: UUID?
     var studyWeek: Int?
     var outcome: String?
@@ -136,6 +140,7 @@ final class StudyEvent {
         occurredAt: Date = Date(),
         appBuild: String,
         schemaVersion: Int = 1,
+        lifecycleOrder: Int? = nil,
         subjectID: UUID? = nil,
         studyWeek: Int? = nil,
         outcome: String? = nil
@@ -146,6 +151,7 @@ final class StudyEvent {
         self.occurredAt = occurredAt
         self.appBuild = appBuild
         self.schemaVersion = schemaVersion
+        self.lifecycleOrder = lifecycleOrder ?? name.lifecycleOrder
         self.subjectID = subjectID
         self.studyWeek = studyWeek
         self.outcome = outcome

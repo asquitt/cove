@@ -30,8 +30,53 @@ tests_id="$(jq -r '.objects | to_entries[] | select(.value.isa == "PBXNativeTarg
 ui_tests_id="$(jq -r '.objects | to_entries[] | select(.value.isa == "PBXNativeTarget" and .value.name == "CoveUITests") | .key' <<<"$project_json")"
 [[ -n "$app_id" && -n "$tests_id" && -n "$ui_tests_id" ]] || fail "expected Cove, CoveTests, and CoveUITests targets"
 
+jq -e --arg app "$app_id" '
+  .objects as $objects
+  | $objects[$app].buildConfigurationList as $list
+  | [$objects[$list].buildConfigurations[] | $objects[.].buildSettings] as $settings
+  | ($settings | length) == 2
+  and all($settings[];
+    .PRODUCT_BUNDLE_IDENTIFIER == "com.demario.cove.cohort"
+    and .INFOPLIST_KEY_CFBundleDisplayName == "Cove Study"
+    and (has("INFOPLIST_KEY_NSMicrophoneUsageDescription") | not)
+    and (has("INFOPLIST_KEY_NSSpeechRecognitionUsageDescription") | not)
+    and (has("INFOPLIST_KEY_NSCalendarsFullAccessUsageDescription") | not)
+    and (has("INFOPLIST_KEY_NSRemindersFullAccessUsageDescription") | not)
+    and (has("INFOPLIST_KEY_NSHealthShareUsageDescription") | not)
+  )
+' <<<"$project_json" >/dev/null || fail "app build settings violate cohort identity or permission contract"
+
 target_names="$(jq -r '.objects | to_entries[] | select(.value.isa == "PBXNativeTarget") | .value.name' <<<"$project_json" | sort)"
 [[ "$target_names" == $'Cove\nCoveTests\nCoveUITests' ]] || fail "unexpected target set: $target_names"
+
+target_bundle_ids() {
+  local target_id="$1"
+  jq -r --arg target "$target_id" '
+    .objects as $objects
+    | $objects[$target].buildConfigurationList as $list
+    | $objects[$list].buildConfigurations[]
+    | $objects[.].buildSettings.PRODUCT_BUNDLE_IDENTIFIER
+  ' <<<"$project_json" | sort -u
+}
+
+[[ "$(target_bundle_ids "$tests_id")" == "com.demario.cove.cohort.tests" ]] || fail "unexpected CoveTests bundle identity"
+[[ "$(target_bundle_ids "$ui_tests_id")" == "com.demario.cove.cohort.uitests" ]] || fail "unexpected CoveUITests bundle identity"
+
+framework_file_count() {
+  local target_id="$1"
+  jq -r --arg target "$target_id" '
+    .objects as $objects
+    | [
+        $objects[$target].buildPhases[]
+        | select($objects[.].isa == "PBXFrameworksBuildPhase")
+        | $objects[.].files[]?
+      ]
+    | length
+  ' <<<"$project_json"
+}
+
+[[ "$(framework_file_count "$tests_id")" == "0" ]] || fail "CoveTests has unexpected explicit framework links"
+[[ "$(framework_file_count "$ui_tests_id")" == "0" ]] || fail "CoveUITests has unexpected explicit framework links"
 
 source_names() {
   local target_id="$1"
@@ -86,9 +131,17 @@ privacy_json="$(plutil -convert json -o - "$PRIVACY")"
 jq -e '
   .NSPrivacyTracking == false
   and (.NSPrivacyTrackingDomains | length) == 0
-  and (.NSPrivacyCollectedDataTypes | length) == 0
+  and ([.NSPrivacyCollectedDataTypes[].NSPrivacyCollectedDataType] | sort) == [
+    "NSPrivacyCollectedDataTypeProductInteraction",
+    "NSPrivacyCollectedDataTypeUserID"
+  ]
+  and all(.NSPrivacyCollectedDataTypes[];
+    .NSPrivacyCollectedDataTypeLinked == true
+    and .NSPrivacyCollectedDataTypeTracking == false
+    and .NSPrivacyCollectedDataTypePurposes == ["NSPrivacyCollectedDataTypePurposeAnalytics"]
+  )
   and (.NSPrivacyAccessedAPITypes | length) == 0
-' <<<"$privacy_json" >/dev/null || fail "privacy manifest exceeds local-only cohort contract"
+' <<<"$privacy_json" >/dev/null || fail "privacy manifest violates pseudonymous cohort contract"
 
 info_json="$(plutil -convert json -o - "$INFO")"
 jq -e '
@@ -98,6 +151,10 @@ jq -e '
   and (has("NSRemindersFullAccessUsageDescription") | not)
   and (has("NSHealthShareUsageDescription") | not)
 ' <<<"$info_json" >/dev/null || fail "cohort Info.plist contains an excluded permission purpose string"
+
+if rg -n 'DEVELOPER_DIR|iPhoneOS[0-9.]+\.sdk|INFOPLIST_KEY_NS(Microphone|SpeechRecognition|Calendars|Reminders|Health).*UsageDescription' "$PROJECT"; then
+  fail "Xcode project contains a pinned SDK path or excluded generated permission string"
+fi
 
 [[ "$(jq -r '.images[0].filename' "$ICON_JSON")" == "CoveIcon.png" ]] || fail "app icon filename is not wired"
 [[ -f "$ICON" ]] || fail "app icon file is missing"
@@ -115,8 +172,15 @@ if rg -n 'URLSession|@AppStorage|UserDefaults|import (EventKit|Speech|HealthKit|
   fail "compiled cohort sources contain an excluded integration or required-reason API"
 fi
 
-rg -q 'encodedJSON\(\)\.contains\(secret\)' "$ROOT/Cove/CoveTests/CohortStoreTests.swift" || fail "content-exclusion regression test is missing"
+rg -q '"CoveCohortV1"' "$ROOT/Cove/Cove/CoveApp.swift" || fail "cohort SwiftData store is not isolated"
+rg -q 'var participantID: UUID' "$ROOT/Cove/Cove/Cohort/CohortModels.swift" || fail "focus items are not participant-owned"
+
+rg -q 'XCTAssertFalse\(encoded\.contains\(secret\)\)' "$ROOT/Cove/CoveTests/CohortStoreTests.swift" || fail "content-exclusion regression test is missing"
+rg -q 'XCTAssertFalse\(encoded\.contains\("generatedAt"\)\)' "$ROOT/Cove/CoveTests/CohortStoreTests.swift" || fail "exact report-time exclusion regression test is missing"
 rg -q 'XCTAssertFalse\(try CohortStore\.complete' "$ROOT/Cove/CoveTests/CohortStoreTests.swift" || fail "idempotent-completion regression test is missing"
+rg -q 'testStoreJourneyWithIdenticalTimestampsProducesCanonicalActivation' "$ROOT/Cove/CoveTests/CohortStoreTests.swift" || fail "same-time lineage regression test is missing"
+rg -q 'testCrossParticipantMutationIsRejectedAndCapacityIsScoped' "$ROOT/Cove/CoveTests/CohortStoreTests.swift" || fail "participant-isolation regression test is missing"
+rg -q 'testCaptureRejectsParticipantWithoutPersistedCurrentConsent' "$ROOT/Cove/CoveTests/CohortStoreTests.swift" || fail "consent-boundary regression test is missing"
 
 parser=(arch -x86_64 /usr/bin/swiftc)
 "${parser[@]}" --version >/dev/null 2>&1 || fail "available Swift parser is not executable"

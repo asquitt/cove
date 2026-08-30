@@ -98,7 +98,7 @@ struct StudyView: View {
             Text("Participant \(participant.id.uuidString.prefix(8)) · consent \(participant.consentVersion)")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-                .accessibilityLabel("Anonymous participant identifier \(participant.id.uuidString.prefix(8))")
+                .accessibilityLabel("Pseudonymous participant identifier \(participant.id.uuidString.prefix(8))")
         }
         .padding(.top, 24)
     }
@@ -219,7 +219,7 @@ struct StudyView: View {
         VStack(alignment: .leading, spacing: 16) {
             CoveSectionLabel(eyebrow: "You control it", title: "Export or withdraw")
 
-            Text("The report contains anonymous event names, coarse elapsed hours, closed-choice ratings, and outcome counts. It contains no entry or task text and is never sent automatically.")
+            Text("The report is pseudonymous: it contains a stable study ID, event names, coarse elapsed hours, closed-choice ratings, and outcome counts. It contains no entry or task text and is never sent automatically. The study owner may link it to you through the sharing channel and retains it for no more than 90 days after the cohort closes.")
                 .font(.body)
                 .foregroundStyle(.secondary)
 
@@ -229,7 +229,7 @@ struct StudyView: View {
                     subject: Text("Cove four-week study report"),
                     message: Text("Content-free local study evidence from Cove.")
                 ) {
-                    Label("Share anonymous report", systemImage: "square.and.arrow.up")
+                    Label("Share pseudonymous report", systemImage: "square.and.arrow.up")
                 }
                 .buttonStyle(CoveSecondaryButtonStyle())
                 .accessibilityIdentifier("study.report.share")

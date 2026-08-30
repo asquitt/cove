@@ -6,7 +6,7 @@ The repository contains a bounded cohort target, app icon, privacy manifest, sha
 
 This host currently has no `Xcode.app`; its active developer directory is an incompatible legacy Command Line Tools installation. Therefore app compilation, XCTest execution, Simulator behavior, accessibility inspection, archive, signing, upload, App Store validation, and TestFlight review are unverified.
 
-The Xcode project intentionally leaves `DEVELOPMENT_TEAM` empty. The owner must select the real team without committing a personal signing identity. The bundle ID `com.demario.Cove`, App Store Connect app record, next unused build number, agreements, tax/banking state, privacy URL, and tester groups are unverified.
+The Xcode project intentionally leaves `DEVELOPMENT_TEAM` empty. The owner must select the real team without committing a personal signing identity. The distinct bundle ID `com.demario.cove.cohort` intentionally isolates `Cove Study` from legacy `com.demario.Cove` data. Its separate App Store Connect record, next unused build number, agreements, tax/banking state, privacy URL, and tester groups are unverified.
 
 ## Local Gates
 

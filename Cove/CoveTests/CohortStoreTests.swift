@@ -17,6 +17,32 @@ final class CohortStoreTests: XCTestCase {
         XCTAssertTrue(try context.fetch(FetchDescriptor<StudyEvent>()).isEmpty)
     }
 
+    func testEnrollmentIsIdempotentForCurrentConsent() throws {
+        let (_, context) = try makeStore()
+        let first = try CohortStore.enroll(in: context, participantID: UUID())
+        let second = try CohortStore.enroll(in: context, participantID: UUID())
+
+        XCTAssertEqual(first.id, second.id)
+        XCTAssertEqual(try context.fetch(FetchDescriptor<CohortParticipant>()).count, 1)
+        XCTAssertEqual(
+            try context.fetch(FetchDescriptor<StudyEvent>()).filter { $0.name == .studyEnrolled }.count,
+            1
+        )
+    }
+
+    func testCaptureRejectsParticipantWithoutPersistedCurrentConsent() throws {
+        let (_, context) = try makeStore()
+        let participant = CohortParticipant(consentVersion: CohortStore.consentVersion)
+
+        XCTAssertThrowsError(
+            try CohortStore.capture("Should not persist", participant: participant, in: context)
+        ) { error in
+            XCTAssertEqual(error as? CohortStoreError, .consentRequired)
+        }
+        XCTAssertTrue(try context.fetch(FetchDescriptor<FocusItem>()).isEmpty)
+        XCTAssertTrue(try context.fetch(FetchDescriptor<StudyEvent>()).isEmpty)
+    }
+
     func testCapturedThoughtPersistsInReviewStateUntilDecision() throws {
         let (_, context) = try makeStore()
         let participant = try CohortStore.enroll(in: context)
@@ -24,6 +50,7 @@ final class CohortStoreTests: XCTestCase {
 
         let stored = try context.fetch(FetchDescriptor<FocusItem>())
         XCTAssertEqual(stored.map(\.id), [captured.id])
+        XCTAssertEqual(stored.first?.participantID, participant.id)
         XCTAssertEqual(stored.first?.state, .review)
         XCTAssertEqual(stored.first?.rawText, "Review this later")
     }
@@ -77,7 +104,11 @@ final class CohortStoreTests: XCTestCase {
             )
         }
 
-        let counts = try CohortStore.planCounts(dayKey: DayKey.value(for: start), in: context)
+        let counts = try CohortStore.planCounts(
+            participantID: participant.id,
+            dayKey: DayKey.value(for: start),
+            in: context
+        )
         XCTAssertEqual(counts, PlanCounts(anchors: 3, sideQuests: 2))
 
         let thirdSideQuest = try CohortStore.capture("Third side", participant: participant, in: context, at: start)
@@ -118,6 +149,100 @@ final class CohortStoreTests: XCTestCase {
 
         let events = try context.fetch(FetchDescriptor<StudyEvent>())
         XCTAssertEqual(events.filter { $0.name == .taskCompleted && $0.subjectID == item.id }.count, 1)
+    }
+
+    func testStoreJourneyWithIdenticalTimestampsProducesCanonicalActivation() throws {
+        let (_, context) = try makeStore()
+        let timestamp = Date(timeIntervalSince1970: 1_700_000_000)
+        let participant = try CohortStore.enroll(in: context, at: timestamp)
+        let item = try CohortStore.capture(
+            "Submit the cohort report",
+            participant: participant,
+            in: context,
+            at: timestamp
+        )
+        try CohortStore.confirm(
+            item,
+            bucket: .doNext,
+            title: item.title,
+            estimateMinutes: 10,
+            role: .anchor,
+            participant: participant,
+            in: context,
+            at: timestamp
+        )
+        XCTAssertTrue(try CohortStore.complete(
+            item,
+            participant: participant,
+            in: context,
+            at: timestamp
+        ))
+
+        let subjectEvents = try context.fetch(FetchDescriptor<StudyEvent>())
+            .filter { $0.subjectID == item.id }
+            .sorted(by: StudyEventOrdering.precedes)
+        XCTAssertEqual(subjectEvents.map(\.lifecycleOrder), [10, 20, 30, 40, 50])
+
+        let snapshot = StudyMetrics.snapshot(events: subjectEvents, checkIns: [])
+        XCTAssertTrue(snapshot.activated)
+        XCTAssertEqual(snapshot.retainedWeeks, [1])
+    }
+
+    func testCrossParticipantMutationIsRejectedAndCapacityIsScoped() throws {
+        let (_, context) = try makeStore()
+        let start = Date(timeIntervalSince1970: 1_700_000_000)
+        let owner = try CohortStore.enroll(in: context, at: start)
+        let other = CohortParticipant(
+            consentVersion: CohortStore.consentVersion,
+            enrolledAt: start
+        )
+        context.insert(other)
+        try context.save()
+
+        let item = try CohortStore.capture("Owner task", participant: owner, in: context, at: start)
+        XCTAssertThrowsError(
+            try CohortStore.confirm(
+                item,
+                bucket: .doNext,
+                title: item.title,
+                estimateMinutes: 10,
+                role: .anchor,
+                participant: other,
+                in: context,
+                at: start
+            )
+        ) { error in
+            XCTAssertEqual(error as? CohortStoreError, .participantMismatch)
+        }
+        XCTAssertEqual(item.state, .review)
+
+        let otherItem = try CohortStore.capture("Other task", participant: other, in: context, at: start)
+        try CohortStore.confirm(
+            otherItem,
+            bucket: .doNext,
+            title: otherItem.title,
+            estimateMinutes: 10,
+            role: .anchor,
+            participant: other,
+            in: context,
+            at: start
+        )
+        XCTAssertEqual(
+            try CohortStore.planCounts(
+                participantID: owner.id,
+                dayKey: DayKey.value(for: start),
+                in: context
+            ),
+            PlanCounts(anchors: 0, sideQuests: 0)
+        )
+        XCTAssertEqual(
+            try CohortStore.planCounts(
+                participantID: other.id,
+                dayKey: DayKey.value(for: start),
+                in: context
+            ),
+            PlanCounts(anchors: 1, sideQuests: 0)
+        )
     }
 
     func testSavedForLaterCanBeAssignedWithoutCreatingAnotherCapture() throws {
@@ -173,7 +298,9 @@ final class CohortStoreTests: XCTestCase {
         let events = try context.fetch(FetchDescriptor<StudyEvent>())
         let checkIns = try context.fetch(FetchDescriptor<WeeklyCheckIn>())
         let report = CohortReport.make(participant: participant, events: events, checkIns: checkIns)
-        XCTAssertFalse(try report.encodedJSON().contains(secret))
+        let encoded = try report.encodedJSON()
+        XCTAssertFalse(encoded.contains(secret))
+        XCTAssertFalse(encoded.contains("generatedAt"))
     }
 
     func testReportExcludesOtherParticipantEventsAndResponses() throws {

@@ -43,7 +43,7 @@ struct StudyOnboardingView: View {
                         privacyRow(
                             icon: "square.and.arrow.up",
                             title: "Nothing uploads automatically",
-                            detail: "You choose whether to share an anonymous report. Erasing data removes entries, consent, and study evidence from this app."
+                            detail: "You choose whether to share a pseudonymous report. It has a stable study ID and product-interaction data, but no entry or task text."
                         )
                     }
                     .coveCard()
@@ -56,9 +56,12 @@ struct StudyOnboardingView: View {
                             Text("Not medical care")
                                 .font(.headline)
                             Text("Cove does not diagnose, treat, or replace professional support. Stop using it if it creates distress.")
+                            Text("Shared report")
+                                .font(.headline)
+                            Text("The study owner may link a report to you through the channel you use to send it. Shared copies are retained for no more than 90 days after the cohort closes, then deleted.")
                             Text("Withdrawal")
                                 .font(.headline)
-                            Text("Use Erase all local data in Study at any time. Previously shared reports cannot be recalled from their recipient.")
+                            Text("Use Erase all local data in Study at any time. This cannot recall a shared copy; ask the study owner through your enrollment channel to delete that copy early.")
                         }
                         .font(.body)
                         .foregroundStyle(.secondary)

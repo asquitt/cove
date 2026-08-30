@@ -17,9 +17,7 @@
 		A1000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000003 /* Assets.xcassets */; };
 		A2FEB7752F300EA5C0CA2A24 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5F748EFDD84326E37F303B /* TodayView.swift */; };
 		C01161025D9B711121027F25 /* CohortStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B74E04ED37D14D8C943E251 /* CohortStoreTests.swift */; };
-		D47DDCF09CB83488E6ACA8FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29B2F051DD76EB9EFC0A5A7 /* Foundation.framework */; };
 		DE9F092D9CC75A17D6E66EB9 /* CohortDomainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993105CC0E68C27CF3035FB8 /* CohortDomainTests.swift */; };
-		E3FA7C7EA3F43309DD558C03 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F29B2F051DD76EB9EFC0A5A7 /* Foundation.framework */; };
 		EBFB1D0E873CCBFC1AE4FCC3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* ContentView.swift */; };
 		EE23EE4B69F11209ADC28884 /* CohortRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34202145DE2784FFC3F0E8B6 /* CohortRootView.swift */; };
 		F97EBCAEB721DC65771FF988 /* CohortModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C78BCA4881B870B6B5429A /* CohortModels.swift */; };
@@ -113,7 +111,6 @@
 		A2000056 /* SharedInputsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedInputsView.swift; sourceTree = "<group>"; };
 		B3C33B5797402E3764CB2DF4 /* CoveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC5F748EFDD84326E37F303B /* TodayView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
-		F29B2F051DD76EB9EFC0A5A7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		F6C27D39A4575F51982CBA92 /* CohortDomain.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CohortDomain.swift; sourceTree = "<group>"; };
 		FA9D17E4F967980863A01877 /* StudyOnboardingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StudyOnboardingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,7 +120,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D47DDCF09CB83488E6ACA8FF /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,7 +127,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3FA7C7EA3F43309DD558C03 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,14 +140,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		58F361139B7A7030F7919512 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				F29B2F051DD76EB9EFC0A5A7 /* Foundation.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
 		888046647B1080ABBD84E173 /* Cohort */ = {
 			isa = PBXGroup;
 			children = (
@@ -378,7 +365,6 @@
 		A83A4B6D6E9C349E31077A91 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				58F361139B7A7030F7919512 /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -580,7 +566,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.demario.CoveUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demario.cove.cohort.uitests;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -599,7 +585,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.demario.CoveUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demario.cove.cohort.uitests;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -618,7 +604,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.demario.CoveTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demario.cove.cohort.tests;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -761,10 +747,8 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cove/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Cove;
+				INFOPLIST_KEY_CFBundleDisplayName = "Cove Study";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Cove needs microphone access to transcribe your voice for task capture.";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Cove uses speech recognition to capture your thoughts hands-free. Your voice is processed on-device for privacy.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -776,7 +760,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.demario.Cove;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demario.cove.cohort;
 				PRODUCT_MODULE_NAME = Cove;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -799,10 +783,8 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cove/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Cove;
+				INFOPLIST_KEY_CFBundleDisplayName = "Cove Study";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Cove needs microphone access to transcribe your voice for task capture.";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Cove uses speech recognition to capture your thoughts hands-free. Your voice is processed on-device for privacy.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -814,7 +796,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.demario.Cove;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demario.cove.cohort;
 				PRODUCT_MODULE_NAME = Cove;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -834,7 +816,7 @@
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.demario.CoveTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demario.cove.cohort.tests;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

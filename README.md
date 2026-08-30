@@ -15,11 +15,13 @@ This repository is in **consumer validation**, not production. The current cohor
 7. In week four only, answer whether Cove is worth the predeclared price of **$4.99/month**.
 8. Explicitly share a content-free local report or erase all local data.
 
-The app stores entries locally. The study report contains anonymous identifiers, event names, coarse elapsed hours, closed-choice responses, and outcome counts. It does not include captured text or task titles, and nothing uploads automatically.
+The app stores entries locally. The study report contains a stable pseudonymous participant ID, event names, coarse elapsed hours, closed-choice responses, and outcome counts. It does not include captured text or task titles, and nothing uploads automatically. If a participant shares it, the delivery channel may identify them to the study owner.
 
 ## Product Boundary
 
 Only the cohort app, `CoveTests`, and `CoveUITests` are target members. Older exploratory code remains in the repository for reference but is excluded from the build target. It must not be used to claim implemented integrations or release scope.
+
+The cohort app uses the distinct bundle ID `com.demario.cove.cohort`, display name `Cove Study`, and SwiftData store `CoveCohortV1`. It is intentionally isolated from prior `com.demario.Cove` installations and requires a separate App Store Connect record.
 
 Compiled app sources:
 

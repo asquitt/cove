@@ -11,7 +11,7 @@ struct CoveApp: App {
             let schema = Schema(versionedSchema: CohortSchemaV1.self)
             let usesEphemeralStore = ProcessInfo.processInfo.arguments.contains("--ui-testing-memory")
             let configuration = ModelConfiguration(
-                "Cove",
+                "CoveCohortV1",
                 schema: schema,
                 isStoredInMemoryOnly: usesEphemeralStore
             )

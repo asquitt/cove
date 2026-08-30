@@ -63,6 +63,18 @@ enum StudyEventName: String, Codable, CaseIterable, Hashable {
     case taskAssigned = "task_assigned"
     case taskCompleted = "task_completed"
     case weeklyFeedbackSubmitted = "weekly_feedback_submitted"
+
+    var lifecycleOrder: Int {
+        switch self {
+        case .studyEnrolled: return 0
+        case .captureSubmitted: return 10
+        case .classificationResolved: return 20
+        case .captureDecided: return 30
+        case .taskAssigned: return 40
+        case .taskCompleted: return 50
+        case .weeklyFeedbackSubmitted: return 60
+        }
+    }
 }
 
 enum FrictionReason: String, Codable, CaseIterable, Hashable {
@@ -174,6 +186,18 @@ struct StudyMetricsSnapshot: Equatable {
     var feedbackWeeks: [Int]
 }
 
+struct StudyEventOrdering {
+    static func precedes(_ left: StudyEvent, _ right: StudyEvent) -> Bool {
+        if left.occurredAt != right.occurredAt {
+            return left.occurredAt < right.occurredAt
+        }
+        if left.lifecycleOrder != right.lifecycleOrder {
+            return left.lifecycleOrder < right.lifecycleOrder
+        }
+        return left.id.uuidString < right.id.uuidString
+    }
+}
+
 struct StudyMetrics {
     static func snapshot(events: [StudyEvent], checkIns: [WeeklyCheckIn]) -> StudyMetricsSnapshot {
         let groupedEvents = Dictionary(grouping: events.compactMap { event -> (UUID, StudyEvent)? in
@@ -209,10 +233,10 @@ struct StudyMetrics {
         var sawCapture = false
         var sawClassification = false
         var sawActionDecision = false
-        var assignedRole: PlanRole?
+        var assignedRoles = Set<PlanRole>()
         var completions: [StudyEvent] = []
 
-        for event in events.sorted(by: { $0.occurredAt < $1.occurredAt }) {
+        for event in events.sorted(by: StudyEventOrdering.precedes) {
             switch event.name {
             case .captureSubmitted:
                 sawCapture = true
@@ -226,10 +250,12 @@ struct StudyMetrics {
                 }
             case .taskAssigned:
                 if sawActionDecision, let outcome = event.outcome, let role = PlanRole(rawValue: outcome) {
-                    assignedRole = role
+                    assignedRoles.insert(role)
                 }
             case .taskCompleted:
-                if let assignedRole = assignedRole, event.outcome == assignedRole.rawValue {
+                if let outcome = event.outcome,
+                   let completedRole = PlanRole(rawValue: outcome),
+                   assignedRoles.contains(completedRole) {
                     completions.append(event)
                 }
             case .studyEnrolled, .weeklyFeedbackSubmitted:
@@ -256,6 +282,7 @@ struct CohortReport: Codable {
         let elapsedHour: Int
         let appBuild: String
         let schemaVersion: Int
+        let lifecycleOrder: Int
         let subjectID: UUID?
         let studyWeek: Int?
         let outcome: String?
@@ -281,7 +308,6 @@ struct CohortReport: Codable {
 
     let protocolID: String
     let schemaVersion: Int
-    let generatedAt: Date
     let participant: Participant
     let events: [Event]
     let checkIns: [CheckIn]
@@ -299,7 +325,6 @@ struct CohortReport: Codable {
         return CohortReport(
             protocolID: "cove_tf_4w_v1",
             schemaVersion: 1,
-            generatedAt: generatedAt,
             participant: Participant(
                 id: participant.id,
                 consentVersion: participant.consentVersion,
@@ -308,7 +333,7 @@ struct CohortReport: Codable {
                 offerCurrency: participant.offerCurrency
             ),
             events: participantEvents
-                .sorted { $0.occurredAt < $1.occurredAt }
+                .sorted(by: StudyEventOrdering.precedes)
                 .map {
                     Event(
                         id: $0.id,
@@ -316,6 +341,7 @@ struct CohortReport: Codable {
                         elapsedHour: max(0, Int($0.occurredAt.timeIntervalSince(participant.enrolledAt) / 3_600)),
                         appBuild: $0.appBuild,
                         schemaVersion: $0.schemaVersion,
+                        lifecycleOrder: $0.lifecycleOrder,
                         subjectID: $0.subjectID,
                         studyWeek: $0.studyWeek,
                         outcome: $0.outcome

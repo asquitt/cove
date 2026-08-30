@@ -18,8 +18,12 @@ struct TodayView: View {
         DayKey.value(for: Date())
     }
 
+    private var participantItems: [FocusItem] {
+        items.filter { $0.participantID == participant.id }
+    }
+
     private var todayItems: [FocusItem] {
-        items
+        participantItems
             .filter { $0.planDayKey == todayKey && $0.bucket == .doNext }
             .sorted {
                 if $0.roleRaw == $1.roleRaw { return $0.createdAt < $1.createdAt }
@@ -35,11 +39,11 @@ struct TodayView: View {
     }
 
     private var itemsNeedingReview: [FocusItem] {
-        items.filter { $0.state == .review }
+        participantItems.filter { $0.state == .review }
     }
 
     private var waitingItems: [FocusItem] {
-        items.filter {
+        participantItems.filter {
             $0.bucket == .doNext &&
             $0.state == .confirmed &&
             $0.planDayKey != todayKey
