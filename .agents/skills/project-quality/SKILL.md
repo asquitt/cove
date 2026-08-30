@@ -17,7 +17,7 @@ Use this workflow for any non-trivial change. Read `AGENTS.md`, `CLAUDE.md`, and
 
 ## Verify
 
-Run the narrowest XCTest target first, then an `xcodebuild` build and relevant tests against an installed simulator; exercise the changed flow in Simulator when UI, persistence, permissions, or accessibility changed.
+Run an `xcodebuild` build against an installed simulator for app-code or Xcode-project changes. Run the narrowest relevant XCTest target only after `xcodebuild -list` confirms one exists; the current project has no test target, so record test evidence as unavailable rather than green. Exercise the changed flow in Simulator when UI, persistence, permissions, or accessibility changed.
 
 Do not infer success from a status flag, HTTP 200, mock, or healthy container alone. Inspect the real Capture to Classify to Confirm to Complete flow, persisted SwiftData state, visible error or recovery state, and accessible VoiceOver and keyboard behavior where applicable. Exercise negative authorization and failure or recovery cases whenever those boundaries changed.
 

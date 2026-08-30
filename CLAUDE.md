@@ -35,7 +35,7 @@ These rules govern implementation, diagnosis, review, release, and handoff. More
 
 - Bug fix: reproduce with a focused regression, implement the smallest fix, and prove the regression now passes.
 - Start with the narrowest relevant checks, then run changed-file gates and broader build, integration, E2E, security, or release gates in proportion to risk.
-- The normal Cove path is the narrowest XCTest target, an `xcodebuild` build and relevant test target against an installed simulator, plus direct Simulator interaction for UI, persistence, permissions, or accessibility changes.
+- The normal Cove app-change path is an `xcodebuild` build against an installed simulator, the narrowest relevant XCTest target once one exists, plus direct Simulator interaction for UI, persistence, permissions, or accessibility changes. The current project has no test target, so automated app-test evidence remains unavailable rather than green.
 - Test negative and adversarial cases for auth, isolation, validation, retries, partial failure, rollback, and cleanup when those boundaries change.
 - Verify APIs with actual requests and response bodies, UI with a real render and interaction, persistence with stored and reloaded state, and background work with produced results and logs.
 - If a required gate cannot run, report exactly what passed, what failed, and what remains unverified.
@@ -83,7 +83,7 @@ Prioritize SwiftData migration and persistence, MainActor and cancellation behav
 **Cove** - An ADHD-friendly task management iOS app built with SwiftUI + SwiftData + Claude API.
 
 ## Tech Stack
-- **Platform:** iOS 17+
+- **Platform:** iOS 18+ (current Xcode deployment target)
 - **UI:** SwiftUI
 - **Data:** SwiftData (local persistence)
 - **AI:** Claude API (Anthropic) for task classification
@@ -183,11 +183,22 @@ Color("DeepText")        // #2d3748 - Primary text
 
 ## Verification Requirements
 
-### Before ANY Commit
-1. `xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' build` - Must succeed
-2. `xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' test` - Relevant tests pass
-3. No compiler warnings (treat warnings as errors)
-4. SwiftLint passes (if configured)
+### Proportional Commit Gates
+
+Current limitation: the Xcode project has one application target and no XCTest or
+UI-test target. A zero-test or unavailable `xcodebuild test` result is not a green test
+gate. Add a real test target before claiming automated app-test coverage.
+
+For app-code or project changes:
+
+1. `xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' build` must succeed.
+2. Run the narrowest relevant XCTest/UI-test target only after `xcodebuild -list` confirms it exists; otherwise record test evidence as unavailable.
+3. Treat compiler warnings as errors for the changed build.
+4. Run SwiftLint only when the repository contains a validated SwiftLint configuration.
+
+For documentation, governance, or hook-only changes, run the relevant parser, syntax,
+contract, and relocation checks. Do not require an unrelated app build solely to create
+a false green.
 
 ### Feature Verification
 - UI changes: Take simulator screenshot, describe what changed
@@ -330,7 +341,7 @@ See `PROGRESS.md` for current phase, completed features, and next steps.
 # Build
 xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' build
 
-# Test
+# Test only after xcodebuild -list confirms a real test target exists
 xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' test
 
 # Clean
@@ -355,8 +366,8 @@ open -a Simulator
 - Add features not in current phase
 
 ## ALWAYS
-- Verify builds compile before committing
-- Test AI features with real input
+- Verify builds compile before committing app-code or Xcode-project changes
+- Verify AI changes deterministically; run a separately labeled live-provider probe only when approved credentials are available
 - Update PROGRESS.md after completing features
 - Follow the Daily Contract principle: small, focused commits
 - Commit coherent verified changes; push once at the requested or final handoff boundary
@@ -369,9 +380,9 @@ When your changes make files, views, or functions unused, **delete them in the s
 
 **NEVER claim something is working without ACTUALLY verifying it.**
 
-1. **Build**: `xcodebuild build` must succeed
-2. **Tests**: `xcodebuild test` must pass
-3. **AI features**: Test with sample input, show result
+1. **Build**: `xcodebuild build` must succeed for app-code or Xcode-project changes.
+2. **Tests**: Run a real relevant target when one exists. Until then, report app-test evidence as unavailable, never passing.
+3. **AI features**: Prove deterministic behavior and label any approved live-provider result separately.
 
 **If you cannot verify, say so explicitly. Never fabricate verification results.**
 

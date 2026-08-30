@@ -35,7 +35,7 @@ These rules govern implementation, diagnosis, review, release, and handoff. More
 
 - Bug fix: reproduce with a focused regression, implement the smallest fix, and prove the regression now passes.
 - Start with the narrowest relevant checks, then run changed-file gates and broader build, integration, E2E, security, or release gates in proportion to risk.
-- The normal Cove path is the narrowest XCTest target, an `xcodebuild` build and relevant test target against an installed simulator, plus direct Simulator interaction for UI, persistence, permissions, or accessibility changes.
+- The normal Cove app-change path is an `xcodebuild` build against an installed simulator, the narrowest relevant XCTest target once one exists, plus direct Simulator interaction for UI, persistence, permissions, or accessibility changes. The current project has no test target, so automated app-test evidence remains unavailable rather than green.
 - Test negative and adversarial cases for auth, isolation, validation, retries, partial failure, rollback, and cleanup when those boundaries change.
 - Verify APIs with actual requests and response bodies, UI with a real render and interaction, persistence with stored and reloaded state, and background work with produced results and logs.
 - If a required gate cannot run, report exactly what passed, what failed, and what remains unverified.
@@ -81,12 +81,14 @@ Prioritize SwiftData migration and persistence, MainActor and cancellation behav
 
 ## Repository map
 
-`Cove/Cove/` contains the SwiftUI app, models, views, view models, services, and utilities; `Cove/Cove.xcodeproj` is the Xcode project; app and UI tests live beside the project targets.
+`Cove/Cove/` contains the SwiftUI app, models, views, view models, services, and utilities; `Cove/Cove.xcodeproj` is the Xcode project. No XCTest or UI-test target is currently configured. Do not report tests as passing until a real test target exists and executes.
 
 ## Essential commands
 
 ```bash
+./scripts/verify-agent-quality.sh
 xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' build
+# Run test only after xcodebuild -list confirms a real test target exists.
 xcodebuild -project Cove/Cove.xcodeproj -scheme Cove -destination 'platform=iOS Simulator,name=<installed-device>' test
 ```
 
