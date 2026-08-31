@@ -31,13 +31,14 @@ final class CohortDomainTests: XCTestCase {
         let participantID = UUID()
         let events = (1...4).flatMap { week -> [StudyEvent] in
             let subjectID = UUID()
-            return [
+            let eventNames: [StudyEventName] = [
                 .captureSubmitted,
                 .classificationResolved,
                 .captureDecided,
                 .taskAssigned,
                 .taskCompleted
-            ].map { name in
+            ]
+            return eventNames.map { name in
                 let outcome: String
                 switch name {
                 case .captureSubmitted: outcome = "text_local"

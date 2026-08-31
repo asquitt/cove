@@ -62,6 +62,19 @@ target_bundle_ids() {
 [[ "$(target_bundle_ids "$tests_id")" == "com.demario.cove.cohort.tests" ]] || fail "unexpected CoveTests bundle identity"
 [[ "$(target_bundle_ids "$ui_tests_id")" == "com.demario.cove.cohort.uitests" ]] || fail "unexpected CoveUITests bundle identity"
 
+target_product_names() {
+  local target_id="$1"
+  jq -r --arg target "$target_id" '
+    .objects as $objects
+    | $objects[$target].buildConfigurationList as $list
+    | $objects[$list].buildConfigurations[]
+    | $objects[.].buildSettings.PRODUCT_NAME
+  ' <<<"$project_json" | sort -u
+}
+
+[[ "$(target_product_names "$tests_id")" == '$(TARGET_NAME)' ]] || fail "unexpected CoveTests product name"
+[[ "$(target_product_names "$ui_tests_id")" == '$(TARGET_NAME)' ]] || fail "unexpected CoveUITests product name"
+
 framework_file_count() {
   local target_id="$1"
   jq -r --arg target "$target_id" '

@@ -12,7 +12,11 @@ struct TodayView: View {
     @State private var completionCandidate: FocusItem?
     @State private var statusMessage: String?
     @State private var errorMessage: String?
-    @FocusState private var captureFocused: Bool
+    @SwiftUI.FocusState private var captureFocused: Bool
+
+    init(participant: CohortParticipant) {
+        self.participant = participant
+    }
 
     private var todayKey: String {
         DayKey.value(for: Date())
@@ -75,7 +79,7 @@ struct TodayView: View {
                     counts: counts,
                     onSaved: { message in
                         statusMessage = message
-                        captureFocused = true
+                        captureFocused = false
                     }
                 )
             }
@@ -379,6 +383,7 @@ struct TodayView: View {
                 in: modelContext
             )
             captureText = ""
+            captureFocused = false
             reviewItem = item
             showsReview = true
             statusMessage = nil

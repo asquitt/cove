@@ -2,11 +2,11 @@
 
 ## Current Truth
 
-The repository contains a bounded cohort target, app icon, privacy manifest, shared scheme, `CoveTests` unit-test target, and `CoveUITests` golden-journey target. That is source readiness, not distribution proof.
+The repository contains a bounded cohort target, app icon, privacy manifest, shared scheme, `CoveTests` unit-test target, and `CoveUITests` golden-journey target. Xcode 26.6 locally compiles the app, 21 unit tests, and 3 UI journeys. The UI suite proves activation and erasure in an in-memory store plus completed-task and activation persistence across a process relaunch in the normal disk-backed store.
 
-This host currently has no `Xcode.app`; its active developer directory is an incompatible legacy Command Line Tools installation. Therefore app compilation, XCTest execution, Simulator behavior, accessibility inspection, archive, signing, upload, App Store validation, and TestFlight review are unverified.
+The Release simulator build installs and renders on iPhone 16 Pro / iOS 18.6. An unsigned generic-iOS archive also succeeds and contains the expected bundle identity, icon, privacy manifest, and arm64 binary. These are local build and runtime proofs, not distribution proof.
 
-The Xcode project intentionally leaves `DEVELOPMENT_TEAM` empty. The owner must select the real team without committing a personal signing identity. The distinct bundle ID `com.demario.cove.cohort` intentionally isolates `Cove Study` from legacy `com.demario.Cove` data. Its separate App Store Connect record, next unused build number, agreements, tax/banking state, privacy URL, and tester groups are unverified.
+This host has zero valid code-signing identities and the Xcode project intentionally leaves `DEVELOPMENT_TEAM` empty. The owner must select the real team without committing a personal signing identity. The distinct bundle ID `com.demario.cove.cohort` intentionally isolates `Cove Study` from legacy `com.demario.Cove` data. Its separate App Store Connect record, next unused build number, agreements, tax/banking state, privacy URL, tester groups, upload, and beta review are unverified.
 
 ## Local Gates
 
@@ -35,20 +35,19 @@ xcodebuild -project Cove/Cove.xcodeproj \
 
 Required Simulator proof:
 
-1. Fresh launch shows consent and emits no study event before acceptance.
-2. Text capture opens Review without a permission prompt or network dependency.
-3. Force-quit after capture; relaunch shows Saved for review.
-4. Do -> Anchor -> Complete persists across relaunch and counts one linked completion.
-5. Exact 3 + 2 caps reject the sixth assignment visibly while preserving it in Waiting for a spot.
-6. Keep retains local words; Let go erases them.
-7. Week check-in stores once; week-four price language says stated intent, not purchase.
-8. Shared report contains no canary task content.
-9. Erase all returns to consent and leaves every model table empty.
-10. VoiceOver, accessibility Dynamic Type, Reduce Motion, light/dark mode, and keyboard focus preserve the complete journey.
+1. Verified: fresh launch shows consent; unit coverage proves a fresh store has no consent or study events.
+2. Verified: text capture opens Review without a permission prompt or network dependency.
+3. Verified: Do -> Anchor -> Complete persists across process relaunch and remains activated.
+4. Verified: Erase all returns to consent; unit coverage proves every model table is empty.
+5. Covered in unit tests, manual runtime gate remains: exact 3 + 2 cap behavior and Waiting for a spot presentation.
+6. Covered in unit tests, manual runtime gate remains: Keep retention and immediate Let go text erasure.
+7. Covered in unit tests, manual runtime gate remains: weekly check-in presentation and week-four stated-intent language.
+8. Covered in unit tests, manual runtime gate remains: exported report inspection with canary task content.
+9. Manual gate remains: VoiceOver, accessibility Dynamic Type, Reduce Motion, light/dark mode, Switch Control, and keyboard-only focus.
 
 ## Archive and Upload
 
-After selecting the confirmed Apple team and App Store record:
+The unsigned archive command below passes locally. After selecting the confirmed Apple team and App Store record, remove `CODE_SIGNING_ALLOWED=NO` and create a signed archive:
 
 ```bash
 export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
