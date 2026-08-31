@@ -1,5 +1,7 @@
 # Cove iOS App - Progress Tracker
 
+> Historical implementation log only. The current product boundary and release truth are defined by `README.md`, `docs/COHORT_PROTOCOL.md`, `docs/TESTFLIGHT_RELEASE.md`, and the Xcode target membership. Entries below do not prove that legacy integrations are compiled, distributed, or production-ready.
+
 > Last Updated: 2026-01-20
 > Current Phase: **Phase 10 - PRD Completion** ✅
 > Overall Progress: **~95%**

@@ -7,64 +7,51 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A1000001 /* CoveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001 /* CoveApp.swift */; };
-		A1000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* ContentView.swift */; };
+		13B14F83AB770C3E55EC6ACD /* CohortDomain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C27D39A4575F51982CBA92 /* CohortDomain.swift */; };
+		1836C041C7BAE92C66E2CCA2 /* CoveApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001 /* CoveApp.swift */; };
+		1B8DD6786335D36F40B451B4 /* CoveGoldenJourneyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE4C6EB34912FA6E585CD56 /* CoveGoldenJourneyUITests.swift */; };
+		2DD880FFBBBF886EAB7F8140 /* StudyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E792D036862D0170A7DDA41 /* StudyView.swift */; };
+		8C1AEEC7C74A4F40334D2C6D /* CohortTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E87EB901C6DAEB7EA59CE0C /* CohortTheme.swift */; };
+		8E6D0F060AF4702FFFC5A842 /* CohortStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24398541B0AC8E396E89019D /* CohortStore.swift */; };
+		90EE2FBC1A2D10D0FA4332EF /* StudyOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA9D17E4F967980863A01877 /* StudyOnboardingView.swift */; };
 		A1000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2000003 /* Assets.xcassets */; };
-		A1000004 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000004 /* Task.swift */; };
-		A1000005 /* DailyContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000005 /* DailyContract.swift */; };
-		A1000006 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000006 /* UserProfile.swift */; };
-		A1000007 /* CapturedInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000007 /* CapturedInput.swift */; };
-		A1000008 /* Color+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000008 /* Color+Theme.swift */; };
-		A1000009 /* Font+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000009 /* Font+Theme.swift */; };
-		A1000010 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000010 /* HomeView.swift */; };
-		A1000011 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000011 /* CaptureView.swift */; };
-		A1000012 /* ContractView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000012 /* ContractView.swift */; };
-		A1000013 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000013 /* ProfileView.swift */; };
-		A1000014 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000014 /* Constants.swift */; };
-		A1000015 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000015 /* SpeechService.swift */; };
-		A1000016 /* ClaudeAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000016 /* ClaudeAIService.swift */; };
-		A1000017 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000017 /* KeychainHelper.swift */; };
-		A1000018 /* StagingAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000018 /* StagingAreaView.swift */; };
-		A1000019 /* ContractViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000020 /* ContractViewModel.swift */; };
-		A1000020 /* TaskCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000021 /* TaskCardView.swift */; };
-		A1000021 /* MeltdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000022 /* MeltdownView.swift */; };
-		A1000023 /* SkillCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000023 /* SkillCategory.swift */; };
-		A1000024 /* DailyActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000024 /* DailyActivity.swift */; };
-		A1000025 /* Achievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000025 /* Achievement.swift */; };
-		A1000026 /* TaskPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000026 /* TaskPattern.swift */; };
-		A1000027 /* CalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000027 /* CalendarService.swift */; };
-		A1000028 /* GamificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000028 /* GamificationService.swift */; };
-		A1000029 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000029 /* NotificationService.swift */; };
-		A1000030 /* PatternService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000030 /* PatternService.swift */; };
-		A1000031 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000031 /* CalendarView.swift */; };
-		A1000032 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000032 /* ProgressView.swift */; };
-		A1000033 /* SkillBarsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000033 /* SkillBarsView.swift */; };
-		A1000034 /* StreakCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000034 /* StreakCardView.swift */; };
-		A1000035 /* ActivityHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000035 /* ActivityHeatmapView.swift */; };
-		A1000036 /* EnergyRhythmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000036 /* EnergyRhythmView.swift */; };
-		A1000037 /* LevelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000037 /* LevelCardView.swift */; };
-		A1000038 /* LevelUpCelebrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000038 /* LevelUpCelebrationView.swift */; };
-		A1000039 /* AchievementsPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000039 /* AchievementsPreviewView.swift */; };
-		A1000040 /* AchievementUnlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000040 /* AchievementUnlockView.swift */; };
-		A1000041 /* BailOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000041 /* BailOutView.swift */; };
-		A1000042 /* RemindersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000042 /* RemindersService.swift */; };
-		A1000043 /* RemindersImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000043 /* RemindersImportView.swift */; };
-		A1000044 /* PIIRedactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000044 /* PIIRedactionService.swift */; };
-		A1000045 /* AICompanionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000045 /* AICompanionView.swift */; };
-		A1000046 /* CoveAppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000046 /* CoveAppIntents.swift */; };
-		A1000047 /* HealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000047 /* HealthService.swift */; };
-		A1000048 /* EnergyInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000048 /* EnergyInsightsView.swift */; };
-		A1000049 /* ColdStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000049 /* ColdStorageService.swift */; };
-		A1000050 /* ColdStorageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000050 /* ColdStorageView.swift */; };
-		A1000051 /* GoogleCalendarService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000051 /* GoogleCalendarService.swift */; };
-		A1000052 /* GoogleCalendarSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000052 /* GoogleCalendarSettingsView.swift */; };
-		A1000053 /* ObsidianService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000053 /* ObsidianService.swift */; };
-		A1000054 /* ObsidianSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000054 /* ObsidianSettingsView.swift */; };
-		A1000055 /* ShareExtensionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000055 /* ShareExtensionService.swift */; };
-		A1000056 /* SharedInputsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000056 /* SharedInputsView.swift */; };
+		A2FEB7752F300EA5C0CA2A24 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5F748EFDD84326E37F303B /* TodayView.swift */; };
+		C01161025D9B711121027F25 /* CohortStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B74E04ED37D14D8C943E251 /* CohortStoreTests.swift */; };
+		DE9F092D9CC75A17D6E66EB9 /* CohortDomainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 993105CC0E68C27CF3035FB8 /* CohortDomainTests.swift */; };
+		EBFB1D0E873CCBFC1AE4FCC3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002 /* ContentView.swift */; };
+		EE23EE4B69F11209ADC28884 /* CohortRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34202145DE2784FFC3F0E8B6 /* CohortRootView.swift */; };
+		F97EBCAEB721DC65771FF988 /* CohortModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C78BCA4881B870B6B5429A /* CohortModels.swift */; };
+		FE2AC4161C42FCA204705CFE /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 76C005FB6A809603AF50B686 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		577F5418AA77E7EBB066191A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A7000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5000001;
+			remoteInfo = Cove;
+		};
+		D031CCF856438B76C452FC27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A7000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5000001;
+			remoteInfo = Cove;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		24398541B0AC8E396E89019D /* CohortStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CohortStore.swift; sourceTree = "<group>"; };
+		2ADB275858DC88FDE67BE2B9 /* CoveTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoveTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		34202145DE2784FFC3F0E8B6 /* CohortRootView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CohortRootView.swift; sourceTree = "<group>"; };
+		6B74E04ED37D14D8C943E251 /* CohortStoreTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CohortStoreTests.swift; sourceTree = "<group>"; };
+		6E792D036862D0170A7DDA41 /* StudyView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StudyView.swift; sourceTree = "<group>"; };
+		74C78BCA4881B870B6B5429A /* CohortModels.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CohortModels.swift; sourceTree = "<group>"; };
+		76C005FB6A809603AF50B686 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		7EE4C6EB34912FA6E585CD56 /* CoveGoldenJourneyUITests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CoveGoldenJourneyUITests.swift; sourceTree = "<group>"; };
+		8E87EB901C6DAEB7EA59CE0C /* CohortTheme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CohortTheme.swift; sourceTree = "<group>"; };
+		993105CC0E68C27CF3035FB8 /* CohortDomainTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CohortDomainTests.swift; sourceTree = "<group>"; };
 		A2000000 /* Cove.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cove.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2000001 /* CoveApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoveApp.swift; sourceTree = "<group>"; };
 		A2000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -122,9 +109,27 @@
 		A2000054 /* ObsidianSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObsidianSettingsView.swift; sourceTree = "<group>"; };
 		A2000055 /* ShareExtensionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareExtensionService.swift; sourceTree = "<group>"; };
 		A2000056 /* SharedInputsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedInputsView.swift; sourceTree = "<group>"; };
+		B3C33B5797402E3764CB2DF4 /* CoveUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoveUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC5F748EFDD84326E37F303B /* TodayView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		F6C27D39A4575F51982CBA92 /* CohortDomain.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CohortDomain.swift; sourceTree = "<group>"; };
+		FA9D17E4F967980863A01877 /* StudyOnboardingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StudyOnboardingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		623B1B27E5F52CB3860180DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F7F9F10A23AD52091FA37FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A3000001 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -135,11 +140,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		888046647B1080ABBD84E173 /* Cohort */ = {
+			isa = PBXGroup;
+			children = (
+				74C78BCA4881B870B6B5429A /* CohortModels.swift */,
+				F6C27D39A4575F51982CBA92 /* CohortDomain.swift */,
+				24398541B0AC8E396E89019D /* CohortStore.swift */,
+				8E87EB901C6DAEB7EA59CE0C /* CohortTheme.swift */,
+				FA9D17E4F967980863A01877 /* StudyOnboardingView.swift */,
+				34202145DE2784FFC3F0E8B6 /* CohortRootView.swift */,
+				DC5F748EFDD84326E37F303B /* TodayView.swift */,
+				6E792D036862D0170A7DDA41 /* StudyView.swift */,
+			);
+			name = Cohort;
+			path = Cohort;
+			sourceTree = "<group>";
+		};
 		A4000000 = {
 			isa = PBXGroup;
 			children = (
 				A4000001 /* Cove */,
 				A4000002 /* Products */,
+				BBCE19BE0FDDA0D64A688247 /* CoveTests */,
+				A83A4B6D6E9C349E31077A91 /* Frameworks */,
+				DF323298A8DF1B831D645BD3 /* CoveUITests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -156,6 +180,8 @@
 				A400000E /* Intents */,
 				A2000003 /* Assets.xcassets */,
 				A2000019 /* Info.plist */,
+				888046647B1080ABBD84E173 /* Cohort */,
+				76C005FB6A809603AF50B686 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Cove;
 			sourceTree = "<group>";
@@ -164,6 +190,8 @@
 			isa = PBXGroup;
 			children = (
 				A2000000 /* Cove.app */,
+				2ADB275858DC88FDE67BE2B9 /* CoveTests.xctest */,
+				B3C33B5797402E3764CB2DF4 /* CoveUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -334,9 +362,71 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		A83A4B6D6E9C349E31077A91 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BBCE19BE0FDDA0D64A688247 /* CoveTests */ = {
+			isa = PBXGroup;
+			children = (
+				993105CC0E68C27CF3035FB8 /* CohortDomainTests.swift */,
+				6B74E04ED37D14D8C943E251 /* CohortStoreTests.swift */,
+			);
+			name = CoveTests;
+			path = CoveTests;
+			sourceTree = "<group>";
+		};
+		DF323298A8DF1B831D645BD3 /* CoveUITests */ = {
+			isa = PBXGroup;
+			children = (
+				7EE4C6EB34912FA6E585CD56 /* CoveGoldenJourneyUITests.swift */,
+			);
+			name = CoveUITests;
+			path = CoveUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		03A62E625EB275F98FBCF9E1 /* CoveUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F21BE4F8C5DE11DFFC88C98C /* Build configuration list for PBXNativeTarget "CoveUITests" */;
+			buildPhases = (
+				FC4ADC6512A85E940C16B8A5 /* Sources */,
+				623B1B27E5F52CB3860180DF /* Frameworks */,
+				86FF6E48AF602AC77C69532A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B07CFF71AF3CC59ED056D248 /* PBXTargetDependency */,
+			);
+			name = CoveUITests;
+			productName = CoveUITests;
+			productReference = B3C33B5797402E3764CB2DF4 /* CoveUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		2308D6D3231D2FFC59FAB9C8 /* CoveTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7A806976AFF0847674B40035 /* Build configuration list for PBXNativeTarget "CoveTests" */;
+			buildPhases = (
+				2406D524B92E011052A434AF /* Sources */,
+				6F7F9F10A23AD52091FA37FC /* Frameworks */,
+				C9D6110C2F7D763AD8B9A672 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				071BFCDCD770A62C35C0E4AD /* PBXTargetDependency */,
+			);
+			name = CoveTests;
+			productName = CoveTests;
+			productReference = 2ADB275858DC88FDE67BE2B9 /* CoveTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		A5000001 /* Cove */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A6000003 /* Build configuration list for PBXNativeTarget "Cove" */;
@@ -383,86 +473,150 @@
 			projectRoot = "";
 			targets = (
 				A5000001 /* Cove */,
+				2308D6D3231D2FFC59FAB9C8 /* CoveTests */,
+				03A62E625EB275F98FBCF9E1 /* CoveUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		86FF6E48AF602AC77C69532A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A5000003 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A1000003 /* Assets.xcassets in Resources */,
+				FE2AC4161C42FCA204705CFE /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9D6110C2F7D763AD8B9A672 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2406D524B92E011052A434AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE9F092D9CC75A17D6E66EB9 /* CohortDomainTests.swift in Sources */,
+				C01161025D9B711121027F25 /* CohortStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A5000002 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1000001 /* CoveApp.swift in Sources */,
-				A1000002 /* ContentView.swift in Sources */,
-				A1000004 /* Task.swift in Sources */,
-				A1000005 /* DailyContract.swift in Sources */,
-				A1000006 /* UserProfile.swift in Sources */,
-				A1000007 /* CapturedInput.swift in Sources */,
-				A1000008 /* Color+Theme.swift in Sources */,
-				A1000009 /* Font+Theme.swift in Sources */,
-				A1000010 /* HomeView.swift in Sources */,
-				A1000011 /* CaptureView.swift in Sources */,
-				A1000012 /* ContractView.swift in Sources */,
-				A1000013 /* ProfileView.swift in Sources */,
-				A1000014 /* Constants.swift in Sources */,
-				A1000015 /* SpeechService.swift in Sources */,
-				A1000016 /* ClaudeAIService.swift in Sources */,
-				A1000017 /* KeychainHelper.swift in Sources */,
-				A1000018 /* StagingAreaView.swift in Sources */,
-				A1000019 /* ContractViewModel.swift in Sources */,
-				A1000020 /* TaskCardView.swift in Sources */,
-				A1000021 /* MeltdownView.swift in Sources */,
-				A1000023 /* SkillCategory.swift in Sources */,
-				A1000024 /* DailyActivity.swift in Sources */,
-				A1000025 /* Achievement.swift in Sources */,
-				A1000026 /* TaskPattern.swift in Sources */,
-				A1000027 /* CalendarService.swift in Sources */,
-				A1000028 /* GamificationService.swift in Sources */,
-				A1000029 /* NotificationService.swift in Sources */,
-				A1000030 /* PatternService.swift in Sources */,
-				A1000031 /* CalendarView.swift in Sources */,
-				A1000032 /* ProgressView.swift in Sources */,
-				A1000033 /* SkillBarsView.swift in Sources */,
-				A1000034 /* StreakCardView.swift in Sources */,
-				A1000035 /* ActivityHeatmapView.swift in Sources */,
-				A1000036 /* EnergyRhythmView.swift in Sources */,
-				A1000037 /* LevelCardView.swift in Sources */,
-				A1000038 /* LevelUpCelebrationView.swift in Sources */,
-				A1000039 /* AchievementsPreviewView.swift in Sources */,
-				A1000040 /* AchievementUnlockView.swift in Sources */,
-				A1000041 /* BailOutView.swift in Sources */,
-				A1000042 /* RemindersService.swift in Sources */,
-				A1000043 /* RemindersImportView.swift in Sources */,
-				A1000044 /* PIIRedactionService.swift in Sources */,
-				A1000045 /* AICompanionView.swift in Sources */,
-				A1000046 /* CoveAppIntents.swift in Sources */,
-				A1000047 /* HealthService.swift in Sources */,
-				A1000048 /* EnergyInsightsView.swift in Sources */,
-				A1000049 /* ColdStorageService.swift in Sources */,
-				A1000050 /* ColdStorageView.swift in Sources */,
-				A1000051 /* GoogleCalendarService.swift in Sources */,
-				A1000052 /* GoogleCalendarSettingsView.swift in Sources */,
-				A1000053 /* ObsidianService.swift in Sources */,
-				A1000054 /* ObsidianSettingsView.swift in Sources */,
-				A1000055 /* ShareExtensionService.swift in Sources */,
-				A1000056 /* SharedInputsView.swift in Sources */,
+				1836C041C7BAE92C66E2CCA2 /* CoveApp.swift in Sources */,
+				EBFB1D0E873CCBFC1AE4FCC3 /* ContentView.swift in Sources */,
+				F97EBCAEB721DC65771FF988 /* CohortModels.swift in Sources */,
+				13B14F83AB770C3E55EC6ACD /* CohortDomain.swift in Sources */,
+				8E6D0F060AF4702FFFC5A842 /* CohortStore.swift in Sources */,
+				8C1AEEC7C74A4F40334D2C6D /* CohortTheme.swift in Sources */,
+				90EE2FBC1A2D10D0FA4332EF /* StudyOnboardingView.swift in Sources */,
+				EE23EE4B69F11209ADC28884 /* CohortRootView.swift in Sources */,
+				A2FEB7752F300EA5C0CA2A24 /* TodayView.swift in Sources */,
+				2DD880FFBBBF886EAB7F8140 /* StudyView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC4ADC6512A85E940C16B8A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B8DD6786335D36F40B451B4 /* CoveGoldenJourneyUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		071BFCDCD770A62C35C0E4AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Cove;
+			target = A5000001 /* Cove */;
+			targetProxy = D031CCF856438B76C452FC27 /* PBXContainerItemProxy */;
+		};
+		B07CFF71AF3CC59ED056D248 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Cove;
+			target = A5000001 /* Cove */;
+			targetProxy = 577F5418AA77E7EBB066191A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		42B93958BEBD3B39E791F115 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demario.cove.cohort.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = Cove;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8E727BFB04E844E895D41878 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demario.cove.cohort.uitests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = Cove;
+			};
+			name = Debug;
+		};
+		94483E1107E67724928F36AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demario.cove.cohort.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cove.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Cove";
+			};
+			name = Debug;
+		};
 		A8000001 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -593,27 +747,30 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cove/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Cove;
+				INFOPLIST_KEY_CFBundleDisplayName = "Cove Study";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Cove needs microphone access to transcribe your voice for task capture.";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Cove uses speech recognition to capture your thoughts hands-free. Your voice is processed on-device for privacy.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.demario.Cove;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demario.cove.cohort;
+				PRODUCT_MODULE_NAME = Cove;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -626,33 +783,66 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cove/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Cove;
+				INFOPLIST_KEY_CFBundleDisplayName = "Cove Study";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Cove needs microphone access to transcribe your voice for task capture.";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Cove uses speech recognition to capture your thoughts hands-free. Your voice is processed on-device for privacy.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.demario.Cove;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demario.cove.cohort;
+				PRODUCT_MODULE_NAME = Cove;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		E51EAD6198A2FD75AD2721A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demario.cove.cohort.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cove.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Cove";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7A806976AFF0847674B40035 /* Build configuration list for PBXNativeTarget "CoveTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E51EAD6198A2FD75AD2721A5 /* Release */,
+				94483E1107E67724928F36AF /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A6000001 /* Build configuration list for PBXProject "Cove" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -667,6 +857,15 @@
 			buildConfigurations = (
 				A8000003 /* Debug */,
 				A8000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F21BE4F8C5DE11DFFC88C98C /* Build configuration list for PBXNativeTarget "CoveUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				42B93958BEBD3B39E791F115 /* Release */,
+				8E727BFB04E844E895D41878 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

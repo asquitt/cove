@@ -46,6 +46,8 @@ fastlane/test_output/
 *.cer
 .env
 .env.local
+GoogleService-Info.plist
+*.xcconfig.local
 
 # Claude Code / Codex artifacts
 CLAUDE.md

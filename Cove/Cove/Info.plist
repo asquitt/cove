@@ -2,11 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>Cove uses speech recognition to capture your thoughts hands-free. Your voice is processed on-device for privacy.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Cove needs microphone access to transcribe your voice for task capture.</string>
-	<key>NSCalendarsFullAccessUsageDescription</key>
-	<string>Cove syncs with your calendar to find available time slots, avoid scheduling conflicts, and help you plan your day realistically.</string>
+	<key>CFBundleDisplayName</key>
+	<string>Cove Study</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.productivity</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UILaunchScreen</key>
+	<dict/>
 </dict>
 </plist>
