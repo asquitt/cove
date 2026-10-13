@@ -1,62 +1,72 @@
 # Cove
 
-Cove is a deliberately small iPhone field-study app for one question: does a text-first capture and protected **3 Anchor + 2 Side quest** plan help adults with ADHD choose and complete what matters each week?
+An iPhone planner for adults with ADHD: capture a thought, pick what matters today, and finish it.
 
-This repository is in **consumer validation**, not production. The current cohort build does not use an account, backend, external AI, analytics SDK, microphone, Speech, Calendar, Reminders, HealthKit, Google, Obsidian, notifications, or a share extension.
+`Swift` `SwiftUI` `SwiftData` `XCTest`
 
-## Cohort Journey
+## Overview
 
-1. Read and accept versioned local study consent.
-2. Capture one thought as text.
-3. Review an on-device starting suggestion: **Do**, **Keep**, or **Let go**.
-4. Put actionable work into one of today's three Anchor or two Side quest slots, or keep it waiting for a future day.
-5. Complete the same linked task.
-6. Submit one immutable closed-choice check-in per study week.
-7. In week four only, answer whether Cove is worth the predeclared price of **$4.99/month**.
-8. Explicitly share a content-free local report or erase all local data.
+Most to-do apps make you organize before you can act. Cove keeps it small. You write down one thought, Cove suggests whether to **do**, **keep**, or **let go** of it, and actionable items go into a short daily plan: **three Anchor tasks and two Side quests**.
 
-The app stores entries locally. The study report contains a stable pseudonymous participant ID, event names, coarse elapsed hours, closed-choice responses, and outcome counts. It does not include captured text or task titles, and nothing uploads automatically. If a participant shares it, the delivery channel may identify them to the study owner.
+The current build is a four-week field study that tests one question: does this approach help people choose and finish what matters each week?
 
-## Product Boundary
+## Features
 
-Only the cohort app, `CoveTests`, and `CoveUITests` are target members. Older exploratory code remains in the repository for reference but is excluded from the build target. It must not be used to claim implemented integrations or release scope.
+- **Text-first capture.** One thought at a time, with no forms or categories to fill in.
+- **On-device suggestions.** Cove suggests *do / keep / let go* for each entry without any network call.
+- **A small daily plan.** Three Anchor slots and two Side quest slots. Anything else waits for a future day.
+- **Weekly check-ins.** One short, fixed-choice check-in per study week.
+- **Private by design.** Everything stays on the device. There's no account, backend, analytics, or external AI. Participants can share a report with no personal content in it, or erase everything.
 
-The cohort app uses the distinct bundle ID `com.demario.cove.cohort`, display name `Cove Study`, and SwiftData store `CoveCohortV1`. It is intentionally isolated from prior `com.demario.Cove` installations and requires a separate App Store Connect record.
+## How it works
 
-Compiled app sources:
+```mermaid
+flowchart LR
+    A[Capture a thought] --> B{Do, keep, or let go?}
+    B -->|do| C["Today's plan: 3 Anchor + 2 Side quests"]
+    B -->|keep| D[Waiting for a future day]
+    C --> E[Complete the task]
+    E --> F[Weekly check-in]
+```
 
-- `CoveApp.swift`
-- `ContentView.swift`
-- `Cohort/CohortModels.swift`
-- `Cohort/CohortDomain.swift`
-- `Cohort/CohortStore.swift`
-- `Cohort/CohortTheme.swift`
-- `Cohort/StudyOnboardingView.swift`
-- `Cohort/CohortRootView.swift`
-- `Cohort/TodayView.swift`
-- `Cohort/StudyView.swift`
+Data is stored locally with SwiftData. The optional study report contains only a pseudonymous participant ID, event names, rough timings, and check-in answers. Captured text and task titles are never included, and nothing uploads automatically.
 
-## Verification
+## Quick start
 
-Run the repository-owned static gate:
+Requires a current version of Xcode.
+
+1. Clone the repo: `git clone https://github.com/asquitt/cove.git`
+2. Open `Cove/Cove.xcodeproj` in Xcode.
+3. Select the **Cove** scheme and an iPhone simulator, then press Run.
+
+## Running tests
+
+Run the `CoveTests` and `CoveUITests` targets from Xcode (Product → Test). A static project check is also included:
 
 ```bash
 scripts/verify-cohort-static.sh
 ```
 
-An installed current Xcode is still required for compilation, XCTest, Simulator, accessibility, archive, signing, upload, and TestFlight proof. See:
+## Project structure
 
-- `docs/COHORT_PROTOCOL.md`
-- `docs/PRIVACY.md`
-- `docs/TESTFLIGHT_RELEASE.md`
-- `docs/COHORT_EVIDENCE.md`
+```text
+Cove/Cove/              app entry point and views
+Cove/Cove/Cohort/       study models, domain logic, storage, and screens
+Cove/CoveTests/         unit tests
+Cove/CoveUITests/       UI tests
+docs/                   study protocol, privacy, TestFlight, and evidence notes
+```
 
-## Decision Gate
+Older exploratory code is still in the repo for reference but isn't part of the app build.
 
-Treat a ten-person cohort as directional evidence only. Continue investment only if:
+## Status
 
-- At least `6/10` qualified participants complete the linked journey in every one of the four study weeks.
-- At least `2/10` explicitly say yes to Cove at `$4.99/month` in the week-four offer.
-- Data-loss, privacy, or misleading-evidence incidents remain zero.
+- **In user testing.** Cove is running as a small, ten-person study, not as a public App Store release.
+- The study is set to continue only if at least 6 of 10 participants complete the full flow every week, at least 2 of 10 say they'd pay $4.99/month, and there are no privacy or data-loss incidents.
+- TestFlight purchases are sandbox transactions, so the study measures willingness to pay, not revenue.
 
-TestFlight StoreKit transactions are sandbox transactions and do not prove that a tester paid. This build measures stated willingness to pay, not revenue.
+More detail: [study protocol](docs/COHORT_PROTOCOL.md) · [privacy](docs/PRIVACY.md) · [TestFlight release](docs/TESTFLIGHT_RELEASE.md)
+
+## Author
+
+Built by [Demario Asquitt](https://github.com/asquitt).
